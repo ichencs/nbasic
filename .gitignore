@@ -1,0 +1,13 @@
+
+*.exe
+*.lib
+*.ipch
+*.pdb
+*.ilk
+bin
+lib
+ipch
+*.sdf
+*.opensdf
+.vs
+*.suo

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="NVariant.cpp" />
+    <ClCompile Include="Basic.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nicebasicInc.h" />
+    <ClInclude Include="Pointer.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="NVariant.h" />
+    <ClInclude Include="Interfaces.h" />
+    <ClInclude Include="Pair.h" />
+    <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Basic.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
