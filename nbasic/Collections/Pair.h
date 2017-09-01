@@ -10,7 +10,7 @@ Classes:
 #ifndef VCZH_COLLECTIONS_PAIR
 #define VCZH_COLLECTIONS_PAIR
 
-#include "Basic.h"
+#include "..\Basic.h"
 
 		/// <summary>A type representing a pair of key and value.</summary>
 		/// <typeparam name="K">Type of the key.</typeparam>

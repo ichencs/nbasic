@@ -11,8 +11,8 @@ Interfaces:
 #ifndef VCZH_COLLECTIONS_INTERFACES
 #define VCZH_COLLECTIONS_INTERFACES
 
-#include "Basic.h"
-#include "Pointer.h"
+#include "..\Basic.h"
+#include "..\Pointer.h"
 #include "Pair.h"
 
 

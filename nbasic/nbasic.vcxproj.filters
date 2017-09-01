@@ -11,17 +11,32 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="NVariant.h" />
-    <ClInclude Include="Interfaces.h" />
-    <ClInclude Include="Pair.h" />
-    <ClInclude Include="Dictionary.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="Basic.h" />
-    <ClInclude Include="OperationCopyFrom.h" />
+    <ClInclude Include="Collections\Dictionary.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Interfaces.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\List.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationCopyFrom.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Pair.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{f175cc35-9709-4775-81fe-f645f9799917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

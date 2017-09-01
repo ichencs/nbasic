@@ -264,13 +264,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.h" />
-    <ClInclude Include="Dictionary.h" />
-    <ClInclude Include="Interfaces.h" />
-    <ClInclude Include="List.h" />
+    <ClInclude Include="Collections\Dictionary.h" />
+    <ClInclude Include="Collections\Interfaces.h" />
+    <ClInclude Include="Collections\List.h" />
+    <ClInclude Include="Collections\OperationCopyFrom.h" />
+    <ClInclude Include="Collections\Pair.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="NVariant.h" />
-    <ClInclude Include="OperationCopyFrom.h" />
-    <ClInclude Include="Pair.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

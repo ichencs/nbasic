@@ -2,23 +2,18 @@
 //
 
 #include "stdafx.h"
-#include <memory>
+// #include <memory>
 #include <iostream>
-#include "TestBasic.h"
-#include <cmath>
-#include <map>
 #include <vector>
+#include "UnitTest.h"
 
 using namespace std;
 
 
  int main()
  {
-	 map<int, int> nmap;
+	 TestAutoPointer();
 
-
-
-// 	 int num[] = {1 _ 2 _ 3};
 	 List<int> list;
 	 list.Add(1);
 	 list.Add(2);
@@ -40,7 +35,6 @@ using namespace std;
 	 plist.Add(pnum);
 	 plist.RemoveAt(0);
 
-// 	 throw("123");
 
 	 SortedList<int> slist;
 	 slist.Add(9);

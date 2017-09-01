@@ -8,9 +8,10 @@
 #pragma message("Automatically linking with nbasic release lib")
 #endif
 
+#include "Basic.h"
 #include "Pointer.h"
-#include "interfaces.h"
-#include "pair.h"
-#include "List.h"
-#include "Dictionary.h"
-#include "OperationCopyFrom.h"
+#include ".\Collections\interfaces.h"
+#include ".\Collections\pair.h"
+#include ".\Collections\List.h"
+#include ".\Collections\Dictionary.h"
+#include ".\Collections\OperationCopyFrom.h"
