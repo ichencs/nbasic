@@ -11,3 +11,6 @@ ipch
 *.opensdf
 .vs
 *.suo
+*.user
+*.db
+*.opendb

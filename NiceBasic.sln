@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nicebasic", "nicebasic\nicebasic.vcxproj", "{9124E573-D87B-400A-AD16-952E9549E06A}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nbasic", "nbasic\nbasic.vcxproj", "{9124E573-D87B-400A-AD16-952E9549E06A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nicetest", "nicetest\nicetest.vcxproj", "{14333002-E13F-4843-9782-BEC478F3651C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ntest", "ntest\ntest.vcxproj", "{14333002-E13F-4843-9782-BEC478F3651C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9124E573-D87B-400A-AD16-952E9549E06A} = {9124E573-D87B-400A-AD16-952E9549E06A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
