@@ -136,6 +136,12 @@ Memory Management
 				}
 			}
 
+			/// <summary>
+			/// POD型，无需释放
+			/// </summary>
+			/// <param name="dst"></param>
+			/// <param name="count"></param>
+			/// <returns></returns>
 			static void ReleaseItems(void* dst, int count)
 			{
 			}
@@ -614,7 +620,7 @@ List
 SortedList
 ***********************************************************************/
 
-		/// <summary>List that keeps everything in order.</summary>
+		/// <summary>List that keeps everything in order.（查找时：二分查找）</summary>
 		/// <typeparam name="T">Type of elements.</typeparam>
 		/// <typeparam name="K">Type of the key type of elements.</typeparam>
 		template<typename T, typename K = typename KeyType<T>::Type>

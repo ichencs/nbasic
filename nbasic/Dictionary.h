@@ -13,7 +13,7 @@ Classes:
 
 #include "List.h"
 
-		/// <summary>Dictionary.</summary>
+		/// <summary>Dictionary. Ë³ÐòµÄ</summary>
 		/// <typeparam name="KT">Type of keys.</typeparam>
 		/// <typeparam name="VT">Type of values.</typeparam>
 		/// <typeparam name="KK">Type of the key type of keys.</typeparam>
@@ -489,12 +489,12 @@ Classes:
 			typename TDiscardSecond,	// TKey * [TValueSecond] -> void
 			typename TAccept			// TKey * [TValueFirst] * [TValueSecond] -> void
 		>
-		void GroupInnerJoin(
-			const Group<TKey, TValueFirst>& first,
-			const Group<TKey, TValueSecond>& second,
-			const TDiscardFirst& discardFirst,
-			const TDiscardSecond& discardSecond,
-			const TAccept& accept
+			void GroupInnerJoin(
+				const Group<TKey, TValueFirst>& first,
+				const Group<TKey, TValueSecond>& second,
+				const TDiscardFirst& discardFirst,
+				const TDiscardSecond& discardSecond,
+				const TAccept& accept
 			)
 		{
 			int firstIndex = 0;
@@ -505,12 +505,12 @@ Classes:
 			{
 				if (firstIndex < firstCount)
 				{
-					WString firstKey = first.Keys()[firstIndex];
+					auto firstKey = first.Keys()[firstIndex];
 					const List<TValueFirst>& firstValues = first.GetByIndex(firstIndex);
 
 					if (secondIndex < secondCount)
 					{
-						WString secondKey = second.Keys()[secondIndex];
+						auto secondKey = second.Keys()[secondIndex];
 						const List<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
 
 						if (firstKey < secondKey)
@@ -540,7 +540,7 @@ Classes:
 				{
 					if (secondIndex < secondCount)
 					{
-						WString secondKey = second.Keys()[secondIndex];
+						auto secondKey = second.Keys()[secondIndex];
 						const List<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
 
 						discardSecond(secondKey, secondValues);
