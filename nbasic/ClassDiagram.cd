@@ -1,0 +1,619 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NotCopyable" Collapsed="true">
+    <Position X="3.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Error" Collapsed="true">
+    <Position X="23.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Object" Collapsed="true">
+    <Position X="13" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectBox&lt;T&gt;" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAABAEAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nullable&lt;T&gt;" Collapsed="true">
+    <Position X="25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEgIAQAQAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interface" Collapsed="true">
+    <Position X="6.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dictionary&lt;KT, VT, KK, VK&gt;" Collapsed="true">
+    <Position X="16" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAQAAAAAIBABACAAAFAQAAAEABCAAAAAgAABAAAA=</HashCode>
+      <FileName>Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Group&lt;KT, VT, KK, VK&gt;">
+    <Position X="10" Y="5.75" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="Group&lt;KT, VT, KK, VK&gt;::KeyContainer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Dictionary.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Group&lt;KT, VT, KK, VK&gt;::ValueContainer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Dictionary.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Class Name="Group&lt;KT, VT, KK, VK&gt;::Enumerator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Dictionary.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAUAAAAAIAABCCAAABAQAAAEAACACAAAAAABQAAA=</HashCode>
+      <FileName>Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEnumerator&lt;T&gt;">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Typedef Name="IEnumerator&lt;T&gt;::ElementType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Interfaces.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAABAAAAACAAgAAAAAAAAAAAAEAAAAAABA=</HashCode>
+      <FileName>Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEnumerable&lt;T&gt;" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, PODType&gt;" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, false&gt;" Collapsed="true">
+    <Position X="14" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAAAAAAAAABAAIAAAAgAAAAAAAABAAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, true&gt;" Collapsed="true">
+    <Position X="20.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAAAAAAAAABAAIAAAAgAAAAAAAABAAAI=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArrayBase&lt;T&gt;" Collapsed="true">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAABABAgAAAQAAAEAAAAAEABAAAAAgAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Array&lt;T, K&gt;" Collapsed="true">
+    <Position X="7.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAADAAAAAAAAAAAAAEAAABAAAAAAAEQAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListBase&lt;T, K&gt;" Collapsed="true">
+    <Position X="3.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAICEBAAAAAAAAACCAAAAIBAgAE=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="List&lt;T, K&gt;" Collapsed="true">
+    <Position X="2.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAEAAAAAABAAAAAAABAAAAAEAAAAAAAAAAAAQAAI=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SortedList&lt;T, K&gt;" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIgAEAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PushOnlyAllocator&lt;T&gt;" Collapsed="true">
+    <Position X="17" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAgAAQEAAIAAAAgAABAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ByteObjectMap&lt;T&gt;" Collapsed="true">
+    <Position X="13" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABABAAAAgAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NVariant" Collapsed="true">
+    <Position X="26.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAQAAEAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pair&lt;K, V&gt;" Collapsed="true">
+    <Position X="28.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAQAAAAEAQAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Pair.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ptr&lt;T&gt;" Collapsed="true">
+    <Position X="30.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAgAKEACAAAwAAQQAQBAEAAAAgAAAABCA=</HashCode>
+      <FileName>Pointer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="RemoveReference&lt;T&gt;" Collapsed="true">
+    <Position X="26.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveReference&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveConst&lt;T&gt;" Collapsed="true">
+    <Position X="28.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveConst&lt;const T&gt;" Collapsed="true">
+    <Position X="26.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveVolatile&lt;T&gt;" Collapsed="true">
+    <Position X="30.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveVolatile&lt;volatile T&gt;" Collapsed="true">
+    <Position X="28.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;T&gt;" Collapsed="true">
+    <Position X="23.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="33.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;const T&gt;" Collapsed="true">
+    <Position X="32" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;volatile T&gt;" Collapsed="true">
+    <Position X="30.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KeyType&lt;T&gt;" Collapsed="true">
+    <Position X="25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T&gt;" Collapsed="true">
+    <Position X="32" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;bool&gt;" Collapsed="true">
+    <Position X="30.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;int8_t&gt;" Collapsed="true">
+    <Position X="28.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;vuint8_t&gt;" Collapsed="true">
+    <Position X="26.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;int16_t&gt;" Collapsed="true">
+    <Position X="25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;vuint16_t&gt;" Collapsed="true">
+    <Position X="23.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;int32_t&gt;" Collapsed="true">
+    <Position X="32" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;vuint32_t&gt;" Collapsed="true">
+    <Position X="33.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;int64_t&gt;" Collapsed="true">
+    <Position X="33.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;vuint64_t&gt;" Collapsed="true">
+    <Position X="30.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;char&gt;" Collapsed="true">
+    <Position X="28.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;wchar_t&gt;" Collapsed="true">
+    <Position X="26.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T*&gt;" Collapsed="true">
+    <Position X="25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="23.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T C::*&gt;" Collapsed="true">
+    <Position X="23.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T[_Size]&gt;" Collapsed="true">
+    <Position X="33.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;const T&gt;" Collapsed="true">
+    <Position X="32" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;volatile T&gt;" Collapsed="true">
+    <Position X="30.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;const volatile T&gt;" Collapsed="true">
+    <Position X="28.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DateTime" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEkAICABAIAAAAAAgCAAQAAAAUBAAUAAAAiBBAAAAI=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="YesType" Collapsed="true">
+    <Position X="33.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NoType" Collapsed="true">
+    <Position X="26.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptType&lt;T, YesOrNo&gt;" Collapsed="true">
+    <Position X="25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptType&lt;T, YesType&gt;" Collapsed="true">
+    <Position X="26.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptValue&lt;YesOrNo&gt;" Collapsed="true">
+    <Position X="30.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptValue&lt;YesType&gt;" Collapsed="true">
+    <Position X="28.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptAlways&lt;T, U&gt;" Collapsed="true">
+    <Position X="23.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;Dictionary&lt;KT, VT, KK, VK&gt;&gt;" Collapsed="true">
+    <Position X="30.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccess&lt;Dictionary&lt;KT, VT, KK, VK&gt;&gt;" Collapsed="true">
+    <Position X="25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;T&gt;" Collapsed="true">
+    <Position X="32" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccess&lt;T&gt;" Collapsed="true">
+    <Position X="26.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAGA=</HashCode>
+      <FileName>Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TreeNode" Collapsed="true">
+    <Position X="32" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Accessor&lt;Index&gt;" Collapsed="true">
+    <Position X="33.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Accessor&lt;0&gt;" Collapsed="true">
+    <Position X="32" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;Array&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="33.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;List&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="23.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;SortedList&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="28.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>List.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ReferenceCounterOperator&lt;T, Enabled&gt;" Collapsed="true">
+    <Position X="25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pointer.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="int8_t" Collapsed="true">
+    <Position X="26.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="vuint8_t" Collapsed="true">
+    <Position X="26.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int16_t" Collapsed="true">
+    <Position X="23.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="vuint16_t" Collapsed="true">
+    <Position X="33.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int32_t" Collapsed="true">
+    <Position X="25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="vuint32_t" Collapsed="true">
+    <Position X="23.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int64_t" Collapsed="true">
+    <Position X="8.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="vuint64_t" Collapsed="true">
+    <Position X="25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="pos_t" Collapsed="true">
+    <Position X="8.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint" Collapsed="true">
+    <Position X="30.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nschar" Collapsed="true">
+    <Position X="28.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nulong" Collapsed="true">
+    <Position X="32" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

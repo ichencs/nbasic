@@ -16,8 +16,12 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Basic.h" />
+    <ClInclude Include="OperationCopyFrom.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

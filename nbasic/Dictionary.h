@@ -18,193 +18,193 @@ Classes:
 		/// <typeparam name="VT">Type of values.</typeparam>
 		/// <typeparam name="KK">Type of the key type of keys.</typeparam>
 		/// <typeparam name="VK">Type of the key type of values.</typeparam>
-		template<
-			typename KT,
-			typename VT,
-			typename KK=typename KeyType<KT>::Type, 
-			typename VK=typename KeyType<VT>::Type
-		>
-		class Dictionary : public Object, public virtual IEnumerable<Pair<KT, VT>>
+	template<
+		typename KT,
+		typename VT,
+		typename KK=typename KeyType<KT>::Type, 
+		typename VK=typename KeyType<VT>::Type
+	>
+	class Dictionary : public Object, public virtual IEnumerable<Pair<KT, VT>>
+	{
+	public:
+		typedef SortedList<KT, KK>			KeyContainer;
+		typedef List<VT, VK>				ValueContainer;
+	protected:
+		class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
 		{
-		public:
-			typedef SortedList<KT, KK>			KeyContainer;
-			typedef List<VT, VK>				ValueContainer;
-		protected:
-			class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
-			{
-			private:
-				const Dictionary<KT, VT, KK, VK>*	container;
-				int								index;
-				Pair<KT, VT>						current;
+		private:
+			const Dictionary<KT, VT, KK, VK>*	container;
+			int								index;
+			Pair<KT, VT>						current;
 
-				void UpdateCurrent()
+			void UpdateCurrent()
+			{
+				if(index<container->Count())
 				{
-					if(index<container->Count())
-					{
-						current.key=container->Keys().Get(index);
-						current.value=container->Values().Get(index);
-					}
+					current.key=container->Keys().Get(index);
+					current.value=container->Values().Get(index);
 				}
-			public:
-				Enumerator(const Dictionary<KT, VT, KK, VK>* _container, int _index=-1)
-				{
-					container=_container;
-					index=_index;
-				}
+			}
+		public:
+			Enumerator(const Dictionary<KT, VT, KK, VK>* _container, int _index=-1)
+			{
+				container=_container;
+				index=_index;
+			}
 				
-				IEnumerator<Pair<KT, VT>>* Clone()const
-				{
-					return new Enumerator(container, index);
-				}
-
-				const Pair<KT, VT>& Current()const
-				{
-					return current;
-				}
-
-				int Index()const
-				{
-					return index;
-				}
-
-				bool Next()
-				{
-					index++;
-					UpdateCurrent();
-					return index>=0 && index<container->Count();
-				}
-
-				void Reset()
-				{
-					index=-1;
-					UpdateCurrent();
-				}
-			};
-
-			KeyContainer						keys;
-			ValueContainer						values;
-		public:
-			/// <summary>Create a dictionary.</summary>
-			Dictionary()
+			IEnumerator<Pair<KT, VT>>* Clone()const
 			{
+				return new Enumerator(container, index);
 			}
 
-			IEnumerator<Pair<KT, VT>>* CreateEnumerator()const
+			const Pair<KT, VT>& Current()const
 			{
-				return new Enumerator(this);
-			}
-			
-			/// <summary>Set a preference of using memory.</summary>
-			/// <param name="mode">Set to true (by default) to let the container efficiently reduce memory usage when necessary.</param>
-			void SetLessMemoryMode(bool mode)
-			{
-				keys.SetLessMemoryMode(mode);
-				values.SetLessMemoryMode(mode);
+				return current;
 			}
 
-			/// <summary>Get all keys.</summary>
-			/// <returns>All keys.</returns>
-			const KeyContainer& Keys()const
+			int Index()const
 			{
-				return keys;
-			}
-			
-			/// <summary>Get all values.</summary>
-			/// <returns>All values.</returns>
-			const ValueContainer& Values()const
-			{
-				return values;
+				return index;
 			}
 
-			/// <summary>Get the number of keys.</summary>
-			/// <returns>The number of keys.</returns>
-			int Count()const
+			bool Next()
 			{
-				return keys.Count();
+				index++;
+				UpdateCurrent();
+				return index>=0 && index<container->Count();
 			}
 
-			/// <summary>Get the reference to the value associated with a key.</summary>
-			/// <returns>The reference to the value.</returns>
-			/// <param name="key">The key to find.</param>
-			const VT& Get(const KK& key)const
+			void Reset()
 			{
-				return values.Get(keys.IndexOf(key));
-			}
-			
-			/// <summary>Get the reference to the value associated with a key.</summary>
-			/// <returns>The reference to the value.</returns>
-			/// <param name="key">The key to find.</param>
-			const VT& operator[](const KK& key)const
-			{
-				return values.Get(keys.IndexOf(key));
-			}
-			
-			/// <summary>Replace the value associated with a key.</summary>
-			/// <returns>Returns true if the value is replaced.</returns>
-			/// <param name="key">The key to find.</param>
-			/// <param name="value">The key to replace.</param>
-			bool Set(const KT& key, const VT& value)
-			{
-				int index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
-				if(index==-1)
-				{
-					index=keys.Add(key);
-					values.Insert(index, value);
-				}
-				else
-				{
-					values[index]=value;
-				}
-				return true;
-			}
-
-			/// <summary>Add a key with an associated value. Exception will raise if the key already exists.</summary>
-			/// <returns>Returns true if the pair is added.</returns>
-			/// <param name="value">The pair of key and value.</param>
-			bool Add(const Pair<KT, VT>& value)
-			{
-				return Add(value.key, value.value);
-			}
-			
-			/// <summary>Add a key with an associated value. Exception will raise if the key already exists.</summary>
-			/// <returns>Returns true if the pair is added.</returns>
-			/// <param name="key">The key.</param>
-			/// <param name="value">The value.</param>
-			bool Add(const KT& key, const VT& value)
-			{
-				CHECK_ERROR(!keys.Contains(KeyType<KT>::GetKeyValue(key)), L"Dictionary<KT, KK, ValueContainer, VT, VK>::Add(const KT&, const VT&)#Key already exists.");
-				int index=keys.Add(key);
-				values.Insert(index, value);
-				return true;
-			}
-
-			/// <summary>Remove a key with the associated value.</summary>
-			/// <returns>Returns true if the key and the value is removed.</returns>
-			/// <param name="key">The key.</param>
-			bool Remove(const KK& key)
-			{
-				int index=keys.IndexOf(key);
-				if(index!=-1)
-				{
-					keys.RemoveAt(index);
-					values.RemoveAt(index);
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-
-			/// <summary>Remove everything.</summary>
-			/// <returns>Returns true if all keys and values are removed.</returns>
-			bool Clear()
-			{
-				keys.Clear();
-				values.Clear();
-				return true;
+				index=-1;
+				UpdateCurrent();
 			}
 		};
+
+		KeyContainer						keys;
+		ValueContainer						values;
+	public:
+		/// <summary>Create a dictionary.</summary>
+		Dictionary()
+		{
+		}
+
+		IEnumerator<Pair<KT, VT>>* CreateEnumerator()const
+		{
+			return new Enumerator(this);
+		}
+			
+		/// <summary>Set a preference of using memory.</summary>
+		/// <param name="mode">Set to true (by default) to let the container efficiently reduce memory usage when necessary.</param>
+		void SetLessMemoryMode(bool mode)
+		{
+			keys.SetLessMemoryMode(mode);
+			values.SetLessMemoryMode(mode);
+		}
+
+		/// <summary>Get all keys.</summary>
+		/// <returns>All keys.</returns>
+		const KeyContainer& Keys()const
+		{
+			return keys;
+		}
+			
+		/// <summary>Get all values.</summary>
+		/// <returns>All values.</returns>
+		const ValueContainer& Values()const
+		{
+			return values;
+		}
+
+		/// <summary>Get the number of keys.</summary>
+		/// <returns>The number of keys.</returns>
+		int Count()const
+		{
+			return keys.Count();
+		}
+
+		/// <summary>Get the reference to the value associated with a key.</summary>
+		/// <returns>The reference to the value.</returns>
+		/// <param name="key">The key to find.</param>
+		const VT& Get(const KK& key)const
+		{
+			return values.Get(keys.IndexOf(key));
+		}
+			
+		/// <summary>Get the reference to the value associated with a key.</summary>
+		/// <returns>The reference to the value.</returns>
+		/// <param name="key">The key to find.</param>
+		const VT& operator[](const KK& key)const
+		{
+			return values.Get(keys.IndexOf(key));
+		}
+			
+		/// <summary>Replace the value associated with a key.</summary>
+		/// <returns>Returns true if the value is replaced.</returns>
+		/// <param name="key">The key to find.</param>
+		/// <param name="value">The key to replace.</param>
+		bool Set(const KT& key, const VT& value)
+		{
+			int index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
+			if(index==-1)
+			{
+				index=keys.Add(key);
+				values.Insert(index, value);
+			}
+			else
+			{
+				values[index]=value;
+			}
+			return true;
+		}
+
+		/// <summary>Add a key with an associated value. Exception will raise if the key already exists.</summary>
+		/// <returns>Returns true if the pair is added.</returns>
+		/// <param name="value">The pair of key and value.</param>
+		bool Add(const Pair<KT, VT>& value)
+		{
+			return Add(value.key, value.value);
+		}
+			
+		/// <summary>Add a key with an associated value. Exception will raise if the key already exists.</summary>
+		/// <returns>Returns true if the pair is added.</returns>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
+		bool Add(const KT& key, const VT& value)
+		{
+			CHECK_ERROR(!keys.Contains(KeyType<KT>::GetKeyValue(key)), L"Dictionary<KT, KK, ValueContainer, VT, VK>::Add(const KT&, const VT&)#Key already exists.");
+			int index=keys.Add(key);
+			values.Insert(index, value);
+			return true;
+		}
+
+		/// <summary>Remove a key with the associated value.</summary>
+		/// <returns>Returns true if the key and the value is removed.</returns>
+		/// <param name="key">The key.</param>
+		bool Remove(const KK& key)
+		{
+			int index=keys.IndexOf(key);
+			if(index!=-1)
+			{
+				keys.RemoveAt(index);
+				values.RemoveAt(index);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		/// <summary>Remove everything.</summary>
+		/// <returns>Returns true if all keys and values are removed.</returns>
+		bool Clear()
+		{
+			keys.Clear();
+			values.Clear();
+			return true;
+		}
+	};
 		
 		/// <summary>Group, which is similar to an dictionary, but a group can associate multiple values with a key.</summary>
 		/// <typeparam name="KT">Type of keys.</typeparam>

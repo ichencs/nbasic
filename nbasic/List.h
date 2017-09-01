@@ -845,12 +845,12 @@ Special Containers
 
 			T* Get(vuint8_t index)
 			{
-				return (T*)bom_helper::Accessor<>::Get(root, index);
+				return (T*)Accessor<>::Get(root, index);
 			}
 
 			void Set(vuint8_t index, T* value, Allocator& allocator)
 			{
-				bom_helper::Accessor<>::Set(root, index, value, allocator);
+				Accessor<>::Set(root, index, value, allocator);
 			}
 		};
 

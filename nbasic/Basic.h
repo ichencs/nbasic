@@ -72,8 +72,8 @@ Macros:
 #define UITOW_S		_ui64tow_s
 #define UI64TOA_S	_ui64toa_s
 #define UI64TOW_S	_ui64tow_s
-#define INCRC(x)	(_InterlockedIncrement64(x))
-#define DECRC(x)	(_InterlockedDecrement64(x))
+// #define INCRC(x)	(_InterlockedIncrement64(x))
+// #define DECRC(x)	(_InterlockedDecrement64(x))
 #else
 #define ITOA_S		_itoa_s
 #define ITOW_S		_itow_s
@@ -83,9 +83,9 @@ Macros:
 #define UITOW_S		_ui64tow_s
 #define UI64TOA_S	_ui64toa_s
 #define UI64TOW_S	_ui64tow_s
+#endif
 #define INCRC(x)	(_InterlockedIncrement((volatile long*)(x)))
 #define DECRC(x)	(_InterlockedDecrement((volatile long*)(x)))
-#endif
 
 /***********************************************************************
 »ù´¡

@@ -13,3 +13,4 @@
 #include "pair.h"
 #include "List.h"
 #include "Dictionary.h"
+#include "OperationCopyFrom.h"

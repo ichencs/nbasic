@@ -269,6 +269,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="NVariant.h" />
+    <ClInclude Include="OperationCopyFrom.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="stdafx.h" />
@@ -287,6 +288,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='RelVC9|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

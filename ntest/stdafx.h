@@ -7,13 +7,10 @@
 
 #include "targetver.h"
 
-#include <stdio.h>
-#include <tchar.h>
 
 #include "../nbasic/nbasicInc.h"
-#include <afx.h>
 
 // TODO:  在此处引用程序需要的其他头文件
 
 
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+// #define _WINSOCK_DEPRECATED_NO_WARNINGS

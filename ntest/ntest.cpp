@@ -5,25 +5,40 @@
 #include <memory>
 #include <iostream>
 #include "TestBasic.h"
-#include <afxwin.h>
 #include <cmath>
+#include <map>
+#include <vector>
 
 using namespace std;
 
 
  int main()
  {
+	 map<int, int> nmap;
+
+
+
 // 	 int num[] = {1 _ 2 _ 3};
 	 List<int> list;
 	 list.Add(1);
 	 list.Add(2);
 	 list.Add(1);
 	 list.Add(2);
-	 for (int i = 0; i < list.Count(); i++)
+	 list.RemoveAt(2);
+	 List<int> list2;
+
+	 CopyFrom(list2, list);
+	 for (int i = 0; i < list2.Count(); i++)
 	 {
-		 cout<< list.Get(i) <<endl;
+		 cout<<"list2: " <<list2.Get(i) <<endl;
 	 }
 	 cout<< endl <<endl;
+
+	 List<Ptr<int>> plist;
+	 Ptr<int> pnum = new int(100);
+	 plist.Add(pnum);
+	 plist.Add(pnum);
+	 plist.RemoveAt(0);
 
 // 	 throw("123");
 
