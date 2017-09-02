@@ -458,6 +458,7 @@ Macros:
 		static const bool Result=false;
 	};
 
+#pragma region 常用POD类型定义
 	template<>struct POD<bool>{static const bool Result=true;};
 	template<>struct POD<int8_t>{static const bool Result=true;};
 	template<>struct POD<vuint8_t>{static const bool Result=true;};
@@ -476,6 +477,7 @@ Macros:
 	template<typename T>struct POD<const T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<volatile T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<const volatile T>{static const bool Result=POD<T>::Result;};
+#pragma endregion 常用POD类型定义 
 
 /***********************************************************************
 时间
