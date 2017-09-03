@@ -11,10 +11,16 @@ Classes:
 Macros:
 	CHECK_ERROR(CONDITION,DESCRIPTION)			：检查内部错误
 ***********************************************************************/
-
 #ifndef VCZH_BASIC
 #define VCZH_BASIC
 
+#ifdef VCZH_CHECK_MEMORY_LEAKS
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#define VCZH_CHECK_MEMORY_LEAKS_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new VCZH_CHECK_MEMORY_LEAKS_NEW
+#endif
 
 #if defined _WIN64 || __x86_64 || __LP64__
 #define VCZH_64
@@ -29,9 +35,7 @@ Macros:
 // #endif
 #endif
 
-#if defined VCZH_MSVC
 #include <intrin.h>
-#endif
 
 #define L_(x) L__(x)
 #define L__(x) L ## x
@@ -43,25 +47,42 @@ Macros:
 
 #if defined VCZH_MSVC
 	/// <summary>1-byte signed integer.</summary>
-	typedef signed __int8			int8_t;
+	typedef signed __int8			nint8_t;
 	/// <summary>1-byte unsigned integer.</summary>
-	typedef unsigned __int8			vuint8_t;
+	typedef unsigned __int8			nuint8_t;
 	/// <summary>2-bytes signed integer.</summary>
-	typedef signed __int16			int16_t;
+	typedef signed __int16			nint16_t;
 	/// <summary>2-bytes unsigned integer.</summary>
-	typedef unsigned __int16		vuint16_t;
+	typedef unsigned __int16		nuint16_t;
 	/// <summary>4-bytes signed integer.</summary>
-	typedef signed __int32			int32_t;
+	typedef signed __int32			nint32_t;
 	/// <summary>4-bytes unsigned integer.</summary>
-	typedef unsigned __int32		vuint32_t;
+	typedef unsigned __int32		nuint32_t;
 	/// <summary>8-bytes signed integer.</summary>
-	typedef signed __int64			int64_t;
+	typedef signed __int64			nint64_t;
 	/// <summary>8-bytes unsigned integer.</summary>
-	typedef unsigned __int64		vuint64_t;
+	typedef unsigned __int64		nuint64_t;
 #endif
 
+#ifdef VCZH_64
+	/// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
+	typedef nint64_t				nint;
+	/// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
+	typedef nint64_t				nsint;
+	/// <summary>Unsigned interface whose size is equal to sizeof(void*).</summary>
+	typedef nuint64_t				nuint;
+#else
+	/// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
+	typedef nint32_t				nint;
+	/// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
+	typedef nint32_t				nsint;
+	/// <summary>Unsigned interface whose size is equal to sizeof(void*).</summary>
+	typedef nuint32_t				nuint;
+#endif
+
+
 	/// <summary>Signed interger representing position.</summary>
-	typedef int64_t				pos_t;
+	typedef nint64_t				pos_t;
 
 #ifdef VCZH_64
 #define ITOA_S		_i64toa_s
@@ -72,8 +93,8 @@ Macros:
 #define UITOW_S		_ui64tow_s
 #define UI64TOA_S	_ui64toa_s
 #define UI64TOW_S	_ui64tow_s
-// #define INCRC(x)	(_InterlockedIncrement64(x))
-// #define DECRC(x)	(_InterlockedDecrement64(x))
+#define INCRC(x)	(_InterlockedIncrement64(x))
+#define DECRC(x)	(_InterlockedDecrement64(x))
 #else
 #define ITOA_S		_itoa_s
 #define ITOW_S		_itow_s
@@ -83,9 +104,9 @@ Macros:
 #define UITOW_S		_ui64tow_s
 #define UI64TOA_S	_ui64toa_s
 #define UI64TOW_S	_ui64tow_s
-#endif
 #define INCRC(x)	(_InterlockedIncrement((volatile long*)(x)))
 #define DECRC(x)	(_InterlockedDecrement((volatile long*)(x)))
+#endif
 
 /***********************************************************************
 基础
@@ -363,7 +384,7 @@ Macros:
 					:true;
 		}
 
-		static int Compare(const Nullable<T>& a, const Nullable<T>& b)
+		static nint Compare(const Nullable<T>& a, const Nullable<T>& b)
 		{
 			return
 				a.object
@@ -459,20 +480,20 @@ Macros:
 	};
 
 	template<>struct POD<bool>{static const bool Result=true;};
-	template<>struct POD<int8_t>{static const bool Result=true;};
-	template<>struct POD<vuint8_t>{static const bool Result=true;};
-	template<>struct POD<int16_t>{static const bool Result=true;};
-	template<>struct POD<vuint16_t>{static const bool Result=true;};
-	template<>struct POD<int32_t>{static const bool Result=true;};
-	template<>struct POD<vuint32_t>{static const bool Result=true;};
-	template<>struct POD<int64_t>{static const bool Result=true;};
-	template<>struct POD<vuint64_t>{static const bool Result=true;};
+	template<>struct POD<nint8_t>{static const bool Result=true;};
+	template<>struct POD<nuint8_t>{static const bool Result=true;};
+	template<>struct POD<nint16_t>{static const bool Result=true;};
+	template<>struct POD<nuint16_t>{static const bool Result=true;};
+	template<>struct POD<nint32_t>{static const bool Result=true;};
+	template<>struct POD<nuint32_t>{static const bool Result=true;};
+	template<>struct POD<nint64_t>{static const bool Result=true;};
+	template<>struct POD<nuint64_t>{static const bool Result=true;};
 	template<>struct POD<char>{static const bool Result=true;};
 	template<>struct POD<wchar_t>{static const bool Result=true;};
 	template<typename T>struct POD<T*>{static const bool Result=true;};
 	template<typename T>struct POD<T&>{static const bool Result=true;};
 	template<typename T, typename C>struct POD<T C::*>{static const bool Result=true;};
-	template<typename T, int _Size>struct POD<T[_Size]>{static const bool Result=POD<T>::Result;};
+	template<typename T, nint _Size>struct POD<T[_Size]>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<const T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<volatile T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<const volatile T>{static const bool Result=POD<T>::Result;};
@@ -484,19 +505,19 @@ Macros:
 	/// <summary>A type representing the combination of date and time.</summary>
 	struct DateTime
 	{
-		int				year;
-		int				month;
-		int				dayOfWeek;
-		int				day;
-		int				hour;
-		int				minute;
-		int				second;
-		int				milliseconds;
+		nint				year;
+		nint				month;
+		nint				dayOfWeek;
+		nint				day;
+		nint				hour;
+		nint				minute;
+		nint				second;
+		nint				milliseconds;
 
-		vuint64_t			totalMilliseconds;
+		nuint64_t			totalMilliseconds;
 		
 		// in gcc, this will be mktime(t) * 1000 + gettimeofday().tv_usec / 1000
-		vuint64_t			filetime;
+		nuint64_t			filetime;
 
 		/// <summary>Get the current local time.</summary>
 		/// <returns>The current local time.</returns>
@@ -515,9 +536,9 @@ Macros:
 		/// <param name="_minute">The minute.</param>
 		/// <param name="_second">The second.</param>
 		/// <param name="_milliseconds">The millisecond.</param>
-		static DateTime		FromDateTime(int _year, int _month, int _day, int _hour=0, int _minute=0, int _second=0, int _milliseconds=0);
+		static DateTime		FromDateTime(nint _year, nint _month, nint _day, nint _hour=0, nint _minute=0, nint _second=0, nint _milliseconds=0);
 	
-		static DateTime		FromFileTime(vuint64_t filetime);
+		static DateTime		FromFileTime(nuint64_t filetime);
 
 		/// <summary>Create an empty date time value.</summary>
 		DateTime();
@@ -531,11 +552,11 @@ Macros:
 		/// <summary>Move forward.</summary>
 		/// <returns>The moved time.</returns>
 		/// <param name="milliseconds">The delta in milliseconds.</param>
-		DateTime			Forward(vuint64_t milliseconds);
+		DateTime			Forward(nuint64_t milliseconds);
 		/// <summary>Move Backward.</summary>
 		/// <returns>The moved time.</returns>
 		/// <param name="milliseconds">The delta in milliseconds.</param>
-		DateTime			Backward(vuint64_t milliseconds);
+		DateTime			Backward(nuint64_t milliseconds);
 
 		bool operator==(const DateTime& value)const { return filetime==value.filetime; }
 		bool operator!=(const DateTime& value)const { return filetime!=value.filetime; }

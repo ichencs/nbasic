@@ -4,6 +4,10 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="NVariant.cpp" />
     <ClCompile Include="Basic.cpp" />
+    <ClCompile Include="nchar.cpp">
+      <Filter>未完成项</Filter>
+    </ClCompile>
+    <ClCompile Include="Locale.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -27,16 +31,20 @@
     <ClInclude Include="Collections\Pair.h">
       <Filter>Collections</Filter>
     </ClInclude>
+    <ClInclude Include="nchar.h">
+      <Filter>未完成项</Filter>
+    </ClInclude>
+    <ClInclude Include="Locale.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Collections">
       <UniqueIdentifier>{f175cc35-9709-4775-81fe-f645f9799917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="未完成项">
+      <UniqueIdentifier>{6f28cf11-b45b-4752-bcb7-725b62fac15f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

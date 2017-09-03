@@ -96,7 +96,7 @@ DateTime
 		return SystemTimeToDateTime(utcTime);
 	}
 
-	DateTime DateTime::FromDateTime(int _year, int _month, int _day, int _hour, int _minute, int _second, int _milliseconds)
+	DateTime DateTime::FromDateTime(nint _year, nint _month, nint _day, nint _hour, nint _minute, nint _second, nint _milliseconds)
 	{
 		SYSTEMTIME systemTime;
 		memset(&systemTime, 0, sizeof(systemTime));
@@ -114,7 +114,7 @@ DateTime
 		return SystemTimeToDateTime(systemTime);
 	}
 
-    DateTime DateTime::FromFileTime(vuint64_t filetime)
+    DateTime DateTime::FromFileTime(nuint64_t filetime)
 	{
 		ULARGE_INTEGER largeInteger;
 		largeInteger.QuadPart=filetime;
@@ -155,12 +155,12 @@ DateTime
 		return SystemTimeToDateTime(utcTime);
 	}
 
-	DateTime DateTime::Forward(vuint64_t milliseconds)
+	DateTime DateTime::Forward(nuint64_t milliseconds)
 	{
 		return FromFileTime(filetime+milliseconds*10000);
 	}
 
-	DateTime DateTime::Backward(vuint64_t milliseconds)
+	DateTime DateTime::Backward(nuint64_t milliseconds)
 	{
 		return FromFileTime(filetime-milliseconds*10000);
 	}

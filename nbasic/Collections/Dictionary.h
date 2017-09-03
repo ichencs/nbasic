@@ -34,7 +34,7 @@ Classes:
 		{
 		private:
 			const Dictionary<KT, VT, KK, VK>*	container;
-			int								index;
+			nint								index;
 			Pair<KT, VT>						current;
 
 			void UpdateCurrent()
@@ -46,7 +46,7 @@ Classes:
 				}
 			}
 		public:
-			Enumerator(const Dictionary<KT, VT, KK, VK>* _container, int _index=-1)
+			Enumerator(const Dictionary<KT, VT, KK, VK>* _container, nint _index=-1)
 			{
 				container=_container;
 				index=_index;
@@ -62,7 +62,7 @@ Classes:
 				return current;
 			}
 
-			int Index()const
+			nint Index()const
 			{
 				return index;
 			}
@@ -118,7 +118,7 @@ Classes:
 
 		/// <summary>Get the number of keys.</summary>
 		/// <returns>The number of keys.</returns>
-		int Count()const
+		nint Count()const
 		{
 			return keys.Count();
 		}
@@ -145,7 +145,7 @@ Classes:
 		/// <param name="value">The key to replace.</param>
 		bool Set(const KT& key, const VT& value)
 		{
-			int index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
+			nint index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
 			if(index==-1)
 			{
 				index=keys.Add(key);
@@ -173,7 +173,7 @@ Classes:
 		bool Add(const KT& key, const VT& value)
 		{
 			CHECK_ERROR(!keys.Contains(KeyType<KT>::GetKeyValue(key)), L"Dictionary<KT, KK, ValueContainer, VT, VK>::Add(const KT&, const VT&)#Key already exists.");
-			int index=keys.Add(key);
+			nint index=keys.Add(key);
 			values.Insert(index, value);
 			return true;
 		}
@@ -183,7 +183,7 @@ Classes:
 		/// <param name="key">The key.</param>
 		bool Remove(const KK& key)
 		{
-			int index=keys.IndexOf(key);
+			nint index=keys.IndexOf(key);
 			if(index!=-1)
 			{
 				keys.RemoveAt(index);
@@ -226,8 +226,8 @@ Classes:
 			{
 			private:
 				const Group<KT, VT, KK, VK>*		container;
-				int								keyIndex;
-				int								valueIndex;
+				nint								keyIndex;
+				nint								valueIndex;
 				Pair<KT, VT>						current;
 
 				void UpdateCurrent()
@@ -243,7 +243,7 @@ Classes:
 					}
 				}
 			public:
-				Enumerator(const Group<KT, VT, KK, VK>* _container, int _keyIndex=-1, int _valueIndex=-1)
+				Enumerator(const Group<KT, VT, KK, VK>* _container, nint _keyIndex=-1, nint _valueIndex=-1)
 				{
 					container=_container;
 					keyIndex=_keyIndex;
@@ -260,12 +260,12 @@ Classes:
 					return current;
 				}
 
-				int Index()const
+				nint Index()const
 				{
 					if(0<=keyIndex && keyIndex<container->Count())
 					{
-						int index=0;
-						for(int i=0;i<keyIndex;i++)
+						nint index=0;
+						for(nint i=0;i<keyIndex;i++)
 						{
 							index+=container->GetByIndex(i).Count();
 						}
@@ -335,7 +335,7 @@ Classes:
 			
 			/// <summary>Get the number of keys.</summary>
 			/// <returns>The number of keys.</returns>
-			int Count()const
+			nint Count()const
 			{
 				return keys.Count();
 			}
@@ -351,7 +351,7 @@ Classes:
 			/// <summary>Get all values associated with a key.</summary>
 			/// <returns>All values.</returns>
 			/// <param name="index">The position of a the key.</param>
-			const ValueContainer& GetByIndex(int index)const
+			const ValueContainer& GetByIndex(nint index)const
 			{
 				return *values.Get(index);
 			}
@@ -378,7 +378,7 @@ Classes:
 			/// <param name="value">The value to find.</param>
 			bool Contains(const KK& key, const VK& value)const
 			{
-				int index=keys.IndexOf(key);
+				nint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					return values.Get(index)->Contains(value);
@@ -404,7 +404,7 @@ Classes:
 			bool Add(const KT& key, const VT& value)
 			{
 				ValueContainer* target=0;
-				int index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
+				nint index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
 				if(index==-1)
 				{
 					target=new ValueContainer;
@@ -423,7 +423,7 @@ Classes:
 			/// <param name="key">The key.</param>
 			bool Remove(const KK& key)
 			{
-				int index=keys.IndexOf(key);
+				nint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					keys.RemoveAt(index);
@@ -444,7 +444,7 @@ Classes:
 			/// <param name="value">The value.</param>
 			bool Remove(const KK& key, const VK& value)
 			{
-				int index=keys.IndexOf(key);
+				nint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					List<VT, VK>* target=values[index];
@@ -467,7 +467,7 @@ Classes:
 			/// <returns>Returns true if all keys and values are removed.</returns>
 			bool Clear()
 			{
-				for(int i=0;i<values.Count();i++)
+				for(nint i=0;i<values.Count();i++)
 				{
 					delete values[i];
 				}
@@ -497,10 +497,10 @@ Classes:
 				const TAccept& accept
 			)
 		{
-			int firstIndex = 0;
-			int secondIndex = 0;
-			int firstCount = first.Keys().Count();
-			int secondCount = second.Keys().Count();
+			nint firstIndex = 0;
+			nint secondIndex = 0;
+			nint firstCount = first.Keys().Count();
+			nint secondCount = second.Keys().Count();
 			while (true)
 			{
 				if (firstIndex < firstCount)
@@ -567,12 +567,12 @@ Classes:
 			template<typename KT, typename VT, typename KK, typename VK>
 			struct RandomAccess<Dictionary<KT, VT, KK, VK>>
 			{
-				static int GetCount(const Dictionary<KT, VT, KK, VK>& t)
+				static nint GetCount(const Dictionary<KT, VT, KK, VK>& t)
 				{
 					return t.Count();
 				}
 
-				static Pair<KT, VT> GetValue(const Dictionary<KT, VT, KK, VK>& t, int index)
+				static Pair<KT, VT> GetValue(const Dictionary<KT, VT, KK, VK>& t, nint index)
 				{
 					return Pair<KT, VT>(t.Keys().Get(index), t.Values().Get(index));
 				}

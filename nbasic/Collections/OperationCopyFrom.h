@@ -47,7 +47,7 @@ Data Structure::Operations
 					{
 						ds.Clear();
 					}
-					int copyCount=RandomAccess<Ss>::GetCount(ss);
+					nint copyCount=RandomAccess<Ss>::GetCount(ss);
 					for(int i=0;i<copyCount;i++)
 					{
 						RandomAccess<Ds>::AppendValue(ds, RandomAccess<Ss>::GetValue(ss, i));
@@ -61,7 +61,7 @@ Data Structure::Operations
 				static void Perform(Ds& ds, const Ss& ss, bool append)
 				{
 					Ptr<IEnumerator<typename Ss::ElementType>> enumerator;
-					int copyCount=0;
+					nint copyCount=0;
 
 					enumerator=ss.CreateEnumerator();
 					while(enumerator->Next())
@@ -69,8 +69,8 @@ Data Structure::Operations
 						copyCount++;
 					}
 
-					int index=(append?RandomAccess<Ds>::GetCount(ds):0);
-					int resizeCount=index+copyCount;
+					nint index=(append?RandomAccess<Ds>::GetCount(ds):0);
+					nint resizeCount=index+copyCount;
 					RandomAccess<Ds>::SetCount(ds, resizeCount);
 
 					enumerator=ss.CreateEnumerator();

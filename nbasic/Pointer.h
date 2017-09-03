@@ -33,15 +33,15 @@ ReferenceCounterOperator
 		/// <summary>Create a pointer to the reference counter from an object.</summary>
 		/// <returns>The pointer to the reference counter.</returns>
 		/// <param name="reference">The object.</param>
-		static __forceinline volatile int* CreateCounter(T* reference)
+		static __forceinline volatile nint* CreateCounter(T* reference)
 		{
-			return new int(0);
+			return new nint(0);
 		}
 
 		/// <summary>Destroy a pointer to the reference counter from an object.</summary>
 		/// <param name="counter">The pointer to the reference counter.</param>
 		/// <param name="reference">The object.</param>
-		static __forceinline void DeleteReference(volatile int* counter, void* reference)
+		static __forceinline void DeleteReference(volatile nint* counter, void* reference)
 		{
 			delete counter;
 			delete (T*)reference;
@@ -60,9 +60,9 @@ Ptr
 		 template<typename X>
 		 friend class Ptr;
 	protected:
-		typedef void		(*Destructor)(volatile int*, void*);
+		typedef void		(*Destructor)(volatile nint*, void*);
 
-		volatile int*		counter;
+		volatile nint*		counter;
 		T*					reference;
 		void*				originalReference;
 		Destructor			originalDestructor;
@@ -93,12 +93,12 @@ Ptr
 			}
 		}
 
-		volatile int* Counter()const
+		volatile nint* Counter()const
 		{
 			return counter;
 		}
 
-		Ptr(volatile int* _counter, T* _reference, void* _originalReference, Destructor _originalDestructor)
+		Ptr(volatile nint* _counter, T* _reference, void* _originalReference, Destructor _originalDestructor)
 			:counter(_counter)
 			,reference(_reference)
 			,originalReference(_originalReference)

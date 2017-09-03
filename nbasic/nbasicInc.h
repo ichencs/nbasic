@@ -9,7 +9,12 @@
 #endif
 
 #include "Basic.h"
+#include "nchar.h"
+
 #include "Pointer.h"
+// #include "String.h"
+// #include "Console.h"
+
 #include ".\Collections\interfaces.h"
 #include ".\Collections\pair.h"
 #include ".\Collections\List.h"

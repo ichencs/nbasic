@@ -38,59 +38,59 @@ Memory Management
 		class ListStore<T, false> abstract : public Object
 		{
 		protected:
-			static void InitializeItemsByDefault(void* dst, int count)
+			static void InitializeItemsByDefault(void* dst, nint count)
 			{
 				T* ds = (T*)dst;
 
-				for (int i = 0; i < count; i++)
+				for (nint i = 0; i < count; i++)
 				{
 					new(&ds[i])T();
 				}
 			}
 
-			static void InitializeItemsByCopy(void* dst, void* src, int count)
+			static void InitializeItemsByCopy(void* dst, void* src, nint count)
 			{
 				T* ds = (T*)dst;
 				T* ss = (T*)src;
 
-				for (int i = 0; i < count; i++)
+				for (nint i = 0; i < count; i++)
 				{
-					new(&ds[i])T(ss[i]);
+ 					new(&ds[i])T(ss[i]);
 				}
 			}
 
-			static void MoveItemsInTheSameBuffer(void* dst, void* src, int count)
+			static void MoveItemsInTheSameBuffer(void* dst, void* src, nint count)
 			{
 				T* ds = (T*)dst;
 				T* ss = (T*)src;
 
 				if (ds < ss)
 				{
-					for (int i = 0; i < count; i++)
+					for (nint i = 0; i < count; i++)
 					{
 						ds[i] = /*MoveValue*/(ss[i]);
 					}
 				}
 				else if (ds > ss)
 				{
-					for (int i = count - 1; i >= 0; i--)
+					for (nint i = count - 1; i >= 0; i--)
 					{
 						ds[i] = /*MoveValue*/(ss[i]);
 					}
 				}
 			}
 
-			static void ReleaseItems(void* dst, int count)
+			static void ReleaseItems(void* dst, nint count)
 			{
 				T* ds = (T*)dst;
 
-				for (int i = 0; i < count; i++)
+				for (nint i = 0; i < count; i++)
 				{
 					ds[i].~T();
 				}
 			}
 			
-			static void* AllocateBuffer(int size)
+			static void* AllocateBuffer(nint size)
 			{
 				if (size <= 0) return 0;
 				return (void*)malloc(sizeof(T) * size);
@@ -108,19 +108,11 @@ Memory Management
 		class ListStore<T, true> abstract : public Object
 		{
 		protected:
-			static void InitializeItemsByDefault(void* dst, int count)
+			static void InitializeItemsByDefault(void* dst, nint count)
 			{
 			}
 
-			static void InitializeItemsByMove(void* dst, void* src, int count)
-			{
-				if (count > 0)
-				{
-					memcpy(dst, src, sizeof(T) * count);
-				}
-			}
-
-			static void InitializeItemsByCopy(void* dst, void* src, int count)
+			static void InitializeItemsByMove(void* dst, void* src, nint count)
 			{
 				if (count > 0)
 				{
@@ -128,7 +120,15 @@ Memory Management
 				}
 			}
 
-			static void MoveItemsInTheSameBuffer(void* dst, void* src, int count)
+			static void InitializeItemsByCopy(void* dst, void* src, nint count)
+			{
+				if (count > 0)
+				{
+					memcpy(dst, src, sizeof(T) * count);
+				}
+			}
+
+			static void MoveItemsInTheSameBuffer(void* dst, void* src, nint count)
 			{
 				if (count > 0)
 				{
@@ -142,11 +142,11 @@ Memory Management
 			/// <param name="dst"></param>
 			/// <param name="count"></param>
 			/// <returns></returns>
-			static void ReleaseItems(void* dst, int count)
+			static void ReleaseItems(void* dst, nint count)
 			{
 			}
 
-			static void* AllocateBuffer(int size)
+			static void* AllocateBuffer(nint size)
 			{
 				if (size <= 0) return 0;
 				return (void*)malloc(sizeof(T) * size);
@@ -174,10 +174,10 @@ ArrayBase
 			{
 			private:
 				const ArrayBase<T>*				container;
-				int							index;
+				nint							index;
 
 			public:
-				Enumerator(const ArrayBase<T>* _container, int _index = -1)
+				Enumerator(const ArrayBase<T>* _container, nint _index = -1)
 				{
 					container = _container;
 					index = _index;
@@ -193,7 +193,7 @@ ArrayBase
 					return container->Get(index);
 				}
 
-				int Index()const
+				nint Index()const
 				{
 					return index;
 				}
@@ -211,19 +211,19 @@ ArrayBase
 			};
 
 			void*					buffer /*= nullptr*/;
-			int					count /*= 0*/;
+			nint					count /*= 0*/;
 
-			static void* AddressOf(void* bufferOfTs, int index)
+			static void* AddressOf(void* bufferOfTs, nint index)
 			{
 				return (void*)((char*)bufferOfTs + sizeof(T) * index);
 			}
 
-			const T& ItemOf(int index)const
+			const T& ItemOf(nint index)const
 			{
 				return *(const T*)AddressOf(buffer, index);
 			}
 
-			T& ItemOf(int index)
+			T& ItemOf(nint index)
 			{
 				return *(T*)AddressOf(buffer, index);
 			}
@@ -240,7 +240,7 @@ ArrayBase
 
 			/// <summary>Get the number of elements in the container.</summary>
 			/// <returns>The number of elements.</returns>
-			int Count()const
+			nint Count()const
 			{
 				return count;
 			}
@@ -248,18 +248,18 @@ ArrayBase
 			/// <summary>Get the reference to the specified element.</summary>
 			/// <returns>The reference to the specified element.</returns>
 			/// <param name="index">The index of the element.</param>
-			const T& Get(int index)const
+			const T& Get(nint index)const
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"ArrayBase<T, K>::Get(int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"ArrayBase<T, K>::Get(nint)#Argument index not in range.");
 				return ItemOf(index);
 			}
 
 			/// <summary>Get the reference to the specified element.</summary>
 			/// <returns>The reference to the specified element.</returns>
 			/// <param name="index">The index of the element.</param>
-			const T& operator[](int index)const
+			const T& operator[](nint index)const
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"ArrayBase<T, K>::operator[](int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"ArrayBase<T, K>::operator[](nint)#Argument index not in range.");
 				return ItemOf(index);
 			}
 		};
@@ -277,7 +277,7 @@ Array
 		public:
 			/// <summary>Create an array.</summary>
 			/// <param name="size">The size of the array.</param>
-			Array(int size = 0)
+			Array(nint size = 0)
 			{
 				this->buffer = this->AllocateBuffer(size);
 				this->InitializeItemsByDefault(this->buffer, size);
@@ -287,7 +287,7 @@ Array
 			/// <summary>Create an array.</summary>
 			/// <param name="_buffer">Pointer to an array to copy.</param>
 			/// <param name="size">The size of the array.</param>
-			Array(const T* _buffer, int size)
+			Array(const T* _buffer, nint size)
 			{
 				this->buffer = this->AllocateBuffer(size);
 				this->InitializeItemsByCopy(this->buffer, (void*)_buffer, size);
@@ -311,9 +311,9 @@ Array
 			/// <summary>Get the position of an item in this array.</summary>
 			/// <returns>Returns the position. Returns -1 if not exists</returns>
 			/// <param name="item">The item to find.</param>
-			int IndexOf(const K& item)const
+			nint IndexOf(const K& item)const
 			{
-				for (int i = 0; i < this->count; i++)
+				for (nint i = 0; i < this->count; i++)
 				{
 					if (this->ItemOf(i) == item)
 					{
@@ -326,9 +326,9 @@ Array
 			/// <summary>Replace an item.</summary>
 			/// <param name="index">The position of the item.</param>
 			/// <param name="item">The new item to put into the array.</param>
-			void Set(int index, const T& item)
+			void Set(nint index, const T& item)
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"Array<T, K>::Set(int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"Array<T, K>::Set(nint)#Argument index not in range.");
 				this->ItemOf(index) = item;
 			}
 
@@ -336,15 +336,15 @@ Array
 			/// <returns>The reference to the specified element.</returns>
 			/// <param name="index">The index of the element.</param>
 			using ArrayBase<T>::operator[];
-			T& operator[](int index)
+			T& operator[](nint index)
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"Array<T, K>::operator[](int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"Array<T, K>::operator[](nint)#Argument index not in range.");
 				return this->ItemOf(index);
 			}
 
 			/// <summary>Change the size of the array.</summary>
 			/// <param name="size">The new size of the array.</param>
-			void Resize(int size)
+			void Resize(nint size)
 			{
 				void* newBuffer = this->AllocateBuffer(size);
 				if (size < this->count)
@@ -375,12 +375,12 @@ ListBase
 		class ListBase abstract : public ArrayBase<T>
 		{
 		protected:
-			int					capacity /*= 0*/;
+			nint					capacity /*= 0*/;
 			bool					lessMemoryMode /*= false*/;
 
-			int CalculateCapacity(int expected)
+			nint CalculateCapacity(nint expected)
 			{
-				int result = capacity;
+				nint result = capacity;
 				while (result < expected)
 				{
 					result = result * 5 / 4 + 1;
@@ -388,12 +388,12 @@ ListBase
 				return result;
 			}
 
-			void MakeRoom(int index, int _count, bool& uninitialized)
+			void MakeRoom(nint index, nint _count, bool& uninitialized)
 			{
-				int newCount = this->count + _count;
+				nint newCount = this->count + _count;
 				if (newCount > capacity)
 				{
-					int newCapacity = CalculateCapacity(newCount);
+					nint newCapacity = CalculateCapacity(newCount);
 					void* newBuffer = this->AllocateBuffer(newCapacity);
 					this->InitializeItemsByCopy(this->AddressOf(newBuffer, 0), this->AddressOf(this->buffer, 0), index);
 					this->InitializeItemsByCopy(this->AddressOf(newBuffer, index + _count), this->AddressOf(this->buffer, index), this->count - index);
@@ -422,7 +422,7 @@ ListBase
 				this->count = newCount;
 			}
 
-			void ReleaseUnnecessaryBuffer(int previousCount)
+			void ReleaseUnnecessaryBuffer(nint previousCount)
 			{
 				if (this->buffer && this->count < previousCount)
 				{
@@ -430,7 +430,7 @@ ListBase
 				}
 				if (this->lessMemoryMode && this->count <= this->capacity / 2)
 				{
-					int newCapacity = capacity * 5 / 8;
+					nint newCapacity = capacity * 5 / 8;
 					if (this->count < newCapacity)
 					{
 						void* newBuffer = this->AllocateBuffer(newCapacity);
@@ -464,10 +464,10 @@ ListBase
 			/// <summary>Remove an element.</summary>
 			/// <returns>Returns true if the element is removed.</returns>
 			/// <param name="index">The index of the element to remove.</param>
-			bool RemoveAt(int index)
+			bool RemoveAt(nint index)
 			{
-				int previousCount = this->count;
-				CHECK_ERROR(index >= 0 && index < this->count, L"ListBase<T, K>::RemoveAt(int)#Argument index not in range.");
+				nint previousCount = this->count;
+				CHECK_ERROR(index >= 0 && index < this->count, L"ListBase<T, K>::RemoveAt(nint)#Argument index not in range.");
 				this->MoveItemsInTheSameBuffer(this->AddressOf(this->buffer, index), this->AddressOf(this->buffer, index + 1), this->count - index - 1);
 				this->count--;
 				ReleaseUnnecessaryBuffer(previousCount);
@@ -478,11 +478,11 @@ ListBase
 			/// <returns>Returns true if the element is removed.</returns>
 			/// <param name="index">The index of the first element to remove.</param>
 			/// <param name="_count">The number of elements to remove.</param>
-			bool RemoveRange(int index, int _count)
+			bool RemoveRange(nint index, nint _count)
 			{
-				int previousCount = this->count;
-				CHECK_ERROR(index >= 0 && index <= this->count, L"ListBase<T, K>::RemoveRange(int, int)#Argument index not in range.");
-				CHECK_ERROR(index + _count >= 0 && index + _count <= this->count, L"ListBase<T,K>::RemoveRange(int, int)#Argument _count not in range.");
+				nint previousCount = this->count;
+				CHECK_ERROR(index >= 0 && index <= this->count, L"ListBase<T, K>::RemoveRange(nint, nint)#Argument index not in range.");
+				CHECK_ERROR(index + _count >= 0 && index + _count <= this->count, L"ListBase<T,K>::RemoveRange(nint, nint)#Argument _count not in range.");
 				this->MoveItemsInTheSameBuffer(this->AddressOf(this->buffer, index), this->AddressOf(this->buffer, index + _count), this->count - index - _count);
 				this->count -= _count;
 				ReleaseUnnecessaryBuffer(previousCount);
@@ -493,7 +493,7 @@ ListBase
 			/// <returns>Returns true if all elements are removed.</returns>
 			bool Clear()
 			{
-				int previousCount = this->count;
+				nint previousCount = this->count;
 				this->count = 0;
 				if (lessMemoryMode)
 				{
@@ -537,9 +537,9 @@ List
 			/// <summary>Get the position of an item in this list.</summary>
 			/// <returns>Returns the position. Returns -1 if not exists</returns>
 			/// <param name="item">The item to find.</param>
-			int IndexOf(const K& item)const
+			nint IndexOf(const K& item)const
 			{
-				for (int i = 0; i < this->count; i++)
+				for (nint i = 0; i < this->count; i++)
 				{
 					if (this->ItemOf(i) == item)
 					{
@@ -552,7 +552,7 @@ List
 			/// <summary>Add an item at the end of the list.</summary>
 			/// <returns>The index of the added item.</returns>
 			/// <param name="item">The item to add.</param>
-			int Add(const T& item)
+			nint Add(const T& item)
 			{
 				return Insert(this->count, item);
 			}
@@ -561,14 +561,14 @@ List
 			/// <returns>The index of the added item.</returns>
 			/// <param name="index">The position of the item to add.</param>
 			/// <param name="item">The item to add.</param>
-			int Insert(int index, const T& item)
+			nint Insert(nint index, const T& item)
 			{
-				CHECK_ERROR(index >= 0 && index <= this->count, L"List<T, K>::Insert(int, const T&)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index <= this->count, L"List<T, K>::Insert(nint, const T&)#Argument index not in range.");
 				bool uninitialized = false;
 				this->MakeRoom(index, 1, uninitialized);
 				if (uninitialized)
 				{
-					new(&this->ItemOf(index))T(item);
+  					new(&this->ItemOf(index))T(item);
 				}
 				else
 				{
@@ -582,7 +582,7 @@ List
 			/// <param name="item">The item to remove.</param>
 			bool Remove(const K& item)
 			{
-				int index = IndexOf(item);
+				nint index = IndexOf(item);
 				if (index >= 0 && index < this->count)
 				{
 					this->RemoveAt(index);
@@ -598,9 +598,9 @@ List
 			/// <returns>Returns true if this operation succeeded.</returns>
 			/// <param name="index">The position of the item.</param>
 			/// <param name="item">The new item to put into the array.</param>
-			bool Set(int index, const T& item)
+			bool Set(nint index, const T& item)
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"List<T, K>::Set(int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"List<T, K>::Set(nint)#Argument index not in range.");
 				this->ItemOf(index) = item;
 				return true;
 			}
@@ -609,9 +609,9 @@ List
 			/// <returns>The reference to the specified element.</returns>
 			/// <param name="index">The index of the element.</param>
 			using ListBase<T, K>::operator[];
-			T& operator[](int index)
+			T& operator[](nint index)
 			{
-				CHECK_ERROR(index >= 0 && index < this->count, L"List<T, K>::operator[](int)#Argument index not in range.");
+				CHECK_ERROR(index >= 0 && index < this->count, L"List<T, K>::operator[](nint)#Argument index not in range.");
 				return this->ItemOf(index);
 			}
 		};
@@ -634,10 +634,10 @@ SortedList
 			/// <param name="item">The item to find.</param>
 			/// <param name="index">Returns the last index.</param>
 			template<typename Key>
-			int IndexOfInternal(const Key& item, int& index)const
+			nint IndexOfInternal(const Key& item, nint& index)const
 			{
-				int start = 0;
-				int end = this->count - 1;
+				nint start = 0;
+				nint end = this->count - 1;
 				index = -1;
 				while (start <= end)
 				{
@@ -658,7 +658,7 @@ SortedList
 				return -1;
 			}
 
-			int Insert(int index, const T& item)
+			nint Insert(nint index, const T& item)
 			{
 				bool uninitialized = false;
 				this->MakeRoom(index, 1, uninitialized);
@@ -689,16 +689,16 @@ SortedList
 			/// <summary>Get the position of an item in this list.</summary>
 			/// <returns>Returns the position. Returns -1 if not exists</returns>
 			/// <param name="item">The item to find.</param>
-			int IndexOf(const K& item)const
+			nint IndexOf(const K& item)const
 			{
-				int outputIndex = -1;
+				nint outputIndex = -1;
 				return IndexOfInternal<K>(item, outputIndex);
 			}
 
 			/// <summary>Add an item at a correct position to keep everying in order.</summary>
 			/// <returns>The index of the added item.</returns>
 			/// <param name="item">The item to add.</param>
-			int Add(const T& item)
+			nint Add(const T& item)
 			{
 				if (ArrayBase<T>::count == 0)
 				{
@@ -706,7 +706,7 @@ SortedList
 				}
 				else
 				{
-					int outputIndex = -1;
+					nint outputIndex = -1;
 					IndexOfInternal<T>(item, outputIndex);
 					CHECK_ERROR(outputIndex >= 0 && outputIndex < this->count, L"SortedList<T, K>::Add(const T&)#Internal error, index not in range.");
 					if (this->ItemOf(outputIndex) < item)
@@ -722,7 +722,7 @@ SortedList
 			/// <param name="item">The item to remove.</param>
 			bool Remove(const K& item)
 			{
-				int index = IndexOf(item);
+				nint index = IndexOf(item);
 				if (index >= 0 && index < ArrayBase<T>::count)
 				{
 					this->RemoveAt(index);
@@ -743,12 +743,12 @@ Special Containers
 		class PushOnlyAllocator : public Object, private NotCopyable
 		{
 		protected:
-			int							blockSize;
-			int							allocatedSize;
+			nint							blockSize;
+			nint							allocatedSize;
 			List<T*>						blocks;
 
 		public:
-			PushOnlyAllocator(int _blockSize = 65536)
+			PushOnlyAllocator(nint _blockSize = 65536)
 				:blockSize(_blockSize)
 				, allocatedSize(0)
 			{
@@ -756,20 +756,20 @@ Special Containers
 
 			~PushOnlyAllocator()
 			{
-				for (int i = 0; i < blocks.Count(); i++)
+				for (nint i = 0; i < blocks.Count(); i++)
 				{
 					delete[] blocks[i];
 				}
 			}
 
-			T* Get(int index)
+			T* Get(nint index)
 			{
 				if (index >= allocatedSize)
 				{
 					return 0;
 				}
-				int row = index / blockSize;
-				int column = index % blockSize;
+				nint row = index / blockSize;
+				nint column = index % blockSize;
 				return &blocks[row][column];
 			}
 
@@ -779,7 +779,7 @@ Special Containers
 				{
 					blocks.Add(new T[blockSize]);
 				}
-				int index = allocatedSize++;
+				nint index = allocatedSize++;
 				return Get(index);
 			}
 		};
@@ -789,28 +789,28 @@ Special Containers
 				TreeNode*					nodes[4];
 			};
 
-			template<int Index = 4>
+			template<nint Index = 4>
 			struct Accessor
 			{
-				static __forceinline void* Get(TreeNode* root, vuint8_t index)
+				static __forceinline void* Get(TreeNode* root, nuint8_t index)
 				{
 					if (!root)
 					{
 						return 0;
 					}
-					int fragmentIndex = (index >> (2 * (Index - 1))) % 4;
+					nint fragmentIndex = (index >> (2 * (Index - 1))) % 4;
 					TreeNode* fragmentRoot = root->nodes[fragmentIndex];
 					return fragmentRoot ? Accessor<Index - 1>::Get(fragmentRoot, index) : 0;
 				}
 
-				static __forceinline void Set(TreeNode*& root, vuint8_t index, void* value, PushOnlyAllocator<TreeNode>& allocator)
+				static __forceinline void Set(TreeNode*& root, nuint8_t index, void* value, PushOnlyAllocator<TreeNode>& allocator)
 				{
 					if (!root)
 					{
 						root = allocator.Create();
 						memset(root->nodes, 0, sizeof(root->nodes));
 					}
-					int fragmentIndex = (index >> (2 * (Index - 1))) % 4;
+					nint fragmentIndex = (index >> (2 * (Index - 1))) % 4;
 					TreeNode*& fragmentRoot = root->nodes[fragmentIndex];
 					Accessor<Index - 1>::Set(fragmentRoot, index, value, allocator);
 				}
@@ -819,12 +819,12 @@ Special Containers
 			template<>
 			struct Accessor<0>
 			{
-				static __forceinline void* Get(TreeNode* root, vuint8_t index)
+				static __forceinline void* Get(TreeNode* root, nuint8_t index)
 				{
 					return (void*)root;
 				}
 
-				static __forceinline void Set(TreeNode*& root, vuint8_t index, void* value, PushOnlyAllocator<TreeNode>& allocator)
+				static __forceinline void Set(TreeNode*& root, nuint8_t index, void* value, PushOnlyAllocator<TreeNode>& allocator)
 				{
 					((void*&)root) = value;
 				}
@@ -849,12 +849,12 @@ Special Containers
 			{
 			}
 
-			T* Get(vuint8_t index)
+			T* Get(nuint8_t index)
 			{
 				return (T*)Accessor<>::Get(root, index);
 			}
 
-			void Set(vuint8_t index, T* value, Allocator& allocator)
+			void Set(nuint8_t index, T* value, Allocator& allocator)
 			{
 				Accessor<>::Set(root, index, value, allocator);
 			}
@@ -885,8 +885,8 @@ Random Access
 				static const bool							CanResize = false;
 			};
 
-#ifdef VCZH_CHECK_MEMORY_LEAKS_NEW
-#define new VCZH_CHECK_MEMORY_LEAKS_NEW
-#endif
+// #ifdef VCZH_CHECK_MEMORY_LEAKS_NEW
+// #define new VCZH_CHECK_MEMORY_LEAKS_NEW
+// #endif
 
 #endif

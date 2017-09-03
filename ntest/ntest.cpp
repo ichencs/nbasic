@@ -7,11 +7,19 @@
 #include <vector>
 #include "UnitTest.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#pragma execution_character_set("utf-8")
+
 using namespace std;
 
 
  int main()
  {
+	 int num(2);
+
+	 TestDateTime();
+	 StringLeftRightSub();
 	 TestAutoPointer();
 
 	 List<int> list;

@@ -29,3 +29,4 @@ public:
 
 extern void TestDateTime();
 extern void TestAutoPointer();
+extern void StringLeftRightSub();
