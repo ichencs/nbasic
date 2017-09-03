@@ -35,6 +35,10 @@
     <ClCompile Include="Stream\RecorderStream.cpp">
       <Filter>Stream</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -47,9 +51,6 @@
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="Collections\Interfaces.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\List.h">
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="Collections\OperationCopyFrom.h">
@@ -92,6 +93,13 @@
     <ClInclude Include="Stream\RecorderStream.h">
       <Filter>Stream</Filter>
     </ClInclude>
+    <ClInclude Include="Collections\NList.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="String.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

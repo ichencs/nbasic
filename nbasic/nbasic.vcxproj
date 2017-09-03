@@ -266,9 +266,12 @@
     <ClInclude Include="Basic.h" />
     <ClInclude Include="Collections\Dictionary.h" />
     <ClInclude Include="Collections\Interfaces.h" />
-    <ClInclude Include="Collections\List.h" />
+    <ClInclude Include="Collections\NList.h" />
     <ClInclude Include="Collections\OperationCopyFrom.h" />
     <ClInclude Include="Collections\Pair.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="FileSystem.h" />
     <ClInclude Include="Locale.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="nchar.h" />
@@ -285,10 +288,14 @@
     <ClInclude Include="Stream\memorystream.h" />
     <ClInclude Include="Stream\memorywrapperstream.h" />
     <ClInclude Include="Stream\RecorderStream.h" />
+    <ClInclude Include="String.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Basic.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Locale.cpp" />
     <ClCompile Include="nchar.cpp" />
     <ClCompile Include="NVariant.cpp" />
@@ -311,6 +318,7 @@
     <ClCompile Include="Stream\memorystream.cpp" />
     <ClCompile Include="Stream\memorywrapperstream.cpp" />
     <ClCompile Include="Stream\RecorderStream.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

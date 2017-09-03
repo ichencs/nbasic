@@ -13,7 +13,7 @@
 		_In_  LPARAM lParam
 		)
 	{
-		((List<Locale>*)lParam)->Add(Locale(lpLocaleString));
+		((NList<Locale>*)lParam)->Add(Locale(lpLocaleString));
 		return TRUE;
 	}
 
@@ -23,7 +23,7 @@
 		_In_  LPARAM lParam
 	)
 	{
-		((List<WString>*)lParam)->Add(lpDateFormatString);
+		((NList<WString>*)lParam)->Add(lpDateFormatString);
 		return TRUE;
 	}
 
@@ -32,14 +32,14 @@
 		_In_  LPARAM lParam
 	)
 	{
-		((List<WString>*)lParam)->Add(lpTimeFormatString);
+		((NList<WString>*)lParam)->Add(lpTimeFormatString);
 		return TRUE;
 	}
 
 	WString Transform(const WString& localeName, const WString& input, DWORD flag)
 	{
 		int length=LCMapStringEx(localeName.Buffer(), flag, input.Buffer(), (int)input.Length()+1, NULL, 0, NULL, NULL, NULL);
-		Array<wchar_t> buffer(length);
+		NArray<wchar_t> buffer(length);
 		LCMapStringEx(localeName.Buffer(), flag, input.Buffer(), (int)input.Length()+1, &buffer[0], (int)buffer.Count(), NULL, NULL, NULL);
 		return &buffer[0];
 	}
@@ -92,7 +92,7 @@ Locale
 		return Locale(buffer);
 	}
 
-	void Locale::Enumerate(List<Locale>& locales)
+	void Locale::Enumerate(NList<Locale>& locales)
 	{
 		EnumSystemLocalesEx(&Locale_EnumLocalesProcEx, LOCALE_ALL, (LPARAM)&locales, NULL);
 	}
@@ -102,27 +102,27 @@ Locale
 		return localeName;
 	}
 
-	void Locale::GetShortDateFormats(List<WString>& formats)const
+	void Locale::GetShortDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_SHORTDATE, (LPARAM)&formats);
 	}
 
-	void Locale::GetLongDateFormats(List<WString>& formats)const
+	void Locale::GetLongDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_LONGDATE, (LPARAM)&formats);
 	}
 
-	void Locale::GetYearMonthDateFormats(List<WString>& formats)const
+	void Locale::GetYearMonthDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_YEARMONTH, (LPARAM)&formats);
 	}
 
-	void Locale::GetLongTimeFormats(List<WString>& formats)const
+	void Locale::GetLongTimeFormats(NList<WString>& formats)const
 	{
 		EnumTimeFormatsEx(&EnumTimeFormatsProcEx, localeName.Buffer(), 0, (LPARAM)&formats);
 	}
 
-	void Locale::GetShortTimeFormats(List<WString>& formats)const
+	void Locale::GetShortTimeFormats(NList<WString>& formats)const
 	{
 		EnumTimeFormatsEx(&EnumTimeFormatsProcEx, localeName.Buffer(), TIME_NOSECONDS, (LPARAM)&formats);
 	}
@@ -132,7 +132,7 @@ Locale
 		SYSTEMTIME st=DateTimeToSystemTime(date);
 		int length=GetDateFormatEx(localeName.Buffer(), 0, &st, format.Buffer(), NULL, 0, NULL);
 		if(length==0) return L"";
-		Array<wchar_t> buffer(length);
+		NArray<wchar_t> buffer(length);
 		GetDateFormatEx(localeName.Buffer(), 0, &st, format.Buffer(), &buffer[0], (int)buffer.Count(), NULL);
 		return &buffer[0];
 	}
@@ -142,7 +142,7 @@ Locale
 		SYSTEMTIME st=DateTimeToSystemTime(time);
 		int length=GetTimeFormatEx(localeName.Buffer(), 0, &st, format.Buffer(), NULL, 0);
 		if(length==0) return L"";
-		Array<wchar_t> buffer(length);
+		NArray<wchar_t> buffer(length);
 		GetTimeFormatEx(localeName.Buffer(), 0, &st, format.Buffer(),&buffer[0], (int)buffer.Count());
 		return &buffer[0];
 	}
@@ -151,7 +151,7 @@ Locale
 	{
 		int length=GetNumberFormatEx(localeName.Buffer(), 0, number.Buffer(), NULL, NULL, 0);
 		if(length==0) return L"";
-		Array<wchar_t> buffer(length);
+		NArray<wchar_t> buffer(length);
 		GetNumberFormatEx(localeName.Buffer(), 0, number.Buffer(), NULL, &buffer[0], (int)buffer.Count());
 		return &buffer[0];
 	}
@@ -160,7 +160,7 @@ Locale
 	{
 		int length=GetCurrencyFormatEx(localeName.Buffer(), 0, currency.Buffer(), NULL, NULL, 0);
 		if(length==0) return L"";
-		Array<wchar_t> buffer(length);
+		NArray<wchar_t> buffer(length);
 		GetCurrencyFormatEx(localeName.Buffer(), 0, currency.Buffer(), NULL, &buffer[0], (int)buffer.Count());
 		return &buffer[0];
 	}

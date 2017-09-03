@@ -450,7 +450,7 @@ Serialization
 						Utf8Decoder decoder;
 						decoder.Setup(&stream);
 
-						 Array<wchar_t> stringBuffer(count + 1);
+						 NArray<wchar_t> stringBuffer(count + 1);
 						nint stringSize = decoder.Read(&stringBuffer[0], count * sizeof(wchar_t));
 						stringBuffer[stringSize / sizeof(wchar_t)] = 0;
 
@@ -481,10 +481,10 @@ Serialization
 			};
 
 			template<typename T>
-			struct Serialization< List<T>>
+			struct Serialization< NList<T>>
 			{
 				template<typename TContext>
-				static void IO(Reader<TContext>& reader,  List<T>& value)
+				static void IO(Reader<TContext>& reader,  NList<T>& value)
 				{
 					nint32_t count = -1;
 					reader << count;
@@ -498,7 +498,7 @@ Serialization
 				}
 					
 				template<typename TContext>
-				static void IO(Writer<TContext>& writer,  List<T>& value)
+				static void IO(Writer<TContext>& writer,  NList<T>& value)
 				{
 					nint32_t count = (nint32_t)value.Count();
 					writer << count;
@@ -510,10 +510,10 @@ Serialization
 			};
 
 			template<typename T>
-			struct Serialization< Array<T>>
+			struct Serialization< NArray<T>>
 			{
 				template<typename TContext>
-				static void IO(Reader<TContext>& reader,  Array<T>& value)
+				static void IO(Reader<TContext>& reader,  NArray<T>& value)
 				{
 					nint32_t count = -1;
 					reader << count;
@@ -525,7 +525,7 @@ Serialization
 				}
 					
 				template<typename TContext>
-				static void IO(Writer<TContext>& writer,  Array<T>& value)
+				static void IO(Writer<TContext>& writer,  NArray<T>& value)
 				{
 					nint32_t count = (nint32_t)value.Count();
 					writer << count;
@@ -580,7 +580,7 @@ Serialization
 					for (nint i = 0; i < count; i++)
 					{
 						K k;
-						 List<V> v;
+						 NList<V> v;
 						reader << k << v;
 						for (nint j = 0; j < v.Count(); j++)
 						{
@@ -597,7 +597,7 @@ Serialization
 					for (nint i = 0; i < count; i++)
 					{
 						K k = value.Keys()[i];
-						 List<V>& v = const_cast< List<V>&>(value.GetByIndex(i));
+						 NList<V>& v = const_cast< NList<V>&>(value.GetByIndex(i));
 						writer << k << v;
 					}
 				}
@@ -615,7 +615,7 @@ Serialization
 					if (count > 0)
 					{
 						nint length = 0;
-						 Array<nuint8_t> buffer(count);
+						 NArray<nuint8_t> buffer(count);
 						value.SeekFromBegin(0);
 						length = reader.input.Read(&buffer[0], count);
 						if (length != count)
@@ -640,7 +640,7 @@ Serialization
 					if (count > 0)
 					{
 						nint length = 0;
-						 Array<nuint8_t> buffer(count);
+						 NArray<nuint8_t> buffer(count);
 						value.SeekFromBegin(0);
 						length = value.Read(&buffer[0], count);
 						if (length != count)

@@ -95,10 +95,10 @@ Classes:
 			}
 		};
 
-// 	template<typename K, typename V>
-// 	struct POD< Pair<K, V>>
-// 	{
-// 		static const bool Result=POD<K>::Result && POD<V>::Result;
-// 	};
+	template<typename K, typename V>
+	struct POD< Pair<K, V>>
+	{
+		static const bool Result = POD<K>::Result && POD<V>::Result;
+	};
 
 #endif

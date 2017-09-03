@@ -22,13 +22,13 @@ using namespace std;
 	 StringLeftRightSub();
 	 TestAutoPointer();
 
-	 List<int> list;
+	 NList<int> list;
 	 list.Add(1);
 	 list.Add(2);
 	 list.Add(1);
 	 list.Add(2);
 	 list.RemoveAt(2);
-	 List<int> list2;
+	 NList<int> list2;
 
 	 CopyFrom(list2, list);
 	 for (int i = 0; i < list2.Count(); i++)
@@ -37,14 +37,14 @@ using namespace std;
 	 }
 	 cout<< endl <<endl;
 
-	 List<Ptr<int>> plist;
+	 NList<Ptr<int>> plist;
 	 Ptr<int> pnum = new int(100);
 	 plist.Add(pnum);
 	 plist.Add(pnum);
 	 plist.RemoveAt(0);
 
 
-	 SortedList<int> slist;
+	 NSortedList<int> slist;
 	 slist.Add(9);
 	 slist.Add(8);
 	 slist.Add(8);

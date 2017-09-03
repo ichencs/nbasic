@@ -272,12 +272,12 @@ Array
 		/// <typeparam name="T">Type of elements.</typeparam>
 		/// <typeparam name="K">Type of the key type of elements.</typeparam>
 		template<typename T, typename K = typename KeyType<T>::Type>
-		class Array : public ArrayBase<T>
+		class NArray : public ArrayBase<T>
 		{
 		public:
 			/// <summary>Create an array.</summary>
 			/// <param name="size">The size of the array.</param>
-			Array(nint size = 0)
+			NArray(nint size = 0)
 			{
 				this->buffer = this->AllocateBuffer(size);
 				this->InitializeItemsByDefault(this->buffer, size);
@@ -287,14 +287,14 @@ Array
 			/// <summary>Create an array.</summary>
 			/// <param name="_buffer">Pointer to an array to copy.</param>
 			/// <param name="size">The size of the array.</param>
-			Array(const T* _buffer, nint size)
+			NArray(const T* _buffer, nint size)
 			{
 				this->buffer = this->AllocateBuffer(size);
 				this->InitializeItemsByCopy(this->buffer, (void*)_buffer, size);
 				this->count = size;
 			}
 
-			~Array()
+			~NArray()
 			{
 				this->ReleaseItems(this->buffer, this->count);
 				this->DeallocateBuffer(this->buffer);
@@ -518,11 +518,11 @@ List
 		/// <typeparam name="T">Type of elements.</typeparam>
 		/// <typeparam name="K">Type of the key type of elements.</typeparam>
 		template<typename T, typename K = typename KeyType<T>::Type>
-		class List : public ListBase<T, K>
+		class NList : public ListBase<T, K>
 		{
 		public:
 			/// <summary>Create a list.</summary>
-			List()
+			NList()
 			{
 			}
 
@@ -624,7 +624,7 @@ SortedList
 		/// <typeparam name="T">Type of elements.</typeparam>
 		/// <typeparam name="K">Type of the key type of elements.</typeparam>
 		template<typename T, typename K = typename KeyType<T>::Type>
-		class SortedList : public ListBase<T, K>
+		class NSortedList : public ListBase<T, K>
 		{
 		protected:
 
@@ -674,7 +674,7 @@ SortedList
 			}
 		public:
 			/// <summary>Create a list.</summary>
-			SortedList()
+			NSortedList()
 			{
 			}
 
@@ -745,7 +745,7 @@ Special Containers
 		protected:
 			nint							blockSize;
 			nint							allocatedSize;
-			List<T*>						blocks;
+			NList<T*>						blocks;
 
 		public:
 			PushOnlyAllocator(nint _blockSize = 65536)
@@ -865,21 +865,21 @@ Random Access
 ***********************************************************************/
 
 			template<typename T, typename K>
-			struct RandomAccessable<Array<T, K>>
+			struct RandomAccessable<NArray<T, K>>
 			{
 				static const bool							CanRead = true;
 				static const bool							CanResize = true;
 			};
 
 			template<typename T, typename K>
-			struct RandomAccessable<List<T, K>>
+			struct RandomAccessable<NList<T, K>>
 			{
 				static const bool							CanRead = true;
 				static const bool							CanResize = false;
 			};
 
 			template<typename T, typename K>
-			struct RandomAccessable<SortedList<T, K>>
+			struct RandomAccessable<NSortedList<T, K>>
 			{
 				static const bool							CanRead = true;
 				static const bool							CanResize = false;

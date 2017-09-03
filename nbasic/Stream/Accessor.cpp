@@ -144,7 +144,7 @@ TextWriter
 
 		namespace monospace_tabling
 		{
-			void WriteBorderLine(TextWriter& writer, Array<nint>& columnWidths, nint columns)
+			void WriteBorderLine(TextWriter& writer, NArray<nint>& columnWidths, nint columns)
 			{
 				writer.WriteChar(L'+');
 				for(nint i=0;i<columns;i++)
@@ -159,7 +159,7 @@ TextWriter
 				writer.WriteLine(L"");
 			}
 
-			void WriteContentLine(TextWriter& writer, Array<nint>& columnWidths, nint rowHeight, nint columns, Array<WString>& tableByRow, nint startRow)
+			void WriteContentLine(TextWriter& writer, NArray<nint>& columnWidths, nint rowHeight, nint columns, NArray<WString>& tableByRow, nint startRow)
 			{
 				nint cellStart=startRow*columns;
 				for(nint r=0;r<rowHeight;r++)
@@ -195,10 +195,10 @@ TextWriter
 		}
 		using namespace monospace_tabling;
 
-		void TextWriter::WriteMonospacedEnglishTable(Array<WString>& tableByRow, nint rows, nint columns)
+		void TextWriter::WriteMonospacedEnglishTable(NArray<WString>& tableByRow, nint rows, nint columns)
 		{
-			Array<nint> rowHeights(rows);
-			Array<nint> columnWidths(columns);
+			NArray<nint> rowHeights(rows);
+			NArray<nint> columnWidths(columns);
 			for(nint i=0;i<rows;i++) rowHeights[i]=0;
 			for(nint j=0;j<columns;j++) columnWidths[j]=0;
 

@@ -10,47 +10,47 @@ Framework::FileSystem
 
 #include "Basic.h"
 #include "String.h"
-#include "Collections/List.h"
+#include "Collections/NList.h"
 #include "Stream/CharFormat.h"
 
 		/// <summary>A type representing a file path.</summary>
-		class FilePath : public Object
+		class NFilePath : public Object
 		{
 		protected:
 			WString						fullPath;
 
 			void						Initialize();
 
-			static void					GetPathComponents(WString path,  List<WString>& components);
-			static WString				ComponentsToPath(const  List<WString>& components);
+			static void					GetPathComponents(WString path,  NList<WString>& components);
+			static WString				ComponentsToPath(const  NList<WString>& components);
 		public:
 			static const wchar_t		Delimiter = L'\\';
 
 			/// <summary>Create a root path.</summary>
-			FilePath();
+			NFilePath();
 			/// <summary>Create a file path.</summary>
 			/// <param name="_filePath">Content of the file path. If it is a relative path, it will be converted to an absolute path.</param>
-			FilePath(const WString& _filePath);
+			NFilePath(const WString& _filePath);
 			/// <summary>Create a file path.</summary>
 			/// <param name="_filePath">Content of the file path. If it is a relative path, it will be converted to an absolute path.</param>
-			FilePath(const wchar_t* _filePath);
+			NFilePath(const wchar_t* _filePath);
 			/// <summary>Copy a file path.</summary>
 			/// <param name="_filePath">The file path to copy.</param>
-			FilePath(const FilePath& _filePath);
-			~FilePath();
+			NFilePath(const NFilePath& _filePath);
+			~NFilePath();
 
-			static nint					Compare(const FilePath& a, const FilePath& b);
-			bool						operator==(const FilePath& filePath)const{ return Compare(*this, filePath) == 0; }
-			bool						operator!=(const FilePath& filePath)const{ return Compare(*this, filePath) != 0; }
-			bool						operator< (const FilePath& filePath)const{ return Compare(*this, filePath) <  0; }
-			bool						operator<=(const FilePath& filePath)const{ return Compare(*this, filePath) <= 0; }
-			bool						operator> (const FilePath& filePath)const{ return Compare(*this, filePath) >  0; }
-			bool						operator>=(const FilePath& filePath)const{ return Compare(*this, filePath) >= 0; }
+			static nint					Compare(const NFilePath& a, const NFilePath& b);
+			bool						operator==(const NFilePath& filePath)const{ return Compare(*this, filePath) == 0; }
+			bool						operator!=(const NFilePath& filePath)const{ return Compare(*this, filePath) != 0; }
+			bool						operator< (const NFilePath& filePath)const{ return Compare(*this, filePath) <  0; }
+			bool						operator<=(const NFilePath& filePath)const{ return Compare(*this, filePath) <= 0; }
+			bool						operator> (const NFilePath& filePath)const{ return Compare(*this, filePath) >  0; }
+			bool						operator>=(const NFilePath& filePath)const{ return Compare(*this, filePath) >= 0; }
 
 			/// <summary>Concat an absolute path and a relative path.</summary>
 			/// <returns>The result absolute path.</returns>
 			/// <param name="relativePath">The relative path to concat.</param>
-			FilePath					operator/(const WString& relativePath)const;
+			NFilePath					operator/(const WString& relativePath)const;
 
 			/// <summary>Test if the file path is a file.</summary>
 			/// <returns>Returns true if the file path is a file.</returns>
@@ -67,14 +67,14 @@ Framework::FileSystem
 			WString						GetName()const;
 			/// <summary>Get the containing folder of this file path.</summary>
 			/// <returns>The containing folder.</returns>
-			FilePath					GetFolder()const;
+			NFilePath					GetFolder()const;
 			/// <summary>Get the content of the file path.</summary>
 			/// <returns>The content of the file path.</returns>
 			WString						GetFullPath()const;
 			/// <summary>Calculate the relative path using a referencing folder.</summary>
 			/// <returns>The relative path.</returns>
 			/// <param name="_filePath">The referencing folder.</param>
-			WString						GetRelativePathFor(const FilePath& _filePath);
+			WString						GetRelativePathFor(const NFilePath& _filePath);
 
 		};
 
@@ -82,19 +82,19 @@ Framework::FileSystem
 		class File : public Object
 		{
 		private:
-			FilePath					filePath;
+			NFilePath					filePath;
 
 		public:
 			/// <summary>Create an empty reference.</summary>
 			File();
 			/// <summary>Create a reference to a specified file.</summary>
 			/// <param name="_filePath">The specified file.</param>
-			File(const FilePath& _filePath);
+			File(const NFilePath& _filePath);
 			~File();
 
 			/// <summary>Get the file path of the file.</summary>
 			/// <returns>The file path.</returns>
-			const FilePath&				GetFilePath()const;
+			const NFilePath&				GetFilePath()const;
 
 			/// <summary>Get the content of the file as text with encoding testing.</summary>
 			/// <returns>The content of the file.</returns>
@@ -113,7 +113,7 @@ Framework::FileSystem
 			/// <summary>Get the content of the file as text.</summary>
 			/// <returns>Returns false if this operation succeeded.</returns>
 			/// <param name="lines">The content of the file.</param>
-			bool						ReadAllLinesByBom( List<WString>& lines)const;
+			bool						ReadAllLinesByBom( NList<WString>& lines)const;
 
 			/// <summary>Write text to the file.</summary>
 			/// <returns>Returns false if this operation succeeded.</returns>
@@ -126,7 +126,7 @@ Framework::FileSystem
 			/// <param name="lines">The text to write.</param>
 			/// <param name="bom">Set to true to add a corresponding BOM at the beginning of the file according to the encoding.</param>
 			/// <param name="encoding">The text encoding.</param>
-			bool						WriteAllLines( List<WString>& lines, bool bom = true, BomEncoder::Encoding encoding = BomEncoder::Utf16);
+			bool						WriteAllLines( NList<WString>& lines, bool bom = true, BomEncoder::Encoding encoding = BomEncoder::Utf16);
 			
 			/// <summary>Test does the file exist or not.</summary>
 			/// <returns>Returns true if the file exists.</returns>
@@ -144,27 +144,27 @@ Framework::FileSystem
 		class Folder : public Object
 		{
 		private:
-			FilePath					filePath;
+			NFilePath					filePath;
 
 		public:
 			/// <summary>Create a root reference.</summary>
 			Folder();
 			/// <summary>Create a reference to a specified folder.</summary>
 			/// <param name="_filePath">The specified folder.</param>
-			Folder(const FilePath& _filePath);
+			Folder(const NFilePath& _filePath);
 			~Folder();
 			
 			/// <summary>Get the file path of the folder.</summary>
 			/// <returns>The file path.</returns>
-			const FilePath&				GetFilePath()const;
+			const NFilePath&				GetFilePath()const;
 			/// <summary>Get all folders in this folder.</summary>
 			/// <returns>Returns true if this operation succeeded.</returns>
 			/// <param name="folders">All folders.</param>
-			bool						GetFolders( List<Folder>& folders)const;
+			bool						GetFolders(NList<Folder>& folders)const;
 			/// <summary>Get all files in this folder.</summary>
 			/// <returns>Returns true if this operation succeeded.</returns>
 			/// <param name="files">All files.</param>
-			bool						GetFiles( List<File>& files)const;
+			bool						GetFiles(NList<File>& files)const;
 			
 			/// <summary>Test does the folder exist or not.</summary>
 			/// <returns>Returns true if the folder exists.</returns>

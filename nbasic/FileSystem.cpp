@@ -16,10 +16,10 @@ FilePath
 ***********************************************************************/
 
 
-		void FilePath::Initialize()
+		void NFilePath::Initialize()
 		{
 			{
-				Array<wchar_t> buffer(fullPath.Length() + 1);
+				NArray<wchar_t> buffer(fullPath.Length() + 1);
 				wcscpy_s(&buffer[0], fullPath.Length() + 1, fullPath.Buffer());
 				for (nint i = 0; i < buffer.Count(); i++)
 				{
@@ -64,38 +64,38 @@ FilePath
 			}
 		}
 
-		FilePath::FilePath()
+		NFilePath::NFilePath()
 		{
 		}
 
-		FilePath::FilePath(const WString& _filePath)
+		NFilePath::NFilePath(const WString& _filePath)
 			:fullPath(_filePath)
 		{
 			Initialize();
 		}
 
-		FilePath::FilePath(const wchar_t* _filePath)
+		NFilePath::NFilePath(const wchar_t* _filePath)
 			:fullPath(_filePath)
 		{
 			Initialize();
 		}
 
-		FilePath::FilePath(const FilePath& _filePath)
+		NFilePath::NFilePath(const NFilePath& _filePath)
 			:fullPath(_filePath.fullPath)
 		{
 			Initialize();
 		}
 
-		FilePath::~FilePath()
+		NFilePath::~NFilePath()
 		{
 		}
 
-		nint FilePath::Compare(const FilePath& a, const FilePath& b)
+		nint NFilePath::Compare(const NFilePath& a, const NFilePath& b)
 		{
 			return WString::Compare(a.fullPath, b.fullPath);
 		}
 
-		FilePath FilePath::operator/(const WString& relativePath)const
+		NFilePath NFilePath::operator/(const WString& relativePath)const
 		{
 			if (IsRoot())
 			{
@@ -107,7 +107,7 @@ FilePath
 			}
 		}
 
-		bool FilePath::IsFile()const
+		bool NFilePath::IsFile()const
 		{
 			WIN32_FILE_ATTRIBUTE_DATA info;
 			BOOL result = GetFileAttributesEx(fullPath.Buffer(), GetFileExInfoStandard, &info);
@@ -115,7 +115,7 @@ FilePath
 			return (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
 		}
 
-		bool FilePath::IsFolder()const
+		bool NFilePath::IsFolder()const
 		{
 			WIN32_FILE_ATTRIBUTE_DATA info;
 			BOOL result = GetFileAttributesEx(fullPath.Buffer(), GetFileExInfoStandard, &info);
@@ -123,12 +123,12 @@ FilePath
 			return (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 		}
 
-		bool FilePath::IsRoot()const
+		bool NFilePath::IsRoot()const
 		{
 			return fullPath == L"";
 		}
 
-		WString FilePath::GetName()const
+		WString NFilePath::GetName()const
 		{
 			WString delimiter = Delimiter;
 			auto index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
@@ -136,20 +136,20 @@ FilePath
 			return fullPath.Right(fullPath.Length() - index.key - 1);
 		}
 
-		FilePath FilePath::GetFolder()const
+		NFilePath NFilePath::GetFolder()const
 		{
 			WString delimiter = Delimiter;
 			auto index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
-			if (index.key == -1) return FilePath();
+			if (index.key == -1) return NFilePath();
 			return fullPath.Left(index.key);
 		}
 
-		WString FilePath::GetFullPath()const
+		WString NFilePath::GetFullPath()const
 		{
 			return fullPath;
 		}
 
-		WString FilePath::GetRelativePathFor(const FilePath& _filePath)
+		WString NFilePath::GetRelativePathFor(const NFilePath& _filePath)
 		{
 			if (fullPath.Length()==0 || _filePath.fullPath.Length()==0 || fullPath[0] != _filePath.fullPath[0])
 			{
@@ -166,7 +166,7 @@ FilePath
 			return buffer;
 		}
 
-		void FilePath::GetPathComponents(WString path,  List<WString>& components)
+		void NFilePath::GetPathComponents(WString path,  NList<WString>& components)
 		{
 			WString pathRemaining = path;
 			WString delimiter = Delimiter;
@@ -201,7 +201,7 @@ FilePath
 			}
 		}
 
-		WString FilePath::ComponentsToPath(const  List<WString>& components)
+		WString NFilePath::ComponentsToPath(const  NList<WString>& components)
 		{
 			WString result;
 			WString delimiter = Delimiter;
@@ -233,7 +233,7 @@ File
 		{
 		}
 		
-		File::File(const FilePath& _filePath)
+		File::File(const NFilePath& _filePath)
 			:filePath(_filePath)
 		{
 		}
@@ -242,14 +242,14 @@ File
 		{
 		}
 
-		const FilePath& File::GetFilePath()const
+		const NFilePath& File::GetFilePath()const
 		{
 			return filePath;
 		}
 
 		bool File::ReadAllTextWithEncodingTesting(WString& text, BomEncoder::Encoding& encoding, bool& containsBom)
 		{
-			Array<unsigned char> buffer;
+			NArray<unsigned char> buffer;
 			{
 				FileStream fileStream(filePath.GetFullPath(), FileStream::ReadOnly);
 				if (!fileStream.IsAvailable()) return false;
@@ -333,7 +333,7 @@ File
 			return true;
 		}
 
-		bool File::ReadAllLinesByBom( List<WString>& lines)const
+		bool File::ReadAllLinesByBom( NList<WString>& lines)const
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::ReadOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -382,7 +382,7 @@ File
 			return true;
 		}
 
-		bool File::WriteAllLines( List<WString>& lines, bool bom, BomEncoder::Encoding encoding)
+		bool File::WriteAllLines( NList<WString>& lines, bool bom, BomEncoder::Encoding encoding)
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::WriteOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -445,7 +445,7 @@ Folder
 		{
 		}
 		
-		Folder::Folder(const FilePath& _filePath)
+		Folder::Folder(const NFilePath& _filePath)
 			:filePath(_filePath)
 		{
 		}
@@ -454,19 +454,19 @@ Folder
 		{
 		}
 
-		const FilePath& Folder::GetFilePath()const
+		const NFilePath& Folder::GetFilePath()const
 		{
 			return filePath;
 		}
 
-		bool Folder::GetFolders( List<Folder>& folders)const
+		bool Folder::GetFolders(NList<Folder>& folders)const
 		{
 			if (filePath.IsRoot())
 			{
 				auto bufferSize = GetLogicalDriveStrings(0, nullptr);
 				if (bufferSize > 0)
 				{
-					Array<wchar_t> buffer(bufferSize);
+					NArray<wchar_t> buffer(bufferSize);
 					if (GetLogicalDriveStrings((DWORD)buffer.Count(), &buffer[0]) > 0)
 					{
 						auto begin = &buffer[0];
@@ -475,7 +475,7 @@ Folder
 						{
 							WString driveString = begin;
 							begin += driveString.Length() + 1;
-							folders.Add(Folder(FilePath(driveString)));
+							folders.Add(Folder(NFilePath(driveString)));
 						}
 						return true;
 					}
@@ -521,7 +521,7 @@ Folder
 			}
 		}
 
-		bool Folder::GetFiles( List<File>& files)const
+		bool Folder::GetFiles( NList<File>& files)const
 		{
 			if (filePath.IsRoot())
 			{
@@ -586,14 +586,14 @@ Folder
 			
 			if (recursively)
 			{
-				List<Folder> folders;
+				NList<Folder> folders;
 				GetFolders(folders);
 				FOREACH(Folder, folder, folders)
 				{
 					if (!folder.Delete(true)) return false;
 				}
 				
-				List<File> files;
+				NList<File> files;
 				GetFiles(files);
 				FOREACH(File, file, files)
 				{

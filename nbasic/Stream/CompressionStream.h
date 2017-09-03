@@ -80,14 +80,14 @@ Compression
 		{
 		protected:
 			NIStream*								stream = 0;
-			List<NCode*>			dictionary;
+			NList<NCode*>			dictionary;
 			NCode*								lastCode = 0;
 
 			nuint8_t								inputBuffer[BufferSize];
 			nint									inputBufferSize = 0;
 			nint									inputBufferUsedBits = 0;
 
-			Array<nuint8_t>			outputBuffer;
+			NArray<nuint8_t>			outputBuffer;
 			nint									outputBufferSize = 0;
 			nint									outputBufferUsedBytes = 0;
 

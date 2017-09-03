@@ -14,6 +14,10 @@
 #include "Pointer.h"
 #include "String.h"
 #include "Console.h"
+#include "FileSystem.h"
+#include "Exception.h"
+#include "Locale.h"
+
 
 #include ".\Stream\Accessor.h"
 #include ".\Stream\BroadcastStream.h"
@@ -26,6 +30,6 @@
 
 #include ".\Collections\interfaces.h"
 #include ".\Collections\pair.h"
-#include ".\Collections\List.h"
+#include ".\Collections\NList.h"
 #include ".\Collections\Dictionary.h"
 #include ".\Collections\OperationCopyFrom.h"

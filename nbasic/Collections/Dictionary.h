@@ -11,9 +11,9 @@ Classes:
 #ifndef VCZH_COLLECTIONS_DICTIONARY
 #define VCZH_COLLECTIONS_DICTIONARY
 
-#include "List.h"
+#include "NList.h"
 
-		/// <summary>Dictionary. Ë³ÐòµÄ</summary>
+		/// <summary>Dictionary. ×Öµä.Ë³ÐòµÄ</summary>
 		/// <typeparam name="KT">Type of keys.</typeparam>
 		/// <typeparam name="VT">Type of values.</typeparam>
 		/// <typeparam name="KK">Type of the key type of keys.</typeparam>
@@ -27,8 +27,8 @@ Classes:
 	class Dictionary : public Object, public virtual IEnumerable<Pair<KT, VT>>
 	{
 	public:
-		typedef SortedList<KT, KK>			KeyContainer;
-		typedef List<VT, VK>				ValueContainer;
+		typedef NSortedList<KT, KK>			KeyContainer;
+		typedef NList<VT, VK>				ValueContainer;
 	protected:
 		class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
 		{
@@ -173,7 +173,7 @@ Classes:
 		bool Add(const KT& key, const VT& value)
 		{
 			CHECK_ERROR(!keys.Contains(KeyType<KT>::GetKeyValue(key)), L"Dictionary<KT, KK, ValueContainer, VT, VK>::Add(const KT&, const VT&)#Key already exists.");
-			nint index=keys.Add(key);
+			nint index = keys.Add(key);
 			values.Insert(index, value);
 			return true;
 		}
@@ -219,8 +219,8 @@ Classes:
 		>
 		class Group : public Object, public virtual IEnumerable<Pair<KT, VT>>
 		{
-			typedef SortedList<KT, KK>		KeyContainer;
-			typedef List<VT, VK>			ValueContainer;
+			typedef NSortedList<KT, KK>		KeyContainer;
+			typedef NList<VT, VK>			ValueContainer;
 		protected:
 			class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
 			{
@@ -310,7 +310,7 @@ Classes:
 			};
 
 			KeyContainer					keys;
-			List<ValueContainer*>			values;
+			NList<ValueContainer*>			values;
 		public:
 			Group()
 			{
@@ -427,7 +427,7 @@ Classes:
 				if(index!=-1)
 				{
 					keys.RemoveAt(index);
-					List<VT, VK>* target=values[index];
+					NList<VT, VK>* target=values[index];
 					values.RemoveAt(index);
 					delete target;
 					return true;
@@ -447,7 +447,7 @@ Classes:
 				nint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
-					List<VT, VK>* target=values[index];
+					NList<VT, VK>* target=values[index];
 					target->Remove(value);
 					if(target->Count()==0)
 					{
@@ -506,12 +506,12 @@ Classes:
 				if (firstIndex < firstCount)
 				{
 					auto firstKey = first.Keys()[firstIndex];
-					const List<TValueFirst>& firstValues = first.GetByIndex(firstIndex);
+					const NList<TValueFirst>& firstValues = first.GetByIndex(firstIndex);
 
 					if (secondIndex < secondCount)
 					{
 						auto secondKey = second.Keys()[secondIndex];
-						const List<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
+						const NList<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
 
 						if (firstKey < secondKey)
 						{
@@ -541,7 +541,7 @@ Classes:
 					if (secondIndex < secondCount)
 					{
 						auto secondKey = second.Keys()[secondIndex];
-						const List<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
+						const NList<TValueSecond>& secondValues = second.GetByIndex(secondIndex);
 
 						discardSecond(secondKey, secondValues);
 						secondIndex++;

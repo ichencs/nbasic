@@ -16,7 +16,7 @@ Classes:
 #define VCZH_STREAM_ACCESSOR
 
 #include "Interfaces.h"
-#include "../Collections/List.h"
+#include "../Collections/NList.h"
 #include "../String.h"
 
 
@@ -74,7 +74,7 @@ Classes:
 			/// <param name="string">The string to write.</param>
 			virtual void				WriteLine(const WString& string);
 
-			virtual void				WriteMonospacedEnglishTable(Array<WString>& tableByRow, nint rows, nint columns);
+			virtual void				WriteMonospacedEnglishTable(NArray<WString>& tableByRow, nint rows, nint columns);
 		};
 
 		/// <summary>Text reader from a string.</summary>

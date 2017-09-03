@@ -11,7 +11,7 @@ Interfaces:
 #define VCZH_STREAM_BROADCASTSTREAM
 
 #include "Interfaces.h"
-#include "../Collections/List.h"
+#include "../Collections/NList.h"
 
 namespace vl
 {
@@ -20,7 +20,7 @@ namespace vl
 		/// <summary>A writable stream that copy written content to multiple target streams.</summary>
 		class BroadcastStream : public Object, public virtual NIStream
 		{
-			typedef List<NIStream*>		StreamList;
+			typedef NList<NIStream*>		StreamList;
 		protected:
 			bool					closed;
 			pos_t					position;

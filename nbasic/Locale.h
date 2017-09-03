@@ -10,7 +10,7 @@ Interfaces:
 #define VCZH_LOCALE
 
 #include "String.h"
-#include "Collections/List.h"
+#include "Collections/NList.h"
 
 	/// <summary>Locale awared operations. Macro "INVLOC" is a shortcut to get a invariant locale.</summary>
 	class Locale : public Object
@@ -40,7 +40,7 @@ Interfaces:
 		static Locale				UserDefault();
 		/// <summary>Get all supported locales.</summary>
 		/// <param name="locales">All supported locales.</param>
-		static void					Enumerate(List<Locale>& locales);
+		static void					Enumerate(NList<Locale>& locales);
 
 		/// <summary>Get the name of the locale.</summary>
 		/// <returns>The name of the locale.</returns>
@@ -48,19 +48,19 @@ Interfaces:
 
 		/// <summary>Get all short date formats for the locale.</summary>
 		/// <param name="formats">The formats.</param>
-		void						GetShortDateFormats(List<WString>& formats)const;
+		void						GetShortDateFormats(NList<WString>& formats)const;
 		/// <summary>Get all long date formats for the locale.</summary>
 		/// <param name="formats">The formats.</param>
-		void						GetLongDateFormats(List<WString>& formats)const;
+		void						GetLongDateFormats(NList<WString>& formats)const;
 		/// <summary>Get all Year-Month date formats for the locale.</summary>
 		/// <param name="formats">The formats.</param>
-		void						GetYearMonthDateFormats(List<WString>& formats)const;
+		void						GetYearMonthDateFormats(NList<WString>& formats)const;
 		/// <summary>Get all long time formats for the locale.</summary>
 		/// <param name="formats">The formats.</param>
-		void						GetLongTimeFormats(List<WString>& formats)const;
+		void						GetLongTimeFormats(NList<WString>& formats)const;
 		/// <summary>Get all short time formats for the locale.</summary>
 		/// <param name="formats">The formats.</param>
-		void						GetShortTimeFormats(List<WString>& formats)const;
+		void						GetShortTimeFormats(NList<WString>& formats)const;
 
 		/// <summary>Convert a date to a formatted string.</summary>
 		/// <returns>The formatted string.</returns>

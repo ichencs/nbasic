@@ -12,7 +12,7 @@ Interfaces:
 
 #include "../Basic.h"
 #include "../String.h"
-#include "../Collections/List.h"
+#include "../Collections/NList.h"
 #include "../Collections/Dictionary.h"
 
 		/// <summary>
