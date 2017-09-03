@@ -1,15 +1,11 @@
 #include <string.h>
 #include "RecorderStream.h"
 
-namespace vl
-{
-	namespace stream
-	{
 /***********************************************************************
 RecorderStream
 ***********************************************************************/
 
-		RecorderStream::RecorderStream(IStream& _in, IStream& _out)
+		RecorderStream::RecorderStream(NIStream& _in, NIStream& _out)
 			:in(&_in)
 			,out(&_out)
 		{
@@ -80,21 +76,19 @@ RecorderStream
 			CHECK_FAIL(L"RecorderStream::SeekFromEnd(pos_t)#Operation not supported.");
 		}
 
-		vint RecorderStream::Read(void* _buffer, vint _size)
+		nint RecorderStream::Read(void* _buffer, nint _size)
 		{
 			_size=in->Read(_buffer, _size);
 			out->Write(_buffer, _size);
 			return _size;
 		}
 
-		vint RecorderStream::Write(void* _buffer, vint _size)
+		nint RecorderStream::Write(void* _buffer, nint _size)
 		{
-			CHECK_FAIL(L"RecorderStream::Write(void*, vint)#Operation not supported.");
+			CHECK_FAIL(L"RecorderStream::Write(void*, nint)#Operation not supported.");
 		}
 
-		vint RecorderStream::Peek(void* _buffer, vint _size)
+		nint RecorderStream::Peek(void* _buffer, nint _size)
 		{
-			CHECK_FAIL(L"RecorderStream::Peek(void*, vint)#Operation not supported.");
+			CHECK_FAIL(L"RecorderStream::Peek(void*, nint)#Operation not supported.");
 		}
-	}
-}

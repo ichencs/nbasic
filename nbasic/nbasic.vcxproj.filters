@@ -8,6 +8,33 @@
       <Filter>未完成项</Filter>
     </ClCompile>
     <ClCompile Include="Locale.cpp" />
+    <ClCompile Include="Stream\Accessor.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\BroadcastStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CacheStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CharFormat.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CompressionStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\FileStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\memorystream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\memorywrapperstream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\RecorderStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -35,6 +62,36 @@
       <Filter>未完成项</Filter>
     </ClInclude>
     <ClInclude Include="Locale.h" />
+    <ClInclude Include="Stream\Accessor.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\BroadcastStream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CacheStream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CharFormat.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CompressionStream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\FileStream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\Interfaces.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\memorystream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\memorywrapperstream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\RecorderStream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -45,6 +102,9 @@
     </Filter>
     <Filter Include="未完成项">
       <UniqueIdentifier>{6f28cf11-b45b-4752-bcb7-725b62fac15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stream">
+      <UniqueIdentifier>{50e6b770-fa11-4c7e-bb04-582fd188f70e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

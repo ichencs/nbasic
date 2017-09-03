@@ -12,8 +12,17 @@
 #include "nchar.h"
 
 #include "Pointer.h"
-// #include "String.h"
-// #include "Console.h"
+#include "String.h"
+#include "Console.h"
+
+#include ".\Stream\Accessor.h"
+#include ".\Stream\BroadcastStream.h"
+#include ".\Stream\CacheStream.h"
+#include ".\Stream\CharFormat.h"
+#include ".\Stream\FileStream.h"
+#include ".\Stream\Interfaces.h"
+#include ".\Stream\memorystream.h"
+#include ".\Stream\recorderstream.h"
 
 #include ".\Collections\interfaces.h"
 #include ".\Collections\pair.h"

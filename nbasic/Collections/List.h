@@ -21,7 +21,7 @@ Classes:
 // #undef new
 // #endif
 
-// #include <new>
+#include <new>
 #include "..\Basic.h"
 
 
@@ -885,8 +885,5 @@ Random Access
 				static const bool							CanResize = false;
 			};
 
-// #ifdef VCZH_CHECK_MEMORY_LEAKS_NEW
-// #define new VCZH_CHECK_MEMORY_LEAKS_NEW
-// #endif
 
 #endif

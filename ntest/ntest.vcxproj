@@ -325,6 +325,7 @@
     </ClCompile>
     <ClCompile Include="ntest.cpp" />
     <ClCompile Include="TestBasic.cpp" />
+    <ClCompile Include="TestString.cpp" />
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

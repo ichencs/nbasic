@@ -275,6 +275,16 @@
     <ClInclude Include="NVariant.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Stream\Accessor.h" />
+    <ClInclude Include="Stream\BroadcastStream.h" />
+    <ClInclude Include="Stream\CacheStream.h" />
+    <ClInclude Include="Stream\CharFormat.h" />
+    <ClInclude Include="Stream\CompressionStream.h" />
+    <ClInclude Include="Stream\FileStream.h" />
+    <ClInclude Include="Stream\Interfaces.h" />
+    <ClInclude Include="Stream\memorystream.h" />
+    <ClInclude Include="Stream\memorywrapperstream.h" />
+    <ClInclude Include="Stream\RecorderStream.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +302,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='RelVC9|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Stream\Accessor.cpp" />
+    <ClCompile Include="Stream\BroadcastStream.cpp" />
+    <ClCompile Include="Stream\CacheStream.cpp" />
+    <ClCompile Include="Stream\CharFormat.cpp" />
+    <ClCompile Include="Stream\CompressionStream.cpp" />
+    <ClCompile Include="Stream\FileStream.cpp" />
+    <ClCompile Include="Stream\memorystream.cpp" />
+    <ClCompile Include="Stream\memorywrapperstream.cpp" />
+    <ClCompile Include="Stream\RecorderStream.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
