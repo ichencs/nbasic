@@ -189,13 +189,13 @@ Interfaces:
 		/// <param name="text">The text to find the sub string.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
-		Pair<nint, nint>			FindFirst(const WString& text, const WString& find, Normalization normalization)const;
+		NPair<nint, nint>			FindFirst(const WString& text, const WString& find, Normalization normalization)const;
 		/// <summary>Find the last position that the sub string appears in a text.</summary>
 		/// <returns>Returns a pair of numbers, the first number indicating the position in the text, the second number indicating the size of the equivalence sub string in the text. For some normalization, the found sub string may be binary different to the string you want to find.</returns>
 		/// <param name="text">The text to find the sub string.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
-		Pair<nint, nint>			FindLast(const WString& text, const WString& find, Normalization normalization)const;
+		NPair<nint, nint>			FindLast(const WString& text, const WString& find, Normalization normalization)const;
 		/// <summary>Test is the prefix of the text equivalence to the provided sub string.</summary>
 		/// <returns>Returns true if the prefix of the text equivalence to the provided sub string.</returns>
 		/// <param name="text">The text to test the prefix.</param>

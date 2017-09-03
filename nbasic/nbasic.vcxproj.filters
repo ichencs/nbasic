@@ -56,9 +56,6 @@
     <ClInclude Include="Collections\OperationCopyFrom.h">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="Collections\Pair.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
     <ClInclude Include="nchar.h">
       <Filter>未完成项</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="String.h" />
+    <ClInclude Include="Collections\NPair.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

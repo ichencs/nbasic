@@ -13,7 +13,7 @@ Interfaces:
 
 #include "..\Basic.h"
 #include "..\Pointer.h"
-#include "Pair.h"
+#include "NPair.h"
 
 
 /***********************************************************************

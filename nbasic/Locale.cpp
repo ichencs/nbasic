@@ -270,18 +270,18 @@ Locale
 		}
 	}
 
-	Pair<nint, nint> Locale::FindFirst(const WString& text, const WString& find, Normalization normalization)const
+	NPair<nint, nint> Locale::FindFirst(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int length=0;
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_FROMSTART | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), &length, NULL, NULL, NULL);
-		return result==-1?Pair<nint, nint>(-1, 0):Pair<nint, nint>(result, length);
+		return result==-1?NPair<nint, nint>(-1, 0):NPair<nint, nint>(result, length);
 	}
 
-	Pair<nint, nint> Locale::FindLast(const WString& text, const WString& find, Normalization normalization)const
+	NPair<nint, nint> Locale::FindLast(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int length=0;
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_FROMEND | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), &length, NULL, NULL, NULL);
-		return result==-1?Pair<nint, nint>(-1, 0):Pair<nint, nint>(result, length);
+		return result==-1?NPair<nint, nint>(-1, 0):NPair<nint, nint>(result, length);
 	}
 
 	bool Locale::StartsWith(const WString& text, const WString& find, Normalization normalization)const

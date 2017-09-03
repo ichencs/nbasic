@@ -268,7 +268,7 @@
     <ClInclude Include="Collections\Interfaces.h" />
     <ClInclude Include="Collections\NList.h" />
     <ClInclude Include="Collections\OperationCopyFrom.h" />
-    <ClInclude Include="Collections\Pair.h" />
+    <ClInclude Include="Collections\NPair.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />

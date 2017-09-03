@@ -29,7 +29,7 @@
 #include ".\Stream\recorderstream.h"
 
 #include ".\Collections\interfaces.h"
-#include ".\Collections\pair.h"
+#include ".\Collections\NPair.h"
 #include ".\Collections\NList.h"
 #include ".\Collections\Dictionary.h"
 #include ".\Collections\OperationCopyFrom.h"

@@ -16,7 +16,7 @@ Classes:
 		/// <typeparam name="K">Type of the key.</typeparam>
 		/// <typeparam name="V">Type of the value.</typeparam>
 		template<typename K, typename V>
-		class Pair
+		class NPair
 		{
 		public:
 			/// <summary>The key.</summary>
@@ -24,23 +24,23 @@ Classes:
 			/// <summary>The value.</summary>
 			V				value;
 
-			Pair()
+			NPair()
 			{
 			}
 
-			Pair(const K& _key, const V& _value)
+			NPair(const K& _key, const V& _value)
 			{
 				key=_key;
 				value=_value;
 			}
 
-			Pair(const Pair<K, V>& pair)
+			NPair(const NPair<K, V>& pair)
 			{
 				key=pair.key;
 				value=pair.value;
 			}
 
-			int CompareTo(const Pair<K, V>& pair)const
+			int CompareTo(const NPair<K, V>& pair)const
 			{
 				if(key<pair.key)
 				{
@@ -64,39 +64,39 @@ Classes:
 				}
 			}
 
-			bool operator==(const Pair<K, V>& pair)const
+			bool operator==(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)==0;
 			}
 
-			bool operator!=(const Pair<K, V>& pair)const
+			bool operator!=(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)!=0;
 			}
 
-			bool operator<(const Pair<K, V>& pair)const
+			bool operator<(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)<0;
 			}
 
-			bool operator<=(const Pair<K, V>& pair)const
+			bool operator<=(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)<=0;
 			}
 
-			bool operator>(const Pair<K, V>& pair)const
+			bool operator>(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)>0;
 			}
 
-			bool operator>=(const Pair<K, V>& pair)const
+			bool operator>=(const NPair<K, V>& pair)const
 			{
 				return CompareTo(pair)>=0;
 			}
 		};
 
 	template<typename K, typename V>
-	struct POD< Pair<K, V>>
+	struct POD< NPair<K, V>>
 	{
 		static const bool Result = POD<K>::Result && POD<V>::Result;
 	};

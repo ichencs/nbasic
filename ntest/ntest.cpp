@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#pragma execution_character_set("utf-8")
+// #pragma execution_character_set("utf-8")
 
 using namespace std;
 

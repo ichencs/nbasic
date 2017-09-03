@@ -24,18 +24,18 @@ Classes:
 		typename KK=typename KeyType<KT>::Type, 
 		typename VK=typename KeyType<VT>::Type
 	>
-	class Dictionary : public Object, public virtual IEnumerable<Pair<KT, VT>>
+	class Dictionary : public Object, public virtual IEnumerable<NPair<KT, VT>>
 	{
 	public:
 		typedef NSortedList<KT, KK>			KeyContainer;
 		typedef NList<VT, VK>				ValueContainer;
 	protected:
-		class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
+		class Enumerator : public Object, public virtual IEnumerator<NPair<KT, VT>>
 		{
 		private:
 			const Dictionary<KT, VT, KK, VK>*	container;
 			nint								index;
-			Pair<KT, VT>						current;
+			NPair<KT, VT>						current;
 
 			void UpdateCurrent()
 			{
@@ -52,12 +52,12 @@ Classes:
 				index=_index;
 			}
 				
-			IEnumerator<Pair<KT, VT>>* Clone()const
+			IEnumerator<NPair<KT, VT>>* Clone()const
 			{
 				return new Enumerator(container, index);
 			}
 
-			const Pair<KT, VT>& Current()const
+			const NPair<KT, VT>& Current()const
 			{
 				return current;
 			}
@@ -89,7 +89,7 @@ Classes:
 		{
 		}
 
-		IEnumerator<Pair<KT, VT>>* CreateEnumerator()const
+		IEnumerator<NPair<KT, VT>>* CreateEnumerator()const
 		{
 			return new Enumerator(this);
 		}
@@ -161,7 +161,7 @@ Classes:
 		/// <summary>Add a key with an associated value. Exception will raise if the key already exists.</summary>
 		/// <returns>Returns true if the pair is added.</returns>
 		/// <param name="value">The pair of key and value.</param>
-		bool Add(const Pair<KT, VT>& value)
+		bool Add(const NPair<KT, VT>& value)
 		{
 			return Add(value.key, value.value);
 		}
@@ -217,18 +217,18 @@ Classes:
 			typename KK=typename KeyType<KT>::Type,
 			typename VK=typename KeyType<VT>::Type
 		>
-		class Group : public Object, public virtual IEnumerable<Pair<KT, VT>>
+		class Group : public Object, public virtual IEnumerable<NPair<KT, VT>>
 		{
 			typedef NSortedList<KT, KK>		KeyContainer;
 			typedef NList<VT, VK>			ValueContainer;
 		protected:
-			class Enumerator : public Object, public virtual IEnumerator<Pair<KT, VT>>
+			class Enumerator : public Object, public virtual IEnumerator<NPair<KT, VT>>
 			{
 			private:
 				const Group<KT, VT, KK, VK>*		container;
 				nint								keyIndex;
 				nint								valueIndex;
-				Pair<KT, VT>						current;
+				NPair<KT, VT>						current;
 
 				void UpdateCurrent()
 				{
@@ -250,12 +250,12 @@ Classes:
 					valueIndex=_valueIndex;
 				}
 				
-				IEnumerator<Pair<KT, VT>>* Clone()const
+				IEnumerator<NPair<KT, VT>>* Clone()const
 				{
 					return new Enumerator(container, keyIndex, valueIndex);
 				}
 
-				const Pair<KT, VT>& Current()const
+				const NPair<KT, VT>& Current()const
 				{
 					return current;
 				}
@@ -321,7 +321,7 @@ Classes:
 				Clear();
 			}
 
-			IEnumerator<Pair<KT, VT>>* CreateEnumerator()const
+			IEnumerator<NPair<KT, VT>>* CreateEnumerator()const
 			{
 				return new Enumerator(this);
 			}
@@ -392,7 +392,7 @@ Classes:
 			/// <summary>Add a key with an associated value. If the key already exists, the value will be associated with the key with other values.</summary>
 			/// <returns>Returns true if the pair is added.</returns>
 			/// <param name="value">The pair of key and value.</param>
-			bool Add(const Pair<KT, VT>& value)
+			bool Add(const NPair<KT, VT>& value)
 			{
 				return Add(value.key, value.value);
 			}
@@ -572,12 +572,12 @@ Classes:
 					return t.Count();
 				}
 
-				static Pair<KT, VT> GetValue(const Dictionary<KT, VT, KK, VK>& t, nint index)
+				static NPair<KT, VT> GetValue(const Dictionary<KT, VT, KK, VK>& t, nint index)
 				{
-					return Pair<KT, VT>(t.Keys().Get(index), t.Values().Get(index));
+					return NPair<KT, VT>(t.Keys().Get(index), t.Values().Get(index));
 				}
 
-				static void AppendValue(Dictionary<KT, VT, KK, VK>& t, const Pair<KT, VT>& value)
+				static void AppendValue(Dictionary<KT, VT, KK, VK>& t, const NPair<KT, VT>& value)
 				{
 					t.Set(value.key, value.value);
 				}
