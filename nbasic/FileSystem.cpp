@@ -36,7 +36,7 @@ FilePath
 				if (fullPath.Length() < 2 || fullPath[1] != L':')
 				{
 					wchar_t buffer[MAX_PATH + 1] = { 0 };
-					auto result = GetCurrentDirectory(sizeof(buffer) / sizeof(*buffer), buffer);
+					DWORD result = GetCurrentDirectory(sizeof(buffer) / sizeof(*buffer), buffer);
 					if (result > MAX_PATH + 1 || result == 0)
 					{
 						throw ArgumentException(L"Failed to call GetCurrentDirectory.", L"vl::filesystem::FilePath::Initialize", L"");
@@ -49,7 +49,7 @@ FilePath
 					{
 						fullPath += L"\\";
 					}
-					auto result = GetFullPathName(fullPath.Buffer(), sizeof(buffer) / sizeof(*buffer), buffer, NULL);
+					DWORD result = GetFullPathName(fullPath.Buffer(), sizeof(buffer) / sizeof(*buffer), buffer, NULL);
 					if (result > MAX_PATH + 1 || result == 0)
 					{
 						throw ArgumentException(L"The path is illegal.", L"vl::filesystem::FilePath::FilePath", L"_filePath");
@@ -131,7 +131,7 @@ FilePath
 		WString NFilePath::GetName()const
 		{
 			WString delimiter = Delimiter;
-			auto index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
+			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
 			if (index.key == -1) return fullPath;
 			return fullPath.Right(fullPath.Length() - index.key - 1);
 		}
@@ -139,7 +139,7 @@ FilePath
 		NFilePath NFilePath::GetFolder()const
 		{
 			WString delimiter = Delimiter;
-			auto index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
+			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
 			if (index.key == -1) return NFilePath();
 			return fullPath.Left(index.key);
 		}
@@ -175,7 +175,7 @@ FilePath
 
 			while(true)
 			{
-				auto index = INVLOC.FindFirst(pathRemaining, delimiter, Locale::None);
+				NPair<nint, nint> index = INVLOC.FindFirst(pathRemaining, delimiter, Locale::None);
 				if (index.key == -1)
 					break;
 
@@ -352,7 +352,7 @@ File
 			FileStream fileStream(filePath.GetFullPath(), FileStream::WriteOnly);
 			if (!fileStream.IsAvailable()) return false;
 			
-			IEncoder* encoder = nullptr;
+			IEncoder* encoder = 0;
 			if (bom)
 			{
 				encoder = new BomEncoder(encoding);
@@ -387,7 +387,7 @@ File
 			FileStream fileStream(filePath.GetFullPath(), FileStream::WriteOnly);
 			if (!fileStream.IsAvailable()) return false;
 			
-			IEncoder* encoder = nullptr;
+			IEncoder* encoder = NULL;
 			if (bom)
 			{
 				encoder = new BomEncoder(encoding);
@@ -463,14 +463,14 @@ Folder
 		{
 			if (filePath.IsRoot())
 			{
-				auto bufferSize = GetLogicalDriveStrings(0, nullptr);
+				DWORD bufferSize = GetLogicalDriveStrings(0, NULL);
 				if (bufferSize > 0)
 				{
 					NArray<wchar_t> buffer(bufferSize);
 					if (GetLogicalDriveStrings((DWORD)buffer.Count(), &buffer[0]) > 0)
 					{
-						auto begin = &buffer[0];
-						auto end = begin + buffer.Count();
+						wchar_t* begin = &buffer[0];
+						wchar_t* end = begin + buffer.Count();
 						while (begin < end && *begin)
 						{
 							WString driveString = begin;
@@ -569,7 +569,7 @@ Folder
 		{
 			if (recursively)
 			{
-				auto folder = filePath.GetFolder();
+				NFilePath folder = filePath.GetFolder();
 				if (folder.IsFile()) return false;
 				if (folder.IsFolder()) return Create(false);
 				return Folder(folder).Create(true) && Create(false);

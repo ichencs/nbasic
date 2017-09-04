@@ -27,7 +27,7 @@ TextReader
 		WString TextReader::ReadLine()
 		{
 			WString result;
-			auto buffer = new wchar_t[65537];
+			wchar_t* buffer = new wchar_t[65537];
 			buffer[0]=L'\0';
 			nint i=0;
 			while(true)
@@ -68,7 +68,7 @@ TextReader
 		WString TextReader::ReadToEnd()
 		{
 			WString result;
-			auto buffer = new wchar_t[65537];
+			wchar_t* buffer = new wchar_t[65537];
 			buffer[0]=L'\0';
 			nint i=0;
 			while(true)

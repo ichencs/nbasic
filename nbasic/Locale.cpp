@@ -53,7 +53,7 @@
 		if(normalization&Locale::IgnoreNonSpace) result|=NORM_IGNORENONSPACE;
 		if(normalization&Locale::IgnoreSymbol) result|=NORM_IGNORESYMBOLS;
 		if(normalization&Locale::IgnoreWidth) result|=NORM_IGNOREWIDTH;
-		if(normalization&Locale::DigitsAsNumbers) result|=SORT_DIGITSASNUMBERS;
+// 		if(normalization&Locale::DigitsAsNumbers) result|=SORT_DIGITSASNUMBERS;
 		if(normalization&Locale::StringSoft) result|=SORT_STRINGSORT;
 		return result;
 	}
@@ -235,10 +235,12 @@ Locale
 		return Transform(localeName, str, LCMAP_TRADITIONAL_CHINESE);
 	}
 
-	WString Locale::ToTileCase(const WString& str)const
-	{
-		return Transform(localeName, str, LCMAP_TITLECASE);
-	}
+// #if (WINVER >= _WIN32_WINNT_WIN7)
+// 	WString Locale::ToTileCase(const WString& str)const
+// 	{
+// 		return Transform(localeName, str, LCMAP_TITLECASE);
+// 	}
+// #endif
 
 	nint Locale::Compare(const WString& s1, const WString& s2, Normalization normalization)const
 	{

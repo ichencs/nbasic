@@ -276,8 +276,8 @@ Serialization
 				}
 			};
 
-			using ContextFreeReader = Reader<void*>;
-			using ContextFreeWriter = Writer<void*>;
+			typedef Reader<void*> ContextFreeReader ;
+			typedef Writer<void*> ContextFreeWriter ;
 
 			template<typename T>
 			struct Serialization

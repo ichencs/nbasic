@@ -22,13 +22,16 @@ Compression
 
 			struct NCode
 			{
+				NCode() :byte(0), code(-1), parent(0), size(0)
+				{
+				}
 				typedef PushOnlyAllocator<NCode>			CodeAllocator;
 				typedef ByteObjectMap<NCode>::Allocator		MapAllocator;
 
-				nuint8_t							byte = 0;
-				nint								code = -1;
-				NCode*								parent = 0;
-				nint								size = 0;
+				nuint8_t							byte;
+				nint								code;
+				NCode*								parent;
+				nint								size;
 				ByteObjectMap<NCode>	children;
 			};
 		
@@ -38,9 +41,9 @@ Compression
 			NCode::CodeAllocator				codeAllocator;
 			NCode::MapAllocator					mapAllocator;
 			NCode*								root;
-			nint									eofIndex = -1;
-			nint									nextIndex = 0;
-			nint									indexBits = 1;
+			nint									eofIndex/* = -1*/;
+			nint									nextIndex /*= 0*/;
+			nint									indexBits /*= 1*/;
 
 			void									UpdateIndexBits();
 			NCode*								CreateCode(NCode* parent, nuint8_t byte);
@@ -54,10 +57,10 @@ Compression
 		class LzwEncoder : public LzwBase, public IEncoder
 		{
 		protected:
-			NIStream*								stream = 0;
+			NIStream*								stream/* = 0*/;
 
 			nuint8_t								buffer[BufferSize];
-			nint									bufferUsedBits = 0;
+			nint									bufferUsedBits/* = 0*/;
 			NCode*								prefix;
 
 			void									Flush();
@@ -79,17 +82,17 @@ Compression
 		class LzwDecoder :public LzwBase, public IDecoder
 		{
 		protected:
-			NIStream*								stream = 0;
+			NIStream*								stream /*= 0*/;
 			NList<NCode*>			dictionary;
-			NCode*								lastCode = 0;
+			NCode*								lastCode /*= 0*/;
 
 			nuint8_t								inputBuffer[BufferSize];
-			nint									inputBufferSize = 0;
-			nint									inputBufferUsedBits = 0;
+			nint									inputBufferSize/* = 0*/;
+			nint									inputBufferUsedBits/* = 0*/;
 
 			NArray<nuint8_t>			outputBuffer;
-			nint									outputBufferSize = 0;
-			nint									outputBufferUsedBytes = 0;
+			nint									outputBufferSize/* = 0*/;
+			nint									outputBufferUsedBytes /*= 0*/;
 
 			bool									ReadNumber(nint& number, nint bitSize);
 			void									PrepareOutputBuffer(nint size);

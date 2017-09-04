@@ -34,8 +34,11 @@ LzwBase
 		}
 
 		LzwBase::LzwBase()
-			:codeAllocator(65536)
-			, mapAllocator(1048576)
+			:codeAllocator(65536), 
+			mapAllocator(1048576), 
+			eofIndex(-1), 
+			nextIndex(0),
+			indexBits(1)
 		{
 			root = codeAllocator.Create();
 
@@ -47,6 +50,9 @@ LzwBase
 		}
 
 		LzwBase::LzwBase(bool (&existingBytes)[256])
+			:eofIndex(-1),
+			nextIndex(0),
+			indexBits(1)
 		{
 			root = codeAllocator.Create();
 			for (nint i = 0; i < 256; i++)
@@ -125,12 +131,16 @@ LzwEncoder
 		}
 
 		LzwEncoder::LzwEncoder()
+			:stream(0),
+			bufferUsedBits(0)
 		{
 			prefix = root;
 		}
 
 		LzwEncoder::LzwEncoder(bool (&existingBytes)[256])
-			:LzwBase(existingBytes)
+			:LzwBase(existingBytes),
+			stream(0),
+			bufferUsedBits(0)
 		{
 			prefix = root;
 		}
@@ -257,6 +267,12 @@ LzwDecoder
 		}
 
 		LzwDecoder::LzwDecoder()
+			:stream(0),
+			lastCode(0),
+			inputBufferSize(0),
+			inputBufferUsedBits(0),
+			outputBufferSize(0),
+			outputBufferUsedBytes(0)
 		{
 			for (nint i = 0; i < 256; i++)
 			{
@@ -265,7 +281,13 @@ LzwDecoder
 		}
 
 		LzwDecoder::LzwDecoder(bool (&existingBytes)[256])
-			:LzwBase(existingBytes)
+			:LzwBase(existingBytes), 
+			stream(0),
+			lastCode(0),
+			inputBufferSize(0),
+			inputBufferUsedBits(0),
+			outputBufferSize(0),
+			outputBufferUsedBytes(0)
 		{
 			for (nint i = 0; i < 256; i++)
 			{

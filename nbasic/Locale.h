@@ -143,8 +143,9 @@ Interfaces:
 		/// <summary>Convert characters to the tile case, in which the first letter of each major word is capitalized.</summary>
 		/// <returns>The converted string.</returns>
 		/// <param name="str">The string to convert.</param>
-		WString						ToTileCase(const WString& str)const;
-
+// #if (WINVER >= _WIN32_WINNT_WIN7)
+// 		WString						ToTileCase(const WString& str)const;
+// #endif
 		/// <summary>Mergable flags controlling how to normalize a string.</summary>
 		enum Normalization
 		{
@@ -163,7 +164,7 @@ Interfaces:
 			/// <summary>Ignore the difference between half-width and full-width characters.</summary>
 			IgnoreWidth=32,
 			/// <summary>Treat digits as numbers during sorting.</summary>
-			DigitsAsNumbers=64,
+// 			DigitsAsNumbers=64,
 			/// <summary>Treat punctuation the same as symbols.</summary>
 			StringSoft=128,
 		};
