@@ -157,40 +157,40 @@ CacheStream
 
 		bool CacheStream::CanRead()const
 		{
-			return target!=0 && target->CanRead();
+			return target!= NULL && target->CanRead();
 		}
 
 		bool CacheStream::CanWrite()const
 		{
-			return target!=0 && target->CanWrite();
+			return target!= NULL && target->CanWrite();
 		}
 
 		bool CacheStream::CanSeek()const
 		{
-			return target!=0 && target->CanSeek();
+			return target!= NULL && target->CanSeek();
 		}
 
 		bool CacheStream::CanPeek()const
 		{
-			return target!=0 && target->CanPeek();
+			return target!= NULL && target->CanPeek();
 		}
 
 		bool CacheStream::IsLimited()const
 		{
-			return target!=0 && target->IsLimited();
+			return target!= NULL && target->IsLimited();
 		}
 
 		bool CacheStream::IsAvailable()const
 		{
-			return target!=0 && target->IsAvailable();
+			return target!= NULL && target->IsAvailable();
 		}
 
 		void CacheStream::Close()
 		{
 			Flush();
-			target=0;
+			target= NULL;
 			delete[] buffer;
-			buffer=0;
+			buffer= NULL;
 			position=-1;
 			dirtyStart=0;
 			dirtyLength=0;

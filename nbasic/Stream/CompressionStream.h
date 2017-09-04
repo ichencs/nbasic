@@ -22,7 +22,7 @@ Compression
 
 			struct NCode
 			{
-				NCode() :byte(0), code(-1), parent(0), size(0)
+				NCode() :byte(0), code(-1), parent(NULL), size(0)
 				{
 				}
 				typedef PushOnlyAllocator<NCode>			CodeAllocator;

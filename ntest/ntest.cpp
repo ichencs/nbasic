@@ -21,7 +21,10 @@ using namespace std;
 
 	 NArray<wchar_t> Arr(10);
 	 Arr.Count();
-
+	 for (size_t i = 0; i < Arr.Count(); i++)
+	 {
+		 cout << Arr[i] << endl;
+	 }
 	 TestDateTime();
 	 StringLeftRightSub();
 	 TestAutoPointer();

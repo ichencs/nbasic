@@ -85,10 +85,10 @@ Ptr
 					{
 						originalDestructor(counter, originalReference);
 					}
-					counter= 0;
-					reference= 0;
-					originalReference= 0;
-					originalDestructor= 0;
+					counter= NULL;
+					reference= NULL;
+					originalReference= NULL;
+					originalDestructor= NULL;
 				}
 			}
 		}
@@ -110,20 +110,20 @@ Ptr
 
 		/// <summary>Create a null pointer.</summary>
 		Ptr()
-			:counter(0)
-			,reference(0)
-			,originalReference(0)
-			,originalDestructor(0)
+			:counter(NULL)
+			,reference(NULL)
+			,originalReference(NULL)
+			,originalDestructor(NULL)
 		{
 		}
 		
 		/// <summary>Convert a pointer to an object to a smart pointer.</summary>
 		/// <param name="pointer">The pointer to the object.</param>
 		Ptr(T* pointer)
-			:counter(0)
-			,reference(0)
-			,originalReference(0)
-			,originalDestructor(0)
+			:counter(NULL)
+			,reference(NULL)
+			,originalReference(NULL)
+			,originalDestructor(NULL)
 		{
 			if(pointer)
 			{
@@ -155,10 +155,10 @@ Ptr
 // 			,originalReference(pointer.originalReference)
 // 			,originalDestructor(pointer.originalDestructor)
 // 		{
-// 			pointer.counter=0;
-// 			pointer.reference=0;
-// 			pointer.originalReference=0;
-// 			pointer.originalDestructor=0;
+// 			pointer.counter=NULL;
+// 			pointer.reference=NULL;
+// 			pointer.originalReference=NULL;
+// 			pointer.originalDestructor=NULL;
 // 		}
 		
 		/// <summary>Cast a smart pointer.</summary>
@@ -166,10 +166,10 @@ Ptr
 		/// <param name="pointer">The smart pointer to cast.</param>
 		template<typename C>
 		Ptr(const Ptr<C>& pointer)
-			:counter(0)
-			,reference(0)
-			,originalReference(0)
-			,originalDestructor(0)
+			:counter(NULL)
+			,reference(NULL)
+			,originalReference(NULL)
+			,originalDestructor(NULL)
 		{
 			T* converted=pointer.Obj();
 			if(converted)
@@ -203,7 +203,7 @@ Ptr
 		Ptr<C> Cast()const
 		{
 			C* converted=dynamic_cast<C*>(reference);
-			return Ptr<C>((converted?counter:0), converted, originalReference, originalDestructor);
+			return Ptr<C>((converted?counter: NULL), converted, originalReference, originalDestructor);
 		}
 		
 		/// <summary>Convert a pointer to an object to a smart pointer.</summary>
@@ -222,10 +222,10 @@ Ptr
 			}
 			else
 			{
-				counter=0;
-				reference=0;
-				originalReference=0;
-				originalDestructor=0;
+				counter= NULL;
+				reference= NULL;
+				originalReference= NULL;
+				originalDestructor= NULL;
 			}
 			return *this;
 		}
@@ -261,10 +261,10 @@ Ptr
 // 				originalReference=pointer.originalReference;
 // 				originalDestructor=pointer.originalDestructor;
 // 				
-// 				pointer.counter=0;
-// 				pointer.reference=0;
-// 				pointer.originalReference=0;
-// 				pointer.originalDestructor=0;
+// 				pointer.counter=NULL;
+// 				pointer.reference=NULL;
+// 				pointer.originalReference=NULL;
+// 				pointer.originalDestructor=NULL;
 // 			}
 // 			return *this;
 // 		}
@@ -288,10 +288,10 @@ Ptr
 			}
 			else
 			{
-				counter=0;
-				reference=0;
-				originalReference=0;
-				originalDestructor=0;
+				counter= NULL;
+				reference= NULL;
+				originalReference= NULL;
+				originalDestructor= NULL;
 			}
 			return *this;
 		}

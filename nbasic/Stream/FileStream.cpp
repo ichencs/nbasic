@@ -26,7 +26,7 @@ FileStream
 
 			if(_wfopen_s(&file, fileName.Buffer(), mode)!=0)
 			{
-				file=0;
+				file= NULL;
 			}
 		}
 
@@ -37,46 +37,46 @@ FileStream
 
 		bool FileStream::CanRead()const
 		{
-			return file!=0 && (accessRight==ReadOnly || accessRight==ReadWrite);
+			return file!= NULL && (accessRight==ReadOnly || accessRight==ReadWrite);
 		}
 
 		bool FileStream::CanWrite()const
 		{
-			return file!=0 && (accessRight==WriteOnly || accessRight==ReadWrite);
+			return file!= NULL && (accessRight==WriteOnly || accessRight==ReadWrite);
 		}
 
 		bool FileStream::CanSeek()const
 		{
-			return file!=0;
+			return file!= NULL;
 		}
 
 		bool FileStream::CanPeek()const
 		{
-			return file!=0 && (accessRight==ReadOnly || accessRight==ReadWrite);
+			return file!= NULL && (accessRight==ReadOnly || accessRight==ReadWrite);
 		}
 
 		bool FileStream::IsLimited()const
 		{
-			return file!=0 && accessRight==ReadOnly;
+			return file!= NULL && accessRight==ReadOnly;
 		}
 
 		bool FileStream::IsAvailable()const
 		{
-			return file!=0;
+			return file!= NULL;
 		}
 
 		void FileStream::Close()
 		{
-			if(file!=0)
+			if(file!= NULL)
 			{
 				fclose(file);
-				file=0;
+				file= NULL;
 			}
 		}
 
 		pos_t FileStream::Position()const
 		{
-			if(file!=0)
+			if(file!= NULL)
 			{
 				fpos_t position=0;
 				if(fgetpos(file, &position)==0)
@@ -89,7 +89,7 @@ FileStream
 
 		pos_t FileStream::Size()const
 		{
-			if(file!=0)
+			if(file!= NULL)
 			{
 				fpos_t position=0;
 				if(fgetpos(file, &position)==0)
@@ -157,21 +157,21 @@ FileStream
 
 		nint FileStream::Read(void* _buffer, nint _size)
 		{
-			CHECK_ERROR(file!=0, L"FileStream::Read(pos_t)#Stream is closed, cannot perform this operation.");
+			CHECK_ERROR(file!= NULL, L"FileStream::Read(pos_t)#Stream is closed, cannot perform this operation.");
 			CHECK_ERROR(_size>=0, L"FileStream::Read(void*, nint)#Argument size cannot be negative.");
 			return fread(_buffer, 1, _size, file);
 		}
 
 		nint FileStream::Write(void* _buffer, nint _size)
 		{
-			CHECK_ERROR(file!=0, L"FileStream::Write(pos_t)#Stream is closed, cannot perform this operation.");
+			CHECK_ERROR(file!= NULL, L"FileStream::Write(pos_t)#Stream is closed, cannot perform this operation.");
 			CHECK_ERROR(_size>=0, L"FileStream::Write(void*, nint)#Argument size cannot be negative.");
 			return fwrite(_buffer, 1, _size, file);
 		}
 
 		nint FileStream::Peek(void* _buffer, nint _size)
 		{
-			CHECK_ERROR(file!=0, L"FileStream::Peek(pos_t)#Stream is closed, cannot perform this operation.");
+			CHECK_ERROR(file!= NULL, L"FileStream::Peek(pos_t)#Stream is closed, cannot perform this operation.");
 			CHECK_ERROR(_size>=0, L"FileStream::Peek(void*, nint)#Argument size cannot be negative.");
 			fpos_t position=0;
 			if(fgetpos(file, &position)==0)

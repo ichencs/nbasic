@@ -6,7 +6,7 @@
 
 	nint atoi_test(const AString& string, bool& success)
 	{
-		char* endptr = 0;
+		char* endptr = NULL;
 		nint result = strtol(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && itoa(result) == string;
 		return result;
@@ -14,7 +14,7 @@
 
 	nint wtoi_test(const WString& string, bool& success)
 	{
-		wchar_t* endptr = 0;
+		wchar_t* endptr = NULL;
 		nint result = wcstol(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && itow(result) == string;
 		return result;
@@ -22,7 +22,7 @@
 
 	nint64_t atoi64_test(const AString& string, bool& success)
 	{
-		char* endptr = 0;
+		char* endptr = NULL;
 		nint64_t result = _strtoi64(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && i64toa(result) == string;
 		return result;
@@ -30,7 +30,7 @@
 
 	nint64_t wtoi64_test(const WString& string, bool& success)
 	{
-		wchar_t* endptr = 0;
+		wchar_t* endptr = NULL;
 		nint64_t result = _wcstoi64(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && i64tow(result) == string;
 		return result;
@@ -38,7 +38,7 @@
 
 	nuint atou_test(const AString& string, bool& success)
 	{
-		char* endptr = 0;
+		char* endptr = NULL;
 		nuint result = strtoul(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && utoa(result) == string;
 		return result;
@@ -46,7 +46,7 @@
 
 	nuint wtou_test(const WString& string, bool& success)
 	{
-		wchar_t* endptr = 0;
+		wchar_t* endptr = NULL;
 		nuint result = wcstoul(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && utow(result) == string;
 		return result;
@@ -54,7 +54,7 @@
 
 	nuint64_t atou64_test(const AString& string, bool& success)
 	{
-		char* endptr = 0;
+		char* endptr = NULL;
 		nuint64_t result = _strtoui64(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && u64toa(result) == string;
 		return result;
@@ -62,7 +62,7 @@
 
 	nuint64_t wtou64_test(const WString& string, bool& success)
 	{
-		wchar_t* endptr = 0;
+		wchar_t* endptr = NULL;
 		nuint64_t result = _wcstoui64(string.Buffer(), &endptr, 10);
 		success = endptr == string.Buffer() + string.Length() && u64tow(result) == string;
 		return result;
@@ -70,7 +70,7 @@
 
 	double atof_test(const AString& string, bool& success)
 	{
-		char* endptr = 0;
+		char* endptr = NULL;
 		double result = strtod(string.Buffer(), &endptr);
 		success = endptr == string.Buffer() + string.Length();
 		return result;
@@ -78,7 +78,7 @@
 
 	double wtof_test(const WString& string, bool& success)
 	{
-		wchar_t* endptr = 0;
+		wchar_t* endptr = NULL;
 		double result = wcstod(string.Buffer(), &endptr);
 		success = endptr == string.Buffer() + string.Length();
 		return result;

@@ -92,13 +92,13 @@ Memory Management
 			
 			static void* AllocateBuffer(nint size)
 			{
-				if (size <= 0) return 0;
+				if (size <= 0) return NULL;
 				return (void*)malloc(sizeof(T) * size);
 			}
 
 			static void DeallocateBuffer(void* buffer)
 			{
-				if (buffer == 0)return;
+				if (buffer == NULL)return;
 				free(buffer);
 			}
 		public:
@@ -154,7 +154,7 @@ Memory Management
 
 			static void DeallocateBuffer(void* buffer)
 			{
-				if (buffer == 0) return;
+				if (buffer == NULL) return;
 				free(buffer);
 			}
 		public:
@@ -229,7 +229,7 @@ ArrayBase
 			}
 		public:
 			ArrayBase()
-				:buffer(0),count(0)
+				:buffer(NULL),count(0)
 			{
 			}
 
@@ -500,7 +500,7 @@ ListBase
 					this->capacity = 0;
 					this->ReleaseItems(this->buffer, this->count);
 					this->DeallocateBuffer(this->buffer);
-					this->buffer = 0;
+					this->buffer = NULL;
 				}
 				else
 				{
@@ -796,11 +796,11 @@ Special Containers
 				{
 					if (!root)
 					{
-						return 0;
+						return NULL;
 					}
 					nint fragmentIndex = (index >> (2 * (Index - 1))) % 4;
 					TreeNode* fragmentRoot = root->nodes[fragmentIndex];
-					return fragmentRoot ? Accessor<Index - 1>::Get(fragmentRoot, index) : 0;
+					return fragmentRoot ? Accessor<Index - 1>::Get(fragmentRoot, index) : NULL;
 				}
 
 				static __forceinline void Set(TreeNode*& root, nuint8_t index, void* value, PushOnlyAllocator<TreeNode>& allocator)
@@ -841,7 +841,7 @@ Special Containers
 
 		public:
 			ByteObjectMap()
-				:root(0)
+				:root(NULL)
 			{
 			}
 

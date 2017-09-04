@@ -403,7 +403,7 @@ Classes:
 			/// <param name="value">The value.</param>
 			bool Add(const KT& key, const VT& value)
 			{
-				ValueContainer* target=0;
+				ValueContainer* target= NULL;
 				nint index=keys.IndexOf(KeyType<KT>::GetKeyValue(key));
 				if(index==-1)
 				{

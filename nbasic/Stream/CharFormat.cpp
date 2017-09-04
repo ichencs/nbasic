@@ -28,7 +28,7 @@ CharEncoder
 			const nint all=cacheSize+_size;
 			const nint chars=all/sizeof(wchar_t);
 			const nint bytes=chars*sizeof(wchar_t);
-			wchar_t* unicode=0;
+			wchar_t* unicode= NULL;
 			bool needToFree=false;
 			nint result=0;
 
@@ -328,7 +328,7 @@ BomEncoder
 
 		BomEncoder::BomEncoder(Encoding _encoding)
 			:encoding(_encoding)
-			,encoder(0)
+			,encoder(NULL)
 		{
 			switch(encoding)
 			{
@@ -377,7 +377,7 @@ BomEncoder
 			{
 				encoder->Close();
 				delete encoder;
-				encoder=0;
+				encoder= NULL;
 			}
 		}
 
@@ -420,17 +420,17 @@ BomDecoder
 
 		bool BomDecoder::BomStream::IsLimited()const
 		{
-			return stream!=0 && stream->IsLimited();
+			return stream!= NULL && stream->IsLimited();
 		}
 
 		bool BomDecoder::BomStream::IsAvailable()const
 		{
-			return stream!=0 && stream->IsAvailable();
+			return stream!= NULL && stream->IsAvailable();
 		}
 
 		void BomDecoder::BomStream::Close()
 		{
-			stream=0;
+			stream= NULL;
 		}
 
 		pos_t BomDecoder::BomStream::Position()const
@@ -489,7 +489,7 @@ BomDecoder
 		}
 
 		BomDecoder::BomDecoder()
-			:decoder(0)
+			:decoder(NULL)
 		{
 		}
 
@@ -531,10 +531,10 @@ BomDecoder
 			{
 				decoder->Close();
 				delete decoder;
-				decoder=0;
+				decoder= NULL;
 				stream->Close();
 				delete stream;
-				stream=0;
+				stream= NULL;
 			}
 		}
 

@@ -29,7 +29,7 @@ LzwBase
 			}
 			else
 			{
-				return 0;
+				return NULL;
 			}
 		}
 
@@ -131,7 +131,7 @@ LzwEncoder
 		}
 
 		LzwEncoder::LzwEncoder()
-			:stream(0),
+			:stream(NULL),
 			bufferUsedBits(0)
 		{
 			prefix = root;
@@ -139,7 +139,7 @@ LzwEncoder
 
 		LzwEncoder::LzwEncoder(bool (&existingBytes)[256])
 			:LzwBase(existingBytes),
-			stream(0),
+			stream(NULL),
 			bufferUsedBits(0)
 		{
 			prefix = root;
@@ -267,8 +267,8 @@ LzwDecoder
 		}
 
 		LzwDecoder::LzwDecoder()
-			:stream(0),
-			lastCode(0),
+			:stream(NULL),
+			lastCode(NULL),
 			inputBufferSize(0),
 			inputBufferUsedBits(0),
 			outputBufferSize(0),
@@ -282,8 +282,8 @@ LzwDecoder
 
 		LzwDecoder::LzwDecoder(bool (&existingBytes)[256])
 			:LzwBase(existingBytes), 
-			stream(0),
-			lastCode(0),
+			stream(NULL),
+			lastCode(NULL),
 			inputBufferSize(0),
 			inputBufferUsedBits(0),
 			outputBufferSize(0),
@@ -331,7 +331,7 @@ LzwDecoder
 						break;
 					}
 
-					NCode* prefix = 0;
+					NCode* prefix = NULL;
 					if (index == dictionary.Count())
 					{
 						prefix = lastCode;
