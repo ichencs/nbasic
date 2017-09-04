@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FileSystem.h"
-#include "Locale.h"
+#include "NLocale.h"
 #include "Collections/OperationForEach.h"
 #include "Stream/FileStream.h"
 #include "Stream/Accessor.h"
@@ -131,7 +131,7 @@ FilePath
 		WString NFilePath::GetName()const
 		{
 			WString delimiter = Delimiter;
-			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
+			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, NLocale::None);
 			if (index.key == -1) return fullPath;
 			return fullPath.Right(fullPath.Length() - index.key - 1);
 		}
@@ -139,7 +139,7 @@ FilePath
 		NFilePath NFilePath::GetFolder()const
 		{
 			WString delimiter = Delimiter;
-			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, Locale::None);
+			NPair<nint, nint> index = INVLOC.FindLast(fullPath, delimiter, NLocale::None);
 			if (index.key == -1) return NFilePath();
 			return fullPath.Left(index.key);
 		}
@@ -175,7 +175,7 @@ FilePath
 
 			while(true)
 			{
-				NPair<nint, nint> index = INVLOC.FindFirst(pathRemaining, delimiter, Locale::None);
+				NPair<nint, nint> index = INVLOC.FindFirst(pathRemaining, delimiter, NLocale::None);
 				if (index.key == -1)
 					break;
 
@@ -229,25 +229,25 @@ FilePath
 File
 ***********************************************************************/
 
-		File::File()
+		NFile::NFile()
 		{
 		}
 		
-		File::File(const NFilePath& _filePath)
+		NFile::NFile(const NFilePath& _filePath)
 			:filePath(_filePath)
 		{
 		}
 
-		File::~File()
+		NFile::~NFile()
 		{
 		}
 
-		const NFilePath& File::GetFilePath()const
+		const NFilePath& NFile::GetFilePath()const
 		{
 			return filePath;
 		}
 
-		bool File::ReadAllTextWithEncodingTesting(WString& text, BomEncoder::Encoding& encoding, bool& containsBom)
+		bool NFile::ReadAllTextWithEncodingTesting(WString& text, BomEncoder::Encoding& encoding, bool& containsBom)
 		{
 			NArray<unsigned char> buffer;
 			{
@@ -315,14 +315,14 @@ File
 			return true;
 		}
 
-		WString File::ReadAllTextByBom()const
+		WString NFile::ReadAllTextByBom()const
 		{
 			WString text;
 			ReadAllTextByBom(text);
 			return text;
 		}
 
-		bool File::ReadAllTextByBom(WString& text)const
+		bool NFile::ReadAllTextByBom(WString& text)const
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::ReadOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -333,7 +333,7 @@ File
 			return true;
 		}
 
-		bool File::ReadAllLinesByBom( NList<WString>& lines)const
+		bool NFile::ReadAllLinesByBom( NList<WString>& lines)const
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::ReadOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -347,7 +347,7 @@ File
 			return true;
 		}
 
-		bool File::WriteAllText(const WString& text, bool bom, BomEncoder::Encoding encoding)
+		bool NFile::WriteAllText(const WString& text, bool bom, BomEncoder::Encoding encoding)
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::WriteOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -382,7 +382,7 @@ File
 			return true;
 		}
 
-		bool File::WriteAllLines( NList<WString>& lines, bool bom, BomEncoder::Encoding encoding)
+		bool NFile::WriteAllLines( NList<WString>& lines, bool bom, BomEncoder::Encoding encoding)
 		{
 			FileStream fileStream(filePath.GetFullPath(), FileStream::WriteOnly);
 			if (!fileStream.IsAvailable()) return false;
@@ -420,17 +420,17 @@ File
 			return true;
 		}
 
-		bool File::Exists()const
+		bool NFile::Exists()const
 		{
 			return filePath.IsFile();
 		}
 
-		bool File::Delete()const
+		bool NFile::Delete()const
 		{
 			return DeleteFile(filePath.GetFullPath().Buffer()) != 0;
 		}
 
-		bool File::Rename(const WString& newName)const
+		bool NFile::Rename(const WString& newName)const
 		{
 			WString oldFileName = filePath.GetFullPath();
 			WString newFileName = (filePath.GetFolder() / newName).GetFullPath();
@@ -441,25 +441,25 @@ File
 Folder
 ***********************************************************************/
 
-		Folder::Folder()
+		NFolder::NFolder()
 		{
 		}
 		
-		Folder::Folder(const NFilePath& _filePath)
+		NFolder::NFolder(const NFilePath& _filePath)
 			:filePath(_filePath)
 		{
 		}
 
-		Folder::~Folder()
+		NFolder::~NFolder()
 		{
 		}
 
-		const NFilePath& Folder::GetFilePath()const
+		const NFilePath& NFolder::GetFilePath()const
 		{
 			return filePath;
 		}
 
-		bool Folder::GetFolders(NList<Folder>& folders)const
+		bool NFolder::GetFolders(NList<NFolder>& folders)const
 		{
 			if (filePath.IsRoot())
 			{
@@ -475,7 +475,7 @@ Folder
 						{
 							WString driveString = begin;
 							begin += driveString.Length() + 1;
-							folders.Add(Folder(NFilePath(driveString)));
+							folders.Add(NFolder(NFilePath(driveString)));
 						}
 						return true;
 					}
@@ -513,7 +513,7 @@ Folder
 					{
 						if (wcscmp(findData.cFileName, L".") != 0 && wcscmp(findData.cFileName, L"..") != 0)
 						{
-							folders.Add(Folder(filePath / findData.cFileName));
+							folders.Add(NFolder(filePath / findData.cFileName));
 						}
 					}
 				}
@@ -521,7 +521,7 @@ Folder
 			}
 		}
 
-		bool Folder::GetFiles( NList<File>& files)const
+		bool NFolder::GetFiles( NList<NFile>& files)const
 		{
 			if (filePath.IsRoot())
 			{
@@ -554,25 +554,25 @@ Folder
 
 				if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 				{
-					files.Add(File(filePath / findData.cFileName));
+					files.Add(NFile(filePath / findData.cFileName));
 				}
 			}
 			return true;
 		}
 
-		bool Folder::Exists()const
+		bool NFolder::Exists()const
 		{
 			return filePath.IsFolder();
 		}
 
-		bool Folder::Create(bool recursively)const
+		bool NFolder::Create(bool recursively)const
 		{
 			if (recursively)
 			{
 				NFilePath folder = filePath.GetFolder();
 				if (folder.IsFile()) return false;
 				if (folder.IsFolder()) return Create(false);
-				return Folder(folder).Create(true) && Create(false);
+				return NFolder(folder).Create(true) && Create(false);
 			}
 			else
 			{
@@ -580,22 +580,22 @@ Folder
 			}
 		}
 
-		bool Folder::Delete(bool recursively)const
+		bool NFolder::Delete(bool recursively)const
 		{
 			if (!Exists()) return false;
 			
 			if (recursively)
 			{
-				NList<Folder> folders;
+				NList<NFolder> folders;
 				GetFolders(folders);
-				FOREACH(Folder, folder, folders)
+				FOREACH(NFolder, folder, folders)
 				{
 					if (!folder.Delete(true)) return false;
 				}
 				
-				NList<File> files;
+				NList<NFile> files;
 				GetFiles(files);
-				FOREACH(File, file, files)
+				FOREACH(NFile, file, files)
 				{
 					if (!file.Delete()) return false;
 				}
@@ -605,7 +605,7 @@ Folder
 			return RemoveDirectory(filePath.GetFullPath().Buffer()) != 0;
 		}
 
-		bool Folder::Rename(const WString& newName)const
+		bool NFolder::Rename(const WString& newName)const
 		{
 			WString oldFileName = filePath.GetFullPath();
 			WString newFileName = (filePath.GetFolder() / newName).GetFullPath();

@@ -2,12 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="NVariant.cpp" />
     <ClCompile Include="Basic.cpp" />
     <ClCompile Include="nchar.cpp">
       <Filter>未完成项</Filter>
     </ClCompile>
-    <ClCompile Include="Locale.cpp" />
     <ClCompile Include="Stream\Accessor.cpp">
       <Filter>Stream</Filter>
     </ClCompile>
@@ -39,13 +37,16 @@
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="NVariant.cpp">
+      <Filter>未完成项</Filter>
+    </ClCompile>
+    <ClCompile Include="NLocale.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="NVariant.h" />
     <ClInclude Include="Basic.h" />
     <ClInclude Include="Collections\Dictionary.h">
       <Filter>Collections</Filter>
@@ -59,7 +60,6 @@
     <ClInclude Include="nchar.h">
       <Filter>未完成项</Filter>
     </ClInclude>
-    <ClInclude Include="Locale.h" />
     <ClInclude Include="Stream\Accessor.h">
       <Filter>Stream</Filter>
     </ClInclude>
@@ -100,6 +100,10 @@
     <ClInclude Include="Collections\NPair.h">
       <Filter>Collections</Filter>
     </ClInclude>
+    <ClInclude Include="NVariant.h">
+      <Filter>未完成项</Filter>
+    </ClInclude>
+    <ClInclude Include="NLocale.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -114,5 +118,10 @@
     <Filter Include="Stream">
       <UniqueIdentifier>{50e6b770-fa11-4c7e-bb04-582fd188f70e}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="类图.cd">
+      <Filter>未完成项</Filter>
+    </None>
   </ItemGroup>
 </Project>

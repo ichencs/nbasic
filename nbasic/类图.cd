@@ -1,0 +1,1103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Dictionary&lt;KT, VT, KK, VK&gt;" Collapsed="true">
+    <Position X="41.25" Y="14" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAQAAAAAIBABACAAAFAQAAAEABCAAAAAgAABAAAA=</HashCode>
+      <FileName>Collections\Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Group&lt;KT, VT, KK, VK&gt;" Collapsed="true">
+    <Position X="41.5" Y="12" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAUAAAAAIAABCCAAABAQAAAEAACACAAAAAABQAAA=</HashCode>
+      <FileName>Collections\Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEnumerator&lt;T&gt;" Collapsed="true">
+    <Position X="51" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAABAAAAACAAgAAAAAAAAAAAAEAAAAAABA=</HashCode>
+      <FileName>Collections\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEnumerable&lt;T&gt;" Collapsed="true">
+    <Position X="53.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, PODType&gt;" Collapsed="true">
+    <Position X="59" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, false&gt;" Collapsed="true">
+    <Position X="29.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAAAAAAAAABAAIAAAAgAAAAAAAABAAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListStore&lt;T, true&gt;" Collapsed="true">
+    <Position X="31.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAAAAAAAAABAAIAAAAgAAAAAAAABAAAI=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArrayBase&lt;T&gt;" Collapsed="true">
+    <Position X="53.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAABABAgAAAQAAAEAAAAAEABAAAAAgAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NArray&lt;T, K&gt;" Collapsed="true">
+    <Position X="59.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAABAAAAAAAAAAgAAEAAAAAAEAAAAEQAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListBase&lt;T, K&gt;" Collapsed="true">
+    <Position X="63.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAICEBAAAAAAAAACCAAAAIBAgAE=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NList&lt;T, K&gt;" Collapsed="true">
+    <Position X="62" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAEAAAAAABAAAAACABAAAAAEAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NSortedList&lt;T, K&gt;" Collapsed="true">
+    <Position X="64.25" Y="15" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEIgAEAAAQAAAAAAAAAABAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PushOnlyAllocator&lt;T&gt;" Collapsed="true">
+    <Position X="34.75" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAgAAQEAAIAAAAgAABAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ByteObjectMap&lt;T&gt;" Collapsed="true">
+    <Position X="29" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABABAAAAgAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NPair&lt;K, V&gt;" Collapsed="true">
+    <Position X="79.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAEAQAAAAAAACAIAAAgAAAAAAA=</HashCode>
+      <FileName>Collections\NPair.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nchar" Collapsed="true">
+    <Position X="77.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAQIAAAAAAAKABQgAAAAEAAQAAAAAACIAA=</HashCode>
+      <FileName>nchar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextReader" Collapsed="true">
+    <Position X="32" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAACAAAAEQAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextWriter" Collapsed="true">
+    <Position X="32" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAIAgAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StringReader" Collapsed="true">
+    <Position X="26.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAABAAAACAAAAEQAAgAAAAQAAEAAAEAAAgAA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StreamReader" Collapsed="true">
+    <Position X="29" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAgAEAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StreamWriter" Collapsed="true">
+    <Position X="32" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAiAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EncoderStream" Collapsed="true">
+    <Position X="69.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAACEgAAgGAAAIgAgIAAAAAAACEAAAYOIACA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DecoderStream" Collapsed="true">
+    <Position X="71.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAACMgAAgGAAAIgAgIAAAAAAACACAAIGIASA=</HashCode>
+      <FileName>Stream\Accessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharEncoder" Collapsed="true">
+    <Position X="35.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAgAAAgAAAAAAAAAACAAAAAGABAg=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharDecoder" Collapsed="true">
+    <Position X="38.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAECAAAAAAAAAAAAgAgAAAAAQAACAAAAACABAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MbcsEncoder" Collapsed="true">
+    <Position X="26.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MbcsDecoder" Collapsed="true">
+    <Position X="52.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf16Encoder" Collapsed="true">
+    <Position X="29" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf16Decoder" Collapsed="true">
+    <Position X="54.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf16BEEncoder" Collapsed="true">
+    <Position X="49.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf16BEDecoder" Collapsed="true">
+    <Position X="56.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf8Encoder" Collapsed="true">
+    <Position X="47.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utf8Decoder" Collapsed="true">
+    <Position X="23" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAAQAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BomEncoder" Collapsed="true">
+    <Position X="35.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAACAAAAAAAAAAAAAAAAICAAAAAAQGAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BomDecoder" Collapsed="true">
+    <Position X="38.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAgAAAgAAAAAAAACAAABACAAQA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LzwBase" Collapsed="true">
+    <Position X="43.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAACACBAAAABAAAgAAAAABAIABAAAAAAAAAAACA=</HashCode>
+      <FileName>Stream\CompressionStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LzwEncoder" Collapsed="true">
+    <Position X="46.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAACAgAACAAAAAgAASABAAAGIAAA=</HashCode>
+      <FileName>Stream\CompressionStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LzwDecoder" Collapsed="true">
+    <Position X="48.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAALAAAABAEQQAgAAAkAAAIAQAACAAAAgGAEAA=</HashCode>
+      <FileName>Stream\CompressionStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileStream" Collapsed="true">
+    <Position X="34.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAACMgAAgGAAAAgIgIAAAAAAAJAAAAIGIACA=</HashCode>
+      <FileName>Stream\FileStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIStream" Collapsed="true">
+    <Position X="56.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAACEgAAgGAAAAgAgIAAAAAAAAAAAAIGIACA=</HashCode>
+      <FileName>Stream\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEncoder" Collapsed="true">
+    <Position X="46.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAA=</HashCode>
+      <FileName>Stream\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IDecoder" Collapsed="true">
+    <Position X="48.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAgAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Stream\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MemoryStream" Collapsed="true">
+    <Position X="37.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQCIAEACEgAAgGIIAIgAgIAAAAAAAAABAAIGIDCA=</HashCode>
+      <FileName>Stream\memorystream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MemoryWrapperStream" Collapsed="true">
+    <Position X="40" Y="16" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAwAAAAACEgAAgGIAAIgAgIAAACAAAAABAAIGIACA=</HashCode>
+      <FileName>Stream\memorywrapperstream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecorderStream" Collapsed="true">
+    <Position X="40.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAYEAAAACEgAAgGAAAAgAgIAAAAAAACAAAAIHIACA=</HashCode>
+      <FileName>Stream\RecorderStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotCopyable" Collapsed="true">
+    <Position X="40" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Error" Collapsed="true">
+    <Position X="76" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Object" Collapsed="true">
+    <Position X="24.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectBox&lt;T&gt;" Collapsed="true">
+    <Position X="27" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAABAEAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nullable&lt;T&gt;" Collapsed="true">
+    <Position X="81.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEgIAQAQAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interface" Collapsed="true">
+    <Position X="52" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Console" Collapsed="true">
+    <Position X="74.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAIAAAAAAAgAAAAAAAAAAgAAAEAAAA=</HashCode>
+      <FileName>Console.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exception" Collapsed="true">
+    <Position X="44" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAIAAAACA=</HashCode>
+      <FileName>Exception.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArgumentException" Collapsed="true">
+    <Position X="42.75" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAiAAAAAAAAAEAAAAAAAgAAAABAA=</HashCode>
+      <FileName>Exception.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParsingException" Collapsed="true">
+    <Position X="45.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAQAAAAACAAAAAAAAAAIAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exception.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFilePath" Collapsed="true">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAEEAAAAAAAAQAAAAAAAQAABACAASAAAwBkIAgABAA=</HashCode>
+      <FileName>FileSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFile" Collapsed="true">
+    <Position X="17.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAABAAAACAAAAAAAAEAAGAABAAACAMAgAA=</HashCode>
+      <FileName>FileSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFolder" Collapsed="true">
+    <Position X="19.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAEAAEAIAAAABQkAgAA=</HashCode>
+      <FileName>FileSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Locale" Collapsed="true">
+    <Position X="21.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NLocale.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NVariant" Collapsed="true">
+    <Position X="83" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAQAAEAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ptr&lt;T&gt;" Collapsed="true">
+    <Position X="84.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAgAKEACAAAwAAQQAQBAEAAAAgAAAABCA=</HashCode>
+      <FileName>Pointer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectString&lt;T&gt;" Collapsed="true">
+    <Position X="24.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAEAAAAAAAAigAEIBBQBAAAMACAEACADwAAAAQCQ=</HashCode>
+      <FileName>String.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vl::stream::BroadcastStream" Collapsed="true">
+    <Position X="44.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAACEgAAkGAAAIgAgIAAAAEAAAIAAAIGIASA=</HashCode>
+      <FileName>Stream\BroadcastStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vl::stream::CacheStream" Collapsed="true">
+    <Position X="43.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAwgCAAADEgAAgOIAAIgAgJAAAAAAAAABAAIGIJCA=</HashCode>
+      <FileName>Stream\CacheStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="RandomAccessable&lt;Dictionary&lt;KT, VT, KK, VK&gt;&gt;" Collapsed="true">
+    <Position X="88.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccess&lt;Dictionary&lt;KT, VT, KK, VK&gt;&gt;" Collapsed="true">
+    <Position X="77.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Collections\Dictionary.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;T&gt;" Collapsed="true">
+    <Position X="86.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccess&lt;T&gt;" Collapsed="true">
+    <Position X="76" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAGA=</HashCode>
+      <FileName>Collections\Interfaces.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TreeNode" Collapsed="true">
+    <Position X="84.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Accessor&lt;Index&gt;" Collapsed="true">
+    <Position X="83" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Accessor&lt;0&gt;" Collapsed="true">
+    <Position X="84.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;NArray&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="84.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;NList&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="83" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;NSortedList&lt;T, K&gt;&gt;" Collapsed="true">
+    <Position X="81.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\NList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CopyFromAlgorithm&lt;Ds, Ss, DsRA, SsRA&gt;" Collapsed="true">
+    <Position X="76" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CopyFromAlgorithm&lt;Ds, Ss, true, true&gt;" Collapsed="true">
+    <Position X="77.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CopyFromAlgorithm&lt;Ds, Ss, false, true&gt;" Collapsed="true">
+    <Position X="74.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CopyFromAlgorithm&lt;Ds, Ss, true, false&gt;" Collapsed="true">
+    <Position X="86.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CopyFromAlgorithm&lt;Ds, Ss, false, false&gt;" Collapsed="true">
+    <Position X="88.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Slice&lt;T&gt;" Collapsed="true">
+    <Position X="83" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccessable&lt;Slice&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="79.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RandomAccess&lt;Slice&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="74.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\OperationCopyFrom.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;NPair&lt;K, V&gt;&gt;" Collapsed="true">
+    <Position X="86.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collections\NPair.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Reader&lt;T&gt;" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAABAAABAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Writer&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;T&gt;" Collapsed="true">
+    <Position X="77.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;nint64_t&gt;" Collapsed="true">
+    <Position X="79.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;nint32_t&gt;" Collapsed="true">
+    <Position X="81.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;bool&gt;" Collapsed="true">
+    <Position X="83" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;Ptr&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="84.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;Nullable&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="86.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;WString&gt;" Collapsed="true">
+    <Position X="79.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;NList&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="81.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;NArray&lt;T&gt;&gt;" Collapsed="true">
+    <Position X="88.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;Dictionary&lt;K, V&gt;&gt;" Collapsed="true">
+    <Position X="74.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;Group&lt;K, V&gt;&gt;" Collapsed="true">
+    <Position X="76" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Serialization&lt;NIStream&gt;" Collapsed="true">
+    <Position X="77.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NCode" Collapsed="true">
+    <Position X="83" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAARAAIAEAAAAIAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Stream\CompressionStream.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveReference&lt;T&gt;" Collapsed="true">
+    <Position X="88.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveReference&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="86.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveConst&lt;T&gt;" Collapsed="true">
+    <Position X="77.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveConst&lt;const T&gt;" Collapsed="true">
+    <Position X="76" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveVolatile&lt;T&gt;" Collapsed="true">
+    <Position X="74.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveVolatile&lt;volatile T&gt;" Collapsed="true">
+    <Position X="76" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;T&gt;" Collapsed="true">
+    <Position X="83" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="84.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;const T&gt;" Collapsed="true">
+    <Position X="81.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RemoveCVR&lt;volatile T&gt;" Collapsed="true">
+    <Position X="79.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KeyType&lt;T&gt;" Collapsed="true">
+    <Position X="81.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T&gt;" Collapsed="true">
+    <Position X="84.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;bool&gt;" Collapsed="true">
+    <Position X="76" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nint8_t&gt;" Collapsed="true">
+    <Position X="81.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nuint8_t&gt;" Collapsed="true">
+    <Position X="77.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nint16_t&gt;" Collapsed="true">
+    <Position X="74.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nuint16_t&gt;" Collapsed="true">
+    <Position X="88.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nint32_t&gt;" Collapsed="true">
+    <Position X="88.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nuint32_t&gt;" Collapsed="true">
+    <Position X="76" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nint64_t&gt;" Collapsed="true">
+    <Position X="79.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;nuint64_t&gt;" Collapsed="true">
+    <Position X="83" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;char&gt;" Collapsed="true">
+    <Position X="84.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;wchar_t&gt;" Collapsed="true">
+    <Position X="86.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T*&gt;" Collapsed="true">
+    <Position X="86.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T&amp;&gt;" Collapsed="true">
+    <Position X="74.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T C::*&gt;" Collapsed="true">
+    <Position X="88.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;T[_Size]&gt;" Collapsed="true">
+    <Position X="77.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;const T&gt;" Collapsed="true">
+    <Position X="79.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;volatile T&gt;" Collapsed="true">
+    <Position X="81.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="POD&lt;const volatile T&gt;" Collapsed="true">
+    <Position X="83" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DateTime" Collapsed="true">
+    <Position X="79.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEkAICABAIAAAAAAgCAAQAAAAUBAAUAAAAiBBAAAAI=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="YesType" Collapsed="true">
+    <Position X="86.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NoType" Collapsed="true">
+    <Position X="84.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptType&lt;T, YesOrNo&gt;" Collapsed="true">
+    <Position X="76" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptType&lt;T, YesType&gt;" Collapsed="true">
+    <Position X="77.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptValue&lt;YesOrNo&gt;" Collapsed="true">
+    <Position X="81.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptValue&lt;YesType&gt;" Collapsed="true">
+    <Position X="79.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AcceptAlways&lt;T, U&gt;" Collapsed="true">
+    <Position X="74.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ReferenceCounterOperator&lt;T, Enabled&gt;" Collapsed="true">
+    <Position X="74.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pointer.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="ushort" Collapsed="true">
+    <Position X="77.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>nchar.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint" Collapsed="true">
+    <Position X="76" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>nchar.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ContextFreeReader" Collapsed="true">
+    <Position X="3" Y="8.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ContextFreeWriter" Collapsed="true">
+    <Position X="7" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stream\CharFormat.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nint8_t" Collapsed="true">
+    <Position X="77.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint8_t" Collapsed="true">
+    <Position X="88.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nint16_t" Collapsed="true">
+    <Position X="74.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint16_t" Collapsed="true">
+    <Position X="83" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nint32_t" Collapsed="true">
+    <Position X="76" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint32_t" Collapsed="true">
+    <Position X="84.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nint64_t" Collapsed="true">
+    <Position X="2.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint64_t" Collapsed="true">
+    <Position X="86.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nint" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nsint" Collapsed="true">
+    <Position X="2.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nuint" Collapsed="true">
+    <Position X="81.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="pos_t" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Basic.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nschar" Collapsed="true">
+    <Position X="79.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="nulong" Collapsed="true">
+    <Position X="74.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NVariant.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="AString" Collapsed="true">
+    <Position X="23.75" Y="3.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>String.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="WString" Collapsed="true">
+    <Position X="23.75" Y="8.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>String.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

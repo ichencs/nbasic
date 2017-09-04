@@ -79,18 +79,18 @@ Framework::FileSystem
 		};
 
 		/// <summary>Representing a file reference.</summary>
-		class File : public Object
+		class NFile : public Object
 		{
 		private:
 			NFilePath					filePath;
 
 		public:
 			/// <summary>Create an empty reference.</summary>
-			File();
+			NFile();
 			/// <summary>Create a reference to a specified file.</summary>
 			/// <param name="_filePath">The specified file.</param>
-			File(const NFilePath& _filePath);
-			~File();
+			NFile(const NFilePath& _filePath);
+			~NFile();
 
 			/// <summary>Get the file path of the file.</summary>
 			/// <returns>The file path.</returns>
@@ -141,18 +141,18 @@ Framework::FileSystem
 		};
 		
 		/// <summary>Representing a folder reference.</summary>
-		class Folder : public Object
+		class NFolder : public Object
 		{
 		private:
 			NFilePath					filePath;
 
 		public:
 			/// <summary>Create a root reference.</summary>
-			Folder();
+			NFolder();
 			/// <summary>Create a reference to a specified folder.</summary>
 			/// <param name="_filePath">The specified folder.</param>
-			Folder(const NFilePath& _filePath);
-			~Folder();
+			NFolder(const NFilePath& _filePath);
+			~NFolder();
 			
 			/// <summary>Get the file path of the folder.</summary>
 			/// <returns>The file path.</returns>
@@ -160,11 +160,11 @@ Framework::FileSystem
 			/// <summary>Get all folders in this folder.</summary>
 			/// <returns>Returns true if this operation succeeded.</returns>
 			/// <param name="folders">All folders.</param>
-			bool						GetFolders(NList<Folder>& folders)const;
+			bool						GetFolders(NList<NFolder>& folders)const;
 			/// <summary>Get all files in this folder.</summary>
 			/// <returns>Returns true if this operation succeeded.</returns>
 			/// <param name="files">All files.</param>
-			bool						GetFiles(NList<File>& files)const;
+			bool						GetFiles(NList<NFile>& files)const;
 			
 			/// <summary>Test does the folder exist or not.</summary>
 			/// <returns>Returns true if the folder exists.</returns>

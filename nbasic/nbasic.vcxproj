@@ -272,7 +272,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="Locale.h" />
+    <ClInclude Include="NLocale.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="nchar.h" />
     <ClInclude Include="NVariant.h" />
@@ -296,7 +296,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="Locale.cpp" />
+    <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="nchar.cpp" />
     <ClCompile Include="NVariant.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -319,6 +319,9 @@
     <ClCompile Include="Stream\memorywrapperstream.cpp" />
     <ClCompile Include="Stream\RecorderStream.cpp" />
     <ClCompile Include="String.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="类图.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

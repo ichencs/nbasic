@@ -16,7 +16,7 @@
 #include "Console.h"
 #include "FileSystem.h"
 #include "Exception.h"
-#include "Locale.h"
+#include "NLocale.h"
 
 
 #include ".\Stream\Accessor.h"

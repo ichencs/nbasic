@@ -18,6 +18,10 @@ using namespace std;
  {
 	 int num(2);
 
+
+	 NArray<wchar_t> Arr(10);
+	 Arr.Count();
+
 	 TestDateTime();
 	 StringLeftRightSub();
 	 TestAutoPointer();

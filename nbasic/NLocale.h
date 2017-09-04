@@ -13,34 +13,34 @@ Interfaces:
 #include "Collections/NList.h"
 
 	/// <summary>Locale awared operations. Macro "INVLOC" is a shortcut to get a invariant locale.</summary>
-	class Locale : public Object
+	class NLocale : public Object
 	{
 	protected:
 		WString						localeName;
 
 	public:
-		Locale(const WString& _localeName=WString::Empty);
-		~Locale();
+		NLocale(const WString& _localeName=WString::Empty);
+		~NLocale();
 
-		bool operator==(const Locale& value)const { return localeName==value.localeName; }
-		bool operator!=(const Locale& value)const { return localeName!=value.localeName; }
-		bool operator<(const Locale& value)const { return localeName<value.localeName; }
-		bool operator<=(const Locale& value)const { return localeName<=value.localeName; }
-		bool operator>(const Locale& value)const { return localeName>value.localeName; }
-		bool operator>=(const Locale& value)const { return localeName>=value.localeName; }
+		bool operator==(const NLocale& value)const { return localeName==value.localeName; }
+		bool operator!=(const NLocale& value)const { return localeName!=value.localeName; }
+		bool operator<(const NLocale& value)const { return localeName<value.localeName; }
+		bool operator<=(const NLocale& value)const { return localeName<=value.localeName; }
+		bool operator>(const NLocale& value)const { return localeName>value.localeName; }
+		bool operator>=(const NLocale& value)const { return localeName>=value.localeName; }
 
 		/// <summary>Get the invariant locale.</summary>
 		/// <returns>The invariant locale.</returns>
-		static Locale				Invariant();
+		static NLocale				Invariant();
 		/// <summary>Get the system default locale. This locale controls the code page that used by the the system to interpret ANSI string buffers.</summary>
 		/// <returns>The system default locale.</returns>
-		static Locale				SystemDefault();
+		static NLocale				SystemDefault();
 		/// <summary>Get the user default locale. This locale reflect the user's setting.</summary>
 		/// <returns>The user default locale.</returns>
-		static Locale				UserDefault();
+		static NLocale				UserDefault();
 		/// <summary>Get all supported locales.</summary>
 		/// <param name="locales">All supported locales.</param>
-		static void					Enumerate(NList<Locale>& locales);
+		static void					Enumerate(NList<NLocale>& locales);
 
 		/// <summary>Get the name of the locale.</summary>
 		/// <returns>The name of the locale.</returns>
@@ -211,6 +211,6 @@ Interfaces:
 		bool									EndsWith(const WString& text, const WString& find, Normalization normalization)const;
 	};
 
-#define INVLOC Locale::Invariant()
+#define INVLOC NLocale::Invariant()
 
 #endif

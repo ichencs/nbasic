@@ -1,5 +1,5 @@
 // #include "..\stdafx.h"
-#include "Locale.h"
+#include "NLocale.h"
 #include <Windows.h>
 
 
@@ -13,7 +13,7 @@
 		_In_  LPARAM lParam
 		)
 	{
-		((NList<Locale>*)lParam)->Add(Locale(lpLocaleString));
+		((NList<NLocale>*)lParam)->Add(NLocale(lpLocaleString));
 		return TRUE;
 	}
 
@@ -44,17 +44,17 @@
 		return &buffer[0];
 	}
 
-	DWORD TranslateNormalization(Locale::Normalization normalization)
+	DWORD TranslateNormalization(NLocale::Normalization normalization)
 	{
 		DWORD result=0;
-		if(normalization&Locale::IgnoreCase) result|=NORM_IGNORECASE;
-		if(normalization&Locale::IgnoreCaseLinguistic) result|=NORM_IGNORECASE | NORM_LINGUISTIC_CASING;
-		if(normalization&Locale::IgnoreKanaType) result|=NORM_IGNOREKANATYPE;
-		if(normalization&Locale::IgnoreNonSpace) result|=NORM_IGNORENONSPACE;
-		if(normalization&Locale::IgnoreSymbol) result|=NORM_IGNORESYMBOLS;
-		if(normalization&Locale::IgnoreWidth) result|=NORM_IGNOREWIDTH;
+		if(normalization&NLocale::IgnoreCase) result|=NORM_IGNORECASE;
+		if(normalization&NLocale::IgnoreCaseLinguistic) result|=NORM_IGNORECASE | NORM_LINGUISTIC_CASING;
+		if(normalization&NLocale::IgnoreKanaType) result|=NORM_IGNOREKANATYPE;
+		if(normalization&NLocale::IgnoreNonSpace) result|=NORM_IGNORENONSPACE;
+		if(normalization&NLocale::IgnoreSymbol) result|=NORM_IGNORESYMBOLS;
+		if(normalization&NLocale::IgnoreWidth) result|=NORM_IGNOREWIDTH;
 // 		if(normalization&Locale::DigitsAsNumbers) result|=SORT_DIGITSASNUMBERS;
-		if(normalization&Locale::StringSoft) result|=SORT_STRINGSORT;
+		if(normalization&NLocale::StringSoft) result|=SORT_STRINGSORT;
 		return result;
 	}
 
@@ -64,70 +64,70 @@
 Locale
 ***********************************************************************/
 
-	Locale::Locale(const WString& _localeName)
+	NLocale::NLocale(const WString& _localeName)
 		:localeName(_localeName)
 	{
 	}
 
-	Locale::~Locale()
+	NLocale::~NLocale()
 	{
 	}
 
-	Locale Locale::Invariant()
+	NLocale NLocale::Invariant()
 	{
-		return Locale(LOCALE_NAME_INVARIANT);
+		return NLocale(LOCALE_NAME_INVARIANT);
 	}
 
-	Locale Locale::SystemDefault()
+	NLocale NLocale::SystemDefault()
 	{
 		wchar_t buffer[LOCALE_NAME_MAX_LENGTH+1]={0};
 		GetSystemDefaultLocaleName(buffer, LOCALE_NAME_MAX_LENGTH);
-		return Locale(buffer);
+		return NLocale(buffer);
 	}
 
-	Locale Locale::UserDefault()
+	NLocale NLocale::UserDefault()
 	{
 		wchar_t buffer[LOCALE_NAME_MAX_LENGTH+1]={0};
 		GetUserDefaultLocaleName(buffer, LOCALE_NAME_MAX_LENGTH);
-		return Locale(buffer);
+		return NLocale(buffer);
 	}
 
-	void Locale::Enumerate(NList<Locale>& locales)
+	void NLocale::Enumerate(NList<NLocale>& locales)
 	{
 		EnumSystemLocalesEx(&Locale_EnumLocalesProcEx, LOCALE_ALL, (LPARAM)&locales, NULL);
 	}
 
-	const WString& Locale::GetName()const
+	const WString& NLocale::GetName()const
 	{
 		return localeName;
 	}
 
-	void Locale::GetShortDateFormats(NList<WString>& formats)const
+	void NLocale::GetShortDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_SHORTDATE, (LPARAM)&formats);
 	}
 
-	void Locale::GetLongDateFormats(NList<WString>& formats)const
+	void NLocale::GetLongDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_LONGDATE, (LPARAM)&formats);
 	}
 
-	void Locale::GetYearMonthDateFormats(NList<WString>& formats)const
+	void NLocale::GetYearMonthDateFormats(NList<WString>& formats)const
 	{
 		EnumDateFormatsExEx(&Locale_EnumDateFormatsProcExEx, localeName.Buffer(), DATE_YEARMONTH, (LPARAM)&formats);
 	}
 
-	void Locale::GetLongTimeFormats(NList<WString>& formats)const
+	void NLocale::GetLongTimeFormats(NList<WString>& formats)const
 	{
 		EnumTimeFormatsEx(&EnumTimeFormatsProcEx, localeName.Buffer(), 0, (LPARAM)&formats);
 	}
 
-	void Locale::GetShortTimeFormats(NList<WString>& formats)const
+	void NLocale::GetShortTimeFormats(NList<WString>& formats)const
 	{
 		EnumTimeFormatsEx(&EnumTimeFormatsProcEx, localeName.Buffer(), TIME_NOSECONDS, (LPARAM)&formats);
 	}
 
-	WString Locale::FormatDate(const WString& format, DateTime date)const
+	WString NLocale::FormatDate(const WString& format, DateTime date)const
 	{
 		SYSTEMTIME st=DateTimeToSystemTime(date);
 		int length=GetDateFormatEx(localeName.Buffer(), 0, &st, format.Buffer(), NULL, 0, NULL);
@@ -137,7 +137,7 @@ Locale
 		return &buffer[0];
 	}
 
-	WString Locale::FormatTime(const WString& format, DateTime time)const
+	WString NLocale::FormatTime(const WString& format, DateTime time)const
 	{
 		SYSTEMTIME st=DateTimeToSystemTime(time);
 		int length=GetTimeFormatEx(localeName.Buffer(), 0, &st, format.Buffer(), NULL, 0);
@@ -147,7 +147,7 @@ Locale
 		return &buffer[0];
 	}
 
-	WString Locale::FormatNumber(const WString& number)const
+	WString NLocale::FormatNumber(const WString& number)const
 	{
 		int length=GetNumberFormatEx(localeName.Buffer(), 0, number.Buffer(), NULL, NULL, 0);
 		if(length==0) return L"";
@@ -156,7 +156,7 @@ Locale
 		return &buffer[0];
 	}
 
-	WString Locale::FormatCurrency(const WString& currency)const
+	WString NLocale::FormatCurrency(const WString& currency)const
 	{
 		int length=GetCurrencyFormatEx(localeName.Buffer(), 0, currency.Buffer(), NULL, NULL, 0);
 		if(length==0) return L"";
@@ -165,72 +165,72 @@ Locale
 		return &buffer[0];
 	}
 
-	WString Locale::GetShortDayOfWeekName(nint dayOfWeek)const
+	WString NLocale::GetShortDayOfWeekName(nint dayOfWeek)const
 	{
 		return FormatDate(L"ddd", DateTime::FromDateTime(2000, 1, 2+dayOfWeek));
 	}
 
-	WString Locale::GetLongDayOfWeekName(nint dayOfWeek)const
+	WString NLocale::GetLongDayOfWeekName(nint dayOfWeek)const
 	{
 		return FormatDate(L"dddd", DateTime::FromDateTime(2000, 1, 2+dayOfWeek));
 	}
 
-	WString Locale::GetShortMonthName(nint month)const
+	WString NLocale::GetShortMonthName(nint month)const
 	{
 		return FormatDate(L"MMM", DateTime::FromDateTime(2000, month, 1));
 	}
 
-	WString Locale::GetLongMonthName(nint month)const
+	WString NLocale::GetLongMonthName(nint month)const
 	{
 		return FormatDate(L"MMMM", DateTime::FromDateTime(2000, month, 1));
 	}
 
-	WString Locale::ToFullWidth(const WString& str)const
+	WString NLocale::ToFullWidth(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_FULLWIDTH);
 	}
 
-	WString Locale::ToHalfWidth(const WString& str)const
+	WString NLocale::ToHalfWidth(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_HALFWIDTH);
 	}
 
-	WString Locale::ToHiragana(const WString& str)const
+	WString NLocale::ToHiragana(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_HIRAGANA);
 	}
 
-	WString Locale::ToKatagana(const WString& str)const
+	WString NLocale::ToKatagana(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_KATAKANA);
 	}
 
-	WString Locale::ToLower(const WString& str)const
+	WString NLocale::ToLower(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_LOWERCASE);
 	}
 
-	WString Locale::ToUpper(const WString& str)const
+	WString NLocale::ToUpper(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_UPPERCASE);
 	}
 
-	WString Locale::ToLinguisticLower(const WString& str)const
+	WString NLocale::ToLinguisticLower(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_LOWERCASE | LCMAP_LINGUISTIC_CASING);
 	}
 
-	WString Locale::ToLinguisticUpper(const WString& str)const
+	WString NLocale::ToLinguisticUpper(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_UPPERCASE | LCMAP_LINGUISTIC_CASING);
 	}
 
-	WString Locale::ToSimplifiedChinese(const WString& str)const
+	WString NLocale::ToSimplifiedChinese(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_SIMPLIFIED_CHINESE);
 	}
 
-	WString Locale::ToTraditionalChinese(const WString& str)const
+	WString NLocale::ToTraditionalChinese(const WString& str)const
 	{
 		return Transform(localeName, str, LCMAP_TRADITIONAL_CHINESE);
 	}
@@ -242,7 +242,7 @@ Locale
 // 	}
 // #endif
 
-	nint Locale::Compare(const WString& s1, const WString& s2, Normalization normalization)const
+	nint NLocale::Compare(const WString& s1, const WString& s2, Normalization normalization)const
 	{
 		switch(CompareStringEx(localeName.Buffer(), TranslateNormalization(normalization), s1.Buffer(), (int)s1.Length(), s2.Buffer(), (int)s2.Length(), NULL, NULL, NULL))
 		{
@@ -252,7 +252,7 @@ Locale
 		}
 	}
 
-	nint Locale::CompareOrdinal(const WString& s1, const WString& s2)const
+	nint NLocale::CompareOrdinal(const WString& s1, const WString& s2)const
 	{
 		switch(CompareStringOrdinal(s1.Buffer(), (int)s1.Length(), s2.Buffer(), (int)s2.Length(), FALSE))
 		{
@@ -262,7 +262,7 @@ Locale
 		}
 	}
 
-	nint Locale::CompareOrdinalIgnoreCase(const WString& s1, const WString& s2)const
+	nint NLocale::CompareOrdinalIgnoreCase(const WString& s1, const WString& s2)const
 	{
 		switch(CompareStringOrdinal(s1.Buffer(), (int)s1.Length(), s2.Buffer(), (int)s2.Length(), TRUE))
 		{
@@ -272,27 +272,27 @@ Locale
 		}
 	}
 
-	NPair<nint, nint> Locale::FindFirst(const WString& text, const WString& find, Normalization normalization)const
+	NPair<nint, nint> NLocale::FindFirst(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int length=0;
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_FROMSTART | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), &length, NULL, NULL, NULL);
 		return result==-1?NPair<nint, nint>(-1, 0):NPair<nint, nint>(result, length);
 	}
 
-	NPair<nint, nint> Locale::FindLast(const WString& text, const WString& find, Normalization normalization)const
+	NPair<nint, nint> NLocale::FindLast(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int length=0;
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_FROMEND | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), &length, NULL, NULL, NULL);
 		return result==-1?NPair<nint, nint>(-1, 0):NPair<nint, nint>(result, length);
 	}
 
-	bool Locale::StartsWith(const WString& text, const WString& find, Normalization normalization)const
+	bool NLocale::StartsWith(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_STARTSWITH | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), NULL, NULL, NULL, NULL);
 		return result!=-1;
 	}
 
-	bool Locale::EndsWith(const WString& text, const WString& find, Normalization normalization)const
+	bool NLocale::EndsWith(const WString& text, const WString& find, Normalization normalization)const
 	{
 		int result=FindNLSStringEx(localeName.Buffer(), FIND_ENDSWITH | TranslateNormalization(normalization), text.Buffer(), (int)text.Length(), find.Buffer(), (int)find.Length(), NULL, NULL, NULL, NULL);
 		return result!=-1;
