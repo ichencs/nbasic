@@ -141,7 +141,7 @@ TEST_CASE(TestAutoPointer)
 // }
 
 // TEST_CASE(TestDateTime)
-void TestDateTime()
+TEST_CASE (TestDateTime)
 {
 	// 2000/1/1 is saturday
 	DateTime dt = DateTime::FromDateTime(2000, 1, 1);
