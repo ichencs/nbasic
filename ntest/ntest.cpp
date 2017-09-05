@@ -6,85 +6,61 @@
 #include <iostream>
 #include <vector>
 #include "UnitTest.h"
+#include <windows.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-// #pragma execution_character_set("utf-8")
+WString GetExePath()
+{
+	wchar_t buffer[65536];
+	GetModuleFileName(NULL, buffer, sizeof(buffer) / sizeof(*buffer));
+	nint pos = -1;
+	nint index = 0;
 
-using namespace std;
+	while (buffer[index])
+	{
+		if (buffer[index] == L'\\' || buffer[index] == L'/')
+		{
+			pos = index;
+		}
 
+		index++;
+	}
 
- int main()
- {
-	 int num(2);
+	return WString(buffer, pos + 1);
+}
 
+WString GetTestResourcePath()
+{
+#ifdef _WIN64
+	return GetExePath() + L"../../Resources/";
+#else
+	return GetExePath() + L"../Resources/";
+#endif
+}
 
-	 NArray<wchar_t> Arr(10);
-	 Arr.Count();
-	 for (size_t i = 0; i < Arr.Count(); i++)
-	 {
-		 cout << Arr[i] << endl;
-	 }
-	 TestDateTime();
-	 StringLeftRightSub();
-	 TestAutoPointer();
-
-	 NList<int> list;
-	 list.Add(1);
-	 list.Add(2);
-	 list.Add(1);
-	 list.Add(2);
-	 list.RemoveAt(2);
-	 NList<int> list2;
-
-	 CopyFrom(list2, list);
-	 for (int i = 0; i < list2.Count(); i++)
-	 {
-		 cout<<"list2: " <<list2.Get(i) <<endl;
-	 }
-	 cout<< endl <<endl;
-
-	 NList<Ptr<int>> plist;
-	 Ptr<int> pnum = new int(100);
-	 plist.Add(pnum);
-	 plist.Add(pnum);
-	 plist.RemoveAt(0);
+WString GetTestOutputPath()
+{
+#ifdef _WIN64
+	return GetExePath() + L"../../Output/";
+#else
+	return GetExePath() + L"../Output/";
+#endif
+}
 
 
-	 NSortedList<int> slist;
-	 slist.Add(9);
-	 slist.Add(8);
-	 slist.Add(8);
-	 slist.Add(9);
-	 slist.Add(7);
+int main()
+{
 
-	 for (int i = 0; i < slist.Count(); i++)
-	 {
-		 cout<< slist.Get(i) <<endl;
-	 }
+	{
+		NFolder folder(GetTestOutputPath());
 
-	 int k = 0;
-	 double d = 1.0;
+		if (!folder.Exists())
+		{
+			TEST_ASSERT(folder.Create(false) == true);
+		}
+	}
+	UnitTest::RunAndDisposeTests();
+	FinalizeGlobalStorage();
 
-	 Dictionary<int,double> dict;
-	 dict.Add(k++ ,d++);
-	 dict.Add(k++ ,d++);
-	 dict.Add(k++ ,d++);
-//  	 dict.Add(k-- ,d++);
-	 dict.Add(k++ ,d++);
-	 dict.Add(k++ ,d++);
-	 dict.Add(k++ ,d++);
-//  	 dict.Add(k-- ,d++);
-//  	 dict.Add(k-- ,d++);
-	 cout<< endl <<endl;
-
-	 for (int i = 0; i < dict.Keys().Count(); i++)
-	 {
-		 int key = dict.Keys().Get(i);
-		 cout<<"key:" << key<<dict.Get(key)<<endl;
-	 }
-
-	 system("pause");
-     return 0;
- }
+	return 0;
+}
 

@@ -272,6 +272,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="GlobalStorage.h" />
     <ClInclude Include="NLocale.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="nchar.h" />
@@ -296,6 +297,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="GlobalStorage.cpp" />
     <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="nchar.cpp" />
     <ClCompile Include="NVariant.cpp" />

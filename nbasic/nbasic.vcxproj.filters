@@ -41,6 +41,7 @@
       <Filter>未完成项</Filter>
     </ClCompile>
     <ClCompile Include="NLocale.cpp" />
+    <ClCompile Include="GlobalStorage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -104,6 +105,7 @@
       <Filter>未完成项</Filter>
     </ClInclude>
     <ClInclude Include="NLocale.h" />
+    <ClInclude Include="GlobalStorage.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
