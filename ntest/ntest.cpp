@@ -60,7 +60,7 @@ int main()
 	}
 	UnitTest::RunAndDisposeTests();
 	FinalizeGlobalStorage();
-
+	system("pause");
 	return 0;
 }
 

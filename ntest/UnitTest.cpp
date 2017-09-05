@@ -35,7 +35,7 @@ UnitTestLink*					testHead = NULL;
 UnitTestLink**					testTail = &testHead;
 
 /// <summary>
-/// 编译的过程中通过宏来自动生成链表！
+/// 编译的过程中通过宏来自动生成链表（初始化时在内存生成链表）！
 /// </summary>
 /// <param name="testProc"></param>
 /// <returns></returns>

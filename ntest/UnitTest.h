@@ -28,7 +28,7 @@ class UnitTest abstract
 #define TEST_ASSERT(CONDITION) do{TEST_CHECK_ERROR(CONDITION,L"");}while(0)
 
 /// <summary>
-/// 该宏编译的过程中生成测试类，并组建成链表！
+/// 该宏编译的过程中生成测试类，初始化内存时组建成链表！
 /// 自动生成链表！
 /// </summary>
 #define TEST_CASE(NAME)\
@@ -48,6 +48,3 @@ class UnitTest abstract
 	} TESTCASE_RUNNER_##NAME##_INSTANCE;												\
 	void TESTCASE_##NAME()
 
-// extern void TestDateTime();
-// extern void TestAutoPointer();
-// extern void StringLeftRightSub();
