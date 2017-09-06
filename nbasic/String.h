@@ -292,26 +292,6 @@ class ObjectString : public Object
 			return *this;
 		}
 
-		// 		ObjectString<T>& operator=(ObjectString<T>&& string)
-		// 		{
-		// 			if(this!=&string)
-		// 			{
-		// 				Dec();
-		// 				buffer=string.buffer;
-		// 				counter=string.counter;
-		// 				start=string.start;
-		// 				length=string.length;
-		// 				realLength=string.realLength;
-		//
-		// 				string.buffer=(T*)&zero;
-		// 				string.counter=0;
-		// 				string.start=0;
-		// 				string.length=0;
-		// 				string.realLength=0;
-		// 			}
-		// 			return *this;
-		// 		}
-
 		ObjectString<T>& operator+=(const ObjectString<T>& string)
 		{
 			return *this = *this + string;

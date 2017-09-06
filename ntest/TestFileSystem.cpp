@@ -43,6 +43,44 @@ TEST_CASE(TestFilePath)
 		Console::WriteLine(L"²âÊÔÎÄ¼þ¼ÐÄ¿Â¼£º" + p.GetFullPath());
 	}
 
+	{
+		NFilePath p = L"C:\\Windows\\";
+		TEST_ASSERT(p.IsFile() == false);
+		TEST_ASSERT(p.IsFolder() == true);
+		TEST_ASSERT(p.IsRoot() == false);
+		TEST_ASSERT(p.GetFullPath() == L"C:\\Windows");
+		TEST_ASSERT(p.GetName() == L"Windows");
+		TEST_ASSERT(p.GetFolder().GetFullPath() == L"C:");
+	}
+	{
+		NFilePath p = L"C:\\Windows\\Explorer.exe";
+		TEST_ASSERT(p.IsFile() == true);
+		TEST_ASSERT(p.IsFolder() == false);
+		TEST_ASSERT(p.IsRoot() == false);
+		TEST_ASSERT(p.GetFullPath() == L"C:\\Windows\\Explorer.exe");
+		TEST_ASSERT(p.GetName() == L"Explorer.exe");
+		TEST_ASSERT(p.GetFolder().GetFullPath() == L"C:\\Windows");
+	}
+
+	{
+		NFilePath p = L"C:\\Windows\\vczh.txt";
+		TEST_ASSERT(p.IsFile() == false);
+		TEST_ASSERT(p.IsFolder() == false);
+		TEST_ASSERT(p.IsRoot() == false);
+		TEST_ASSERT(p.GetFullPath() == L"C:\\Windows\\vczh.txt");
+	}
+
+	{
+		NFilePath p = L"C:\\Windows";
+		NFilePath q = p / L"Explorer.exe";
+		TEST_ASSERT(q.GetFullPath() == L"C:\\Windows\\Explorer.exe");
+	}
+
+	{
+		NFilePath p = L"C:\\Program Files";
+		NFilePath q = p / L"..\\Windows\\.\\Explorer.exe";
+		TEST_ASSERT(q.GetFullPath() == L"C:\\Windows\\Explorer.exe");
+	}
 
 
 
