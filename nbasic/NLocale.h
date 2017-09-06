@@ -12,22 +12,40 @@ Interfaces:
 #include "String.h"
 #include "Collections/NList.h"
 
-	/// <summary>Locale awared operations. Macro "INVLOC" is a shortcut to get a invariant locale.</summary>
-	class NLocale : public Object
-	{
+/// <summary>Locale awared operations. Macro "INVLOC" is a shortcut to get a invariant locale.</summary>
+class NLocale : public Object
+{
 	protected:
 		WString						localeName;
 
 	public:
-		NLocale(const WString& _localeName=WString::Empty);
+		NLocale(const WString& _localeName = WString::Empty);
 		~NLocale();
 
-		bool operator==(const NLocale& value)const { return localeName==value.localeName; }
-		bool operator!=(const NLocale& value)const { return localeName!=value.localeName; }
-		bool operator<(const NLocale& value)const { return localeName<value.localeName; }
-		bool operator<=(const NLocale& value)const { return localeName<=value.localeName; }
-		bool operator>(const NLocale& value)const { return localeName>value.localeName; }
-		bool operator>=(const NLocale& value)const { return localeName>=value.localeName; }
+		bool operator==(const NLocale& value)const
+		{
+			return localeName == value.localeName;
+		}
+		bool operator!=(const NLocale& value)const
+		{
+			return localeName != value.localeName;
+		}
+		bool operator<(const NLocale& value)const
+		{
+			return localeName < value.localeName;
+		}
+		bool operator<=(const NLocale& value)const
+		{
+			return localeName <= value.localeName;
+		}
+		bool operator>(const NLocale& value)const
+		{
+			return localeName > value.localeName;
+		}
+		bool operator>=(const NLocale& value)const
+		{
+			return localeName >= value.localeName;
+		}
 
 		/// <summary>Get the invariant locale.</summary>
 		/// <returns>The invariant locale.</returns>
@@ -97,7 +115,7 @@ Interfaces:
 		/// <returns>The display string.</returns>
 		/// <param name="month">Month, begins from 1 as January.</param>
 		WString						GetLongMonthName(nint month)const;
-		
+
 		/// <summary>Convert characters to the full width.</summary>
 		/// <returns>The converted string.</returns>
 		/// <param name="str">The string to convert.</param>
@@ -114,7 +132,7 @@ Interfaces:
 		/// <returns>The converted string.</returns>
 		/// <param name="str">The string to convert.</param>
 		WString						ToKatagana(const WString& str)const;
-		
+
 		/// <summary>Convert characters to the lower case using the file system rule.</summary>
 		/// <returns>The converted string.</returns>
 		/// <param name="str">The string to convert.</param>
@@ -143,30 +161,30 @@ Interfaces:
 		/// <summary>Convert characters to the tile case, in which the first letter of each major word is capitalized.</summary>
 		/// <returns>The converted string.</returns>
 		/// <param name="str">The string to convert.</param>
-// #if (WINVER >= _WIN32_WINNT_WIN7)
-// 		WString						ToTileCase(const WString& str)const;
-// #endif
+		// #if (WINVER >= _WIN32_WINNT_WIN7)
+		// 		WString						ToTileCase(const WString& str)const;
+		// #endif
 		/// <summary>Mergable flags controlling how to normalize a string.</summary>
 		enum Normalization
 		{
 			/// <summary>Do nothing.</summary>
-			None=0,
+			None = 0,
 			/// <summary>Ignore case using the file system rule.</summary>
-			IgnoreCase=1,
+			IgnoreCase = 1,
 			/// <summary>Ignore case using the linguistic rule.</summary>
-			IgnoreCaseLinguistic=2,
+			IgnoreCaseLinguistic = 2,
 			/// <summary>Ignore the difference between between hiragana and katakana characters.</summary>
-			IgnoreKanaType=4,
+			IgnoreKanaType = 4,
 			/// <summary>Ignore nonspacing characters.</summary>
-			IgnoreNonSpace=8,
+			IgnoreNonSpace = 8,
 			/// <summary>Ignore symbols and punctuation.</summary>
-			IgnoreSymbol=16,
+			IgnoreSymbol = 16,
 			/// <summary>Ignore the difference between half-width and full-width characters.</summary>
-			IgnoreWidth=32,
+			IgnoreWidth = 32,
 			/// <summary>Treat digits as numbers during sorting.</summary>
-// 			DigitsAsNumbers=64,
+			// 			DigitsAsNumbers=64,
 			/// <summary>Treat punctuation the same as symbols.</summary>
-			StringSoft=128,
+			StringSoft = 128,
 		};
 
 		/// <summary>Compare two strings.</summary>
@@ -175,41 +193,47 @@ Interfaces:
 		/// <param name="s2">The second string to compare.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
 		nint									Compare(const WString& s1, const WString& s2, Normalization normalization)const;
+
 		/// <summary>Compare two strings to test binary equivalence.</summary>
 		/// <returns>Returns 0 if two strings are equal. Returns a positive number if the first string is larger. Returns a negative number if the second string is larger. When sorting strings, larger strings are put after then smaller strings.</returns>
 		/// <param name="s1">The first string to compare.</param>
 		/// <param name="s2">The second string to compare.</param>
 		nint									CompareOrdinal(const WString& s1, const WString& s2)const;
+
 		/// <summary>Compare two strings to test binary equivalence, ignoring case.</summary>
 		/// <returns>Returns 0 if two strings are equal. Returns a positive number if the first string is larger. Returns a negative number if the second string is larger. When sorting strings, larger strings are put after then smaller strings.</returns>
 		/// <param name="s1">The first string to compare.</param>
 		/// <param name="s2">The second string to compare.</param>
 		nint									CompareOrdinalIgnoreCase(const WString& s1, const WString& s2)const;
+
 		/// <summary>Find the first position that the sub string appears in a text.</summary>
 		/// <returns>Returns a pair of numbers, the first number indicating the position in the text, the second number indicating the size of the equivalence sub string in the text. For some normalization, the found sub string may be binary different to the string you want to find.</returns>
 		/// <param name="text">The text to find the sub string.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
 		NPair<nint, nint>			FindFirst(const WString& text, const WString& find, Normalization normalization)const;
+
 		/// <summary>Find the last position that the sub string appears in a text.</summary>
 		/// <returns>Returns a pair of numbers, the first number indicating the position in the text, the second number indicating the size of the equivalence sub string in the text. For some normalization, the found sub string may be binary different to the string you want to find.</returns>
 		/// <param name="text">The text to find the sub string.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
 		NPair<nint, nint>			FindLast(const WString& text, const WString& find, Normalization normalization)const;
+
 		/// <summary>Test is the prefix of the text equivalence to the provided sub string.</summary>
 		/// <returns>Returns true if the prefix of the text equivalence to the provided sub string.</returns>
 		/// <param name="text">The text to test the prefix.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
 		bool									StartsWith(const WString& text, const WString& find, Normalization normalization)const;
+
 		/// <summary>Test is the postfix of the text equivalence to the provided sub string.</summary>
 		/// <returns>Returns true if the postfix of the text equivalence to the provided sub string.</returns>
 		/// <param name="text">The text to test the postfix.</param>
 		/// <param name="find">The sub string to match.</param>
 		/// <param name="normalization">Flags controlling how to normalize a string.</param>
 		bool									EndsWith(const WString& text, const WString& find, Normalization normalization)const;
-	};
+};
 
 #define INVLOC NLocale::Invariant()
 
