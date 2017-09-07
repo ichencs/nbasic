@@ -434,14 +434,14 @@
       <FileName>String.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="vl::stream::BroadcastStream" Collapsed="true">
+  <Class Name="stream::BroadcastStream" Collapsed="true">
     <Position X="44.25" Y="14" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAACEgAAkGAAAIgAgIAAAAEAAAIAAAIGIASA=</HashCode>
       <FileName>Stream\BroadcastStream.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="vl::stream::CacheStream" Collapsed="true">
+  <Class Name="stream::CacheStream" Collapsed="true">
     <Position X="43.25" Y="16" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAwgCAAADEgAAgOIAAIgAgJAAAAAAAAABAAIGIJCA=</HashCode>

@@ -2,8 +2,7 @@
 #include <string.h>
 #include "BroadcastStream.h"
 
-namespace vl
-{
+ 
 	namespace stream
 	{
 /***********************************************************************
@@ -106,4 +105,3 @@ BroadcastStream
 			CHECK_FAIL(L"BroadcastStream::Peek(void*, nint)#Operation not supported.");
 		}
 	}
-}

@@ -42,6 +42,30 @@
     </ClCompile>
     <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="GlobalStorage.cpp" />
+    <ClCompile Include="Regex\Regex.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexAutomaton.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexData.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexExpression.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexParser.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexPure.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexRich.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
+    <ClCompile Include="Regex\RegexWriter.cpp">
+      <Filter>Regex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -106,6 +130,27 @@
     </ClInclude>
     <ClInclude Include="NLocale.h" />
     <ClInclude Include="GlobalStorage.h" />
+    <ClInclude Include="Regex\Regex.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexAutomaton.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexData.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexExpression.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexPure.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexRich.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
+    <ClInclude Include="Regex\RegexWriter.h">
+      <Filter>Regex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -119,6 +164,9 @@
     </Filter>
     <Filter Include="Stream">
       <UniqueIdentifier>{50e6b770-fa11-4c7e-bb04-582fd188f70e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regex">
+      <UniqueIdentifier>{41221a28-648a-4897-92d6-5c5db3a14341}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

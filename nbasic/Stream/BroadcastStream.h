@@ -13,8 +13,7 @@ Interfaces:
 #include "Interfaces.h"
 #include "../Collections/NList.h"
 
-namespace vl
-{
+ 
 	namespace stream
 	{
 		/// <summary>A writable stream that copy written content to multiple target streams.</summary>
@@ -50,6 +49,5 @@ namespace vl
 			nint					Peek(void* _buffer, nint _size);
 		};
 	}
-}
 
 #endif

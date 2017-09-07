@@ -39,7 +39,7 @@ UnitTestLink**					testTail = &testHead;
 /// </summary>
 /// <param name="testProc"></param>
 /// <returns></returns>
-void UnitTest::PushTest(TestProc testProc)
+void UnitTest::PushTest(UnitTest::TestProc testProc)
 {
 	UnitTestLink* link = new UnitTestLink;
 	link->testProc = testProc;

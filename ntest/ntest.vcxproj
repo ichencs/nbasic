@@ -326,6 +326,7 @@
     <ClCompile Include="ntest.cpp" />
     <ClCompile Include="TestBasic.cpp" />
     <ClCompile Include="TestFileSystem.cpp" />
+    <ClCompile Include="TestRegex.cpp" />
     <ClCompile Include="TestString.cpp" />
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>

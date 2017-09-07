@@ -47,11 +47,11 @@ extern void InitializeGlobalStorage();
 extern void FinalizeGlobalStorage();
 
 #define BEGIN_GLOBAL_STORAGE_CLASS(NAME)\
-	class NAME : public vl::GlobalStorage\
+	class NAME : public GlobalStorage\
 	{\
 		public:\
 			NAME()\
-				:vl::GlobalStorage(L ## #NAME)\
+				:GlobalStorage(L ## #NAME)\
 			{\
 				InitializeClearResource();\
 			}\

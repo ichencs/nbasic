@@ -2,8 +2,7 @@
 #include <string.h>
 #include "CacheStream.h"
 
-namespace vl
-{
+ 
 	namespace stream
 	{
 /***********************************************************************
@@ -300,4 +299,3 @@ CacheStream
 			return InternalRead(_buffer, _size);
 		}
 	}
-}

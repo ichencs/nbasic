@@ -34,3 +34,12 @@
 #include ".\Collections\NList.h"
 #include ".\Collections\Dictionary.h"
 #include ".\Collections\OperationCopyFrom.h"
+
+#include ".\Regex\Regex.h"
+#include ".\Regex\RegexAutomaton.h"
+#include ".\Regex\RegexData.h"
+#include ".\Regex\RegexExpression.h"
+#include ".\Regex\RegexWriter.h"
+#include ".\Regex\RegexPure.h"
+#include ".\Regex\RegexRich.h"
+

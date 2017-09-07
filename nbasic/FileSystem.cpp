@@ -39,7 +39,7 @@ FilePath
 					DWORD result = GetCurrentDirectory(sizeof(buffer) / sizeof(*buffer), buffer);
 					if (result > MAX_PATH + 1 || result == 0)
 					{
-						throw ArgumentException(L"Failed to call GetCurrentDirectory.", L"vl::filesystem::FilePath::Initialize", L"");
+						throw ArgumentException(L"Failed to call GetCurrentDirectory.", L"filesystem::FilePath::Initialize", L"");
 					}
 					fullPath = WString(buffer) + L"\\" + fullPath;
 				}
@@ -52,7 +52,7 @@ FilePath
 					DWORD result = GetFullPathName(fullPath.Buffer(), sizeof(buffer) / sizeof(*buffer), buffer, NULL);
 					if (result > MAX_PATH + 1 || result == 0)
 					{
-						throw ArgumentException(L"The path is illegal.", L"vl::filesystem::FilePath::FilePath", L"_filePath");
+						throw ArgumentException(L"The path is illegal.", L"filesystem::FilePath::FilePath", L"_filePath");
 					}
 					fullPath = buffer;
 				}
@@ -263,7 +263,7 @@ File
 
 				buffer.Resize((nint)fileStream.Size());
 				nint count = fileStream.Read(&buffer[0], buffer.Count());
-				CHECK_ERROR(count == buffer.Count(), L"vl::filesystem::File::ReadAllTextWithEncodingTesting(WString&, BomEncoder::Encoding&, bool&)#Failed to read the whole file.");
+				CHECK_ERROR(count == buffer.Count(), L"filesystem::File::ReadAllTextWithEncodingTesting(WString&, BomEncoder::Encoding&, bool&)#Failed to read the whole file.");
 			}
 			TestEncoding(&buffer[0], buffer.Count(), encoding, containsBom);
 

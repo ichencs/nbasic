@@ -278,6 +278,13 @@
     <ClInclude Include="nchar.h" />
     <ClInclude Include="NVariant.h" />
     <ClInclude Include="Pointer.h" />
+    <ClInclude Include="Regex\Regex.h" />
+    <ClInclude Include="Regex\RegexAutomaton.h" />
+    <ClInclude Include="Regex\RegexData.h" />
+    <ClInclude Include="Regex\RegexExpression.h" />
+    <ClInclude Include="Regex\RegexPure.h" />
+    <ClInclude Include="Regex\RegexRich.h" />
+    <ClInclude Include="Regex\RegexWriter.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stream\Accessor.h" />
     <ClInclude Include="Stream\BroadcastStream.h" />
@@ -301,6 +308,14 @@
     <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="nchar.cpp" />
     <ClCompile Include="NVariant.cpp" />
+    <ClCompile Include="Regex\Regex.cpp" />
+    <ClCompile Include="Regex\RegexAutomaton.cpp" />
+    <ClCompile Include="Regex\RegexData.cpp" />
+    <ClCompile Include="Regex\RegexExpression.cpp" />
+    <ClCompile Include="Regex\RegexParser.cpp" />
+    <ClCompile Include="Regex\RegexPure.cpp" />
+    <ClCompile Include="Regex\RegexRich.cpp" />
+    <ClCompile Include="Regex\RegexWriter.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DbgVC9|Win32'">Create</PrecompiledHeader>

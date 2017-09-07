@@ -191,7 +191,7 @@ Ptr
 		/// <returns>The detached object. Returns null if this smart pointer is empty.</returns>
 		T* Detach()
 		{
-			auto detached = reference;
+			T* detached = reference;
 			Dec(false);
 			return detached;
 		}

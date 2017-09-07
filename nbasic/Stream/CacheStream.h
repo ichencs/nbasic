@@ -12,8 +12,7 @@ Interfaces:
 
 #include "Interfaces.h"
 
-namespace vl
-{
+ 
 	namespace stream
 	{
 		/// <summary>
@@ -63,6 +62,5 @@ namespace vl
 			nint					Peek(void* _buffer, nint _size);
 		};
 	}
-}
 
 #endif
