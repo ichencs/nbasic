@@ -82,12 +82,7 @@ TEST_CASE(TestFilePath)
 		TEST_ASSERT(q.GetFullPath() == L"C:\\Windows\\Explorer.exe");
 	}
 
-	{
-		WString p = L"C:\\Program Files";
-		NList<WString> nlist;
-		NFilePath::GetPathComponents(p, nlist);
 
-	}
 
 
 }

@@ -151,6 +151,22 @@
     <ClInclude Include="Regex\RegexWriter.h">
       <Filter>Regex</Filter>
     </ClInclude>
+    <ClInclude Include="Collections\OperationString.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationForEach.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Operation.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationSequence.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationEnumerable.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

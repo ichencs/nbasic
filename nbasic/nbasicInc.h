@@ -18,7 +18,7 @@
 #include "Exception.h"
 #include "NLocale.h"
 #include "GlobalStorage.h"
-
+// #include "Function.h"
 
 #include ".\Stream\Accessor.h"
 #include ".\Stream\BroadcastStream.h"
@@ -33,7 +33,12 @@
 #include ".\Collections\NPair.h"
 #include ".\Collections\NList.h"
 #include ".\Collections\Dictionary.h"
+#include ".\Collections\Operation.h"
 #include ".\Collections\OperationCopyFrom.h"
+#include ".\Collections\OperationForEach.h"
+#include ".\Collections\OperationString.h"
+#include ".\Collections\OperationEnumerable.h"
+#include ".\Collections\OperationSequence.h"
 
 #include ".\Regex\Regex.h"
 #include ".\Regex\RegexAutomaton.h"

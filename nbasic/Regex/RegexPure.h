@@ -12,26 +12,22 @@ Classes:
 
 #include "RegexAutomaton.h"
 
- 
-	namespace regex_internal
+
+namespace regex_internal
+{
+	class PureResult
 	{
-		class PureResult
-		{
 		public:
 			nint				start;
 			nint				length;
 			nint				finalState;
 			nint				terminateState;
-		};
+	};
 
-		class PureInterpretor : public Object
-		{
+	class PureInterpretor : public Object
+	{
 		protected:
-#if defined VCZH_MSVC
 			static const nint	SupportedCharCount = 0x10000;		// UTF-16
-#elif defined VCZH_GCC
-			static const nint	SupportedCharCount = 0x110000;		// UTF-32
-#endif
 
 			nint				charMap[SupportedCharCount];		// char -> char set index
 			nint**				transition;							// (state * char set index) -> state*
@@ -54,7 +50,7 @@ Classes:
 
 			void				PrepareForRelatedFinalStateTable();
 			nint				GetRelatedFinalState(nint state);
-		};
-	}
+	};
+}
 
 #endif

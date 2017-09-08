@@ -21,69 +21,69 @@ Data Structure::Operations
 ForEach基础设施
 ***********************************************************************/
 
-		template<typename T>
-		class ForEachIterator : public Object
-		{
-		public:
-			virtual bool				Next(T& variable)const=0;
+template<typename T>
+class ForEachIterator : public Object
+{
+	public:
+		virtual bool				Next(T& variable)const = 0;
 
-			operator bool()const
-			{
-				return true;
-			}
-		};
+		operator bool()const
+		{
+			return true;
+		}
+};
 
 /***********************************************************************
 IEnumerable<T>支持
 ***********************************************************************/
 
-		template<typename T>
-		class EnumerableForEachIterator : public ForEachIterator<T>
+template<typename T>
+class EnumerableForEachIterator : public ForEachIterator<T>
+{
+	protected:
+		Ptr<IEnumerator<T>>			enumerator;
+	public:
+		EnumerableForEachIterator(const IEnumerable<T>& enumerable)
+			: enumerator(enumerable.CreateEnumerator())
 		{
-		protected:
-			Ptr<IEnumerator<T>>			enumerator;
-		public:
-			EnumerableForEachIterator(const IEnumerable<T>& enumerable)
-				:enumerator(enumerable.CreateEnumerator())
-			{
-			}
-
-			EnumerableForEachIterator(const EnumerableForEachIterator<T>& enumerableIterator)
-				:enumerator(enumerableIterator.enumerator)
-			{
-			}
-
-			bool Next(T& variable)const
-			{
-				if(enumerator->Next())
-				{
-					variable=enumerator->Current();
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		};
-
-		template<typename T>
-		EnumerableForEachIterator<T> CreateForEachIterator(const IEnumerable<T>& enumerable)
-		{
-			return enumerable;
 		}
+
+		EnumerableForEachIterator(const EnumerableForEachIterator<T>& enumerableIterator)
+			: enumerator(enumerableIterator.enumerator)
+		{
+		}
+
+		bool Next(T& variable)const
+		{
+			if (enumerator->Next())
+			{
+				variable = enumerator->Current();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+};
+
+template<typename T>
+EnumerableForEachIterator<T> CreateForEachIterator(const IEnumerable<T>& enumerable)
+{
+	return enumerable;
+}
 
 /***********************************************************************
 ForEach宏
 ***********************************************************************/
 
 #define FOREACH(TYPE, VARIABLE, COLLECTION)\
-		SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
-		for(TYPE VARIABLE;__foreach_iterator__.Next(VARIABLE);)
+	SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
+	for(TYPE VARIABLE;__foreach_iterator__.Next(VARIABLE);)
 
 #define FOREACH_INDEXER(TYPE, VARIABLE, INDEXER, COLLECTION)\
-		SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
-		SCOPE_VARIABLE(vint, INDEXER, 0)\
-		for(TYPE VARIABLE;__foreach_iterator__.Next(VARIABLE);INDEXER++)
+	SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
+	SCOPE_VARIABLE(nint, INDEXER, 0)\
+	for(TYPE VARIABLE;__foreach_iterator__.Next(VARIABLE);INDEXER++)
 
 #endif

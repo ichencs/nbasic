@@ -267,11 +267,17 @@
     <ClInclude Include="Collections\Dictionary.h" />
     <ClInclude Include="Collections\Interfaces.h" />
     <ClInclude Include="Collections\NList.h" />
+    <ClInclude Include="Collections\Operation.h" />
     <ClInclude Include="Collections\OperationCopyFrom.h" />
     <ClInclude Include="Collections\NPair.h" />
+    <ClInclude Include="Collections\OperationEnumerable.h" />
+    <ClInclude Include="Collections\OperationForEach.h" />
+    <ClInclude Include="Collections\OperationSequence.h" />
+    <ClInclude Include="Collections\OperationString.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="GlobalStorage.h" />
     <ClInclude Include="NLocale.h" />
     <ClInclude Include="nbasicInc.h" />
