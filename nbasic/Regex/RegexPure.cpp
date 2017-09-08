@@ -9,9 +9,9 @@ PureInterpretor
 ***********************************************************************/
 
 		PureInterpretor::PureInterpretor(Automaton::Ref dfa, CharRange::List& subsets)
-			:transition(0)
-			,finalState(0)
-			,relatedFinalState(0)
+			:transition(NULL)
+			,finalState(NULL)
+			,relatedFinalState(NULL)
 		{
 			stateCount=dfa->states.Count();
 			charSetCount=subsets.Count()+1;
@@ -103,9 +103,9 @@ PureInterpretor
 					result.finalState=currentState;
 				}
 				if(!*read)break;
-#ifdef VCZH_GCC
-				if(*read>=SupportedCharCount)break;
-#endif
+// #ifdef VCZH_GCC
+// 				if(*read>=SupportedCharCount)break;
+// #endif
 				nint charIndex=charMap[*read++];
 				currentState=transition[currentState][charIndex];
 			}

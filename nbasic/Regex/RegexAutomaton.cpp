@@ -10,15 +10,16 @@ Automaton
 ***********************************************************************/
 		
 		Automaton::Automaton()
+			:startState(NULL)
 		{
-			startState=0;
+// 			startState=0;
 		}
 
 		State* Automaton::NewState()
 		{
 			State* state=new State;
 			state->finalState=false;
-			state->userData=0;
+			state->userData=NULL;
 			states.Add(state);
 			return state;
 		}
