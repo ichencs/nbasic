@@ -30,6 +30,13 @@ TEST_CASE(TestCharRange)
 		Console::WriteLine(wstr);
 	}
 	
+}
+
+TEST_CASE(RegexAutomaton)
+{
+
+
 
 
 }
+
