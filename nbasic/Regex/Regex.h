@@ -20,33 +20,33 @@ Classes:
 #include "../Collections/NList.h"
 #include "../Collections/Dictionary.h"
 
-// 
+//
 //{
-	namespace regex_internal
+namespace regex_internal
+{
+	class PureResult;
+	class PureInterpretor;
+	class RichResult;
+	class RichInterpretor;
+}
+
+namespace regex
+{
+
+	/***********************************************************************
+	正则表达式引擎数据结构
+	***********************************************************************/
+
+	/// <summary>A type representing a fragment of the input string.</summary>
+	class RegexString : public Object
 	{
-		class PureResult;
-		class PureInterpretor;
-		class RichResult;
-		class RichInterpretor;
-	}
-
-	namespace regex
-	{
-
-/***********************************************************************
-正则表达式引擎数据结构
-***********************************************************************/
-
-		/// <summary>A type representing a fragment of the input string.</summary>
-		class RegexString : public Object
-		{
 		protected:
 			WString										value;
 			nint										start;
 			nint										length;
 
 		public:
-			RegexString(nint _start=0);
+			RegexString(nint _start = 0);
 			RegexString(const WString& _string, nint _start, nint _length);
 
 			/// <summary>The position of the input string.</summary>
@@ -59,11 +59,11 @@ Classes:
 			/// <returns>The fragment.</returns>
 			const WString&								Value()const;
 			bool										operator==(const RegexString& string)const;
-		};
+	};
 
-		/// <summary>A type representing a match of the input string.</summary>
-		class RegexMatch : public Object, private NotCopyable
-		{
+	/// <summary>A type representing a match of the input string.</summary>
+	class RegexMatch : public Object, private NotCopyable
+	{
 			friend class Regex;
 		public:
 			typedef Ptr<RegexMatch>										Ref;
@@ -80,7 +80,7 @@ Classes:
 			RegexMatch(const WString& _string, regex_internal::RichResult* _result, regex_internal::RichInterpretor* _rich);
 			RegexMatch(const RegexString& _result);
 		public:
-			
+
 			/// <summary>Test if this match is a success match or a failed match. A failed match will only appear when calling [M:vl.regex.Regex.Split] or [M:vl.regex.Regex.Cut]. In other cases, failed matches are either not included in the result, or become null pointers.</summary>
 			/// <returns>Returns true if this match is a success match.</returns>
 			bool										Success()const;
@@ -93,63 +93,63 @@ Classes:
 			/// <summary>Get all fragments that are captured by named groups.</summary>
 			/// <returns>All fragments that are captured.</returns>
 			const CaptureGroup&							Groups()const;
-		};
+	};
 
-/***********************************************************************
-正则表达式引擎
-***********************************************************************/
+	/***********************************************************************
+	正则表达式引擎
+	***********************************************************************/
 
-		/// <summary><![CDATA[
-		/// Regular Expression. Here is a brief description of the regular expression grammar:
-		///	1) Charset:
-		///		a, [a-z], [^a-z]
-		/// 2) Functional characters:
-		///		^: the beginning of the input (DFA incompatible)
-		///		$: the end of the input (DFA incompatible)
-		///		regex1|regex2: match either regex1 or regex2
-		///	3) Escaping (both \ and / mean the next character is escaped)
-		///		Escaped characters:
-		///			\r: the CR character
-		///			\n: the LF character
-		///			\t: the tab character
-		///			\s: spacing characters (including space, \r, \n, \t)
-		///			\S: non-spacing characters
-		///			\d: [0-9]
-		///			\D: [^0-9]
-		///			\l: [a-zA-Z]
-		///			\L: [^a-zA-Z]
-		///			\w: [a-zA-Z0-9_]
-		///			\W: [^a-zA-Z0-9_]
-		///			\.: any character (this is the main different from other regex, which treat "." as any characters and "\." as the dot character)
-		///			\\, \/, \(, \), \+, \*, \?, \{, \}, \[, \], \<, \>, \^, \$, \!, \=: represents itself
-		///		Escaped characters in charset defined in a square bracket:
-		///			\r: the CR character
-		///			\n: the LF character
-		///			\t: the tab character
-		///			\-, \[, \], \\, \/, \^, \$: represents itself
-		///	4) Loops:
-		///		regex{3}: repeats 3 times
-		///		regex{3,}: repeats 3 or more times
-		///		regex{1,3}: repeats 1 to 3 times
-		///		regex?: repeats 0 or 1 times
-		///		regex*: repeats 0 or more times
-		///		regex+: repeats 1 or more times
-		///		if you add a "?" right after a loop, it means repeating as less as possible (DFA incompatible)
-		///	5) Capturing: (DFA incompatible)
-		///		(regex): No capturing, just change the operators' association
-		///		(?regex): Capture matched fragment
-		///		(<name>regex): Capture matched fragment in a named group called "name"
-		///		(<$i>): Match the i-th captured fragment, begins from 0
-		///		(<$name;i>): Match the i-th captured fragment in the named group called "name", begins from 0
-		///		(<$name>): Match any captured fragment in the named group called "name"
-		///	6) MISC
-		///		(=regex): The prefix of the following text should match the regex, but it is not counted in the whole match (DFA incompatible)
-		///		(!regex): Any prefix of the following text should not match the regex, and it is not counted in the whole match (DFA incompatible)
-		///		(<#name>regex): Name the regex "name", and it applies here
-		///		(<&name>): Copy the named regex "name" here and apply
-		/// ]]></summary>
-		class Regex : public Object, private NotCopyable
-		{
+	/// <summary><![CDATA[
+	/// Regular Expression. Here is a brief description of the regular expression grammar:
+	///	1) Charset:
+	///		a, [a-z], [^a-z]
+	/// 2) Functional characters:
+	///		^: the beginning of the input (DFA incompatible)
+	///		$: the end of the input (DFA incompatible)
+	///		regex1|regex2: match either regex1 or regex2
+	///	3) Escaping (both \ and / mean the next character is escaped)
+	///		Escaped characters:
+	///			\r: the CR character
+	///			\n: the LF character
+	///			\t: the tab character
+	///			\s: spacing characters (including space, \r, \n, \t)
+	///			\S: non-spacing characters
+	///			\d: [0-9]
+	///			\D: [^0-9]
+	///			\l: [a-zA-Z]
+	///			\L: [^a-zA-Z]
+	///			\w: [a-zA-Z0-9_]
+	///			\W: [^a-zA-Z0-9_]
+	///			\.: any character (this is the main different from other regex, which treat "." as any characters and "\." as the dot character)
+	///			\\, \/, \(, \), \+, \*, \?, \{, \}, \[, \], \<, \>, \^, \$, \!, \=: represents itself
+	///		Escaped characters in charset defined in a square bracket:
+	///			\r: the CR character
+	///			\n: the LF character
+	///			\t: the tab character
+	///			\-, \[, \], \\, \/, \^, \$: represents itself
+	///	4) Loops:
+	///		regex{3}: repeats 3 times
+	///		regex{3,}: repeats 3 or more times
+	///		regex{1,3}: repeats 1 to 3 times
+	///		regex?: repeats 0 or 1 times
+	///		regex*: repeats 0 or more times
+	///		regex+: repeats 1 or more times
+	///		if you add a "?" right after a loop, it means repeating as less as possible (DFA incompatible)
+	///	5) Capturing: (DFA incompatible)
+	///		(regex): No capturing, just change the operators' association
+	///		(?regex): Capture matched fragment
+	///		(<name>regex): Capture matched fragment in a named group called "name"
+	///		(<$i>): Match the i-th captured fragment, begins from 0
+	///		(<$name;i>): Match the i-th captured fragment in the named group called "name", begins from 0
+	///		(<$name>): Match any captured fragment in the named group called "name"
+	///	6) MISC
+	///		(=regex): The prefix of the following text should match the regex, but it is not counted in the whole match (DFA incompatible)
+	///		(!regex): Any prefix of the following text should not match the regex, and it is not counted in the whole match (DFA incompatible)
+	///		(<#name>regex): Name the regex "name", and it applies here
+	///		(<&name>): Copy the named regex "name" here and apply
+	/// ]]></summary>
+	class Regex : public Object, private NotCopyable
+	{
 		protected:
 			regex_internal::PureInterpretor*			pure;
 			regex_internal::RichInterpretor*			rich;
@@ -159,7 +159,7 @@ Classes:
 			/// <summary>Create a regular expression.</summary>
 			/// <param name="code">The regular expression in a string.</param>
 			/// <param name="preferPure">Set to true to tell the Regex to use DFA if possible.</param>
-			Regex(const WString& code, bool preferPure=true);
+			Regex(const WString& code, bool preferPure = true);
 			~Regex();
 
 			/// <summary>Test does the Regex uses DFA to match a string.</summary>
@@ -199,15 +199,15 @@ Classes:
 			/// <param name="keepEmptyMatch">Set to true to keep all empty matches.</param>
 			/// <param name="matches">All successful and failed matches.</param>
 			void										Cut(const WString& text, bool keepEmptyMatch, RegexMatch::List& matches)const;
-		};
+	};
 
-/***********************************************************************
-正则表达式词法分析器
-***********************************************************************/
+	/***********************************************************************
+	正则表达式词法分析器
+	***********************************************************************/
 
-		/// <summary>A token.</summary>
-		class RegexToken
-		{
+	/// <summary>A token.</summary>
+	class RegexToken
+	{
 		public:
 			/// <summary>Position in the input string.</summary>
 			nint										start;
@@ -233,18 +233,18 @@ Classes:
 
 			bool										operator==(const RegexToken& _token)const;
 			bool										operator==(const wchar_t* _token)const;
-		};
+	};
 
-		/// <summary>Token collection representing the result from the lexical analyzer.</summary>
-		class RegexTokens : public Object, public IEnumerable<RegexToken>
-		{
+	/// <summary>Token collection representing the result from the lexical analyzer.</summary>
+	class RegexTokens : public Object, public IEnumerable<RegexToken>
+	{
 			friend class RegexLexer;
 		protected:
 			regex_internal::PureInterpretor*			pure;
-			const NArray<nint>&				stateTokens;
+			const NArray<nint>&							stateTokens;
 			WString										code;
 			nint										codeIndex;
-			
+
 			RegexTokens(regex_internal::PureInterpretor* _pure, const NArray<nint>& _stateTokens, const WString& _code, nint _codeIndex);
 		public:
 			RegexTokens(const RegexTokens& tokens);
@@ -254,22 +254,22 @@ Classes:
 			/// <summary>Copy all tokens.</summary>
 			/// <param name="tokens">Returns all tokens.</param>
 			/// <param name="discard">A callback to decide which kind of tokens to discard. The input is [F:vl.regex.RegexToken.token]. Returns true to discard this kind of tokens.</param>
-			void										ReadToEnd(NList<RegexToken>& tokens, bool(*discard)(nint)=0)const;
-		};
-		
-		/// <summary>Lexical walker.</summary>
-		class RegexLexerWalker : public Object
-		{
+			void										ReadToEnd(NList<RegexToken>& tokens, bool(*discard)(nint) = 0)const;
+	};
+
+	/// <summary>Lexical walker.</summary>
+	class RegexLexerWalker : public Object
+	{
 			friend class RegexLexer;
 		protected:
 			regex_internal::PureInterpretor*			pure;
 			const NArray<nint>&				stateTokens;
-			
+
 			RegexLexerWalker(regex_internal::PureInterpretor* _pure, const NArray<nint>& _stateTokens);
 		public:
 			RegexLexerWalker(const RegexLexerWalker& walker);
 			~RegexLexerWalker();
-			
+
 			/// <summary>Get the start DFA state number, which represents the correct state before parsing any input.</summary>
 			/// <returns>The DFA state number.</returns>
 			nint										GetStartState()const;
@@ -298,11 +298,11 @@ Classes:
 			/// <returns>Returns true if the input text is a complete token.</returns>
 			/// <param name="input">The input text.</param>
 			bool										IsClosedToken(const WString& input)const;
-		};
+	};
 
-		/// <summary>Lexical colorizer.</summary>
-		class RegexLexerColorizer : public Object
-		{
+	/// <summary>Lexical colorizer.</summary>
+	class RegexLexerColorizer : public Object
+	{
 			friend class RegexLexer;
 		public:
 			typedef void(*TokenProc)(void* argument, nint start, nint length, nint token);
@@ -334,11 +334,11 @@ Classes:
 			/// <param name="tokenProc">Colorizer callback. This callback will be called if any token is found..</param>
 			/// <param name="tokenProcArgument">The argument to call the callback.</param>
 			void										Colorize(const wchar_t* input, nint length, TokenProc tokenProc, void* tokenProcArgument);
-		};
+	};
 
-		/// <summary>Lexical analyzer.</summary>
-		class RegexLexer : public Object, private NotCopyable
-		{
+	/// <summary>Lexical analyzer.</summary>
+	class RegexLexer : public Object, private NotCopyable
+	{
 		protected:
 			regex_internal::PureInterpretor*			pure;
 			NArray<nint>					ids;
@@ -353,15 +353,15 @@ Classes:
 			/// <returns>The result.</returns>
 			/// <param name="code">The text to tokenize.</param>
 			/// <param name="codeIndex">Extra information that will store in [F:vl.regex.RegexToken.codeIndex].</param>
-			RegexTokens									Parse(const WString& code, nint codeIndex=-1)const;
+			RegexTokens									Parse(const WString& code, nint codeIndex = -1)const;
 			/// <summary>Create a equivalence walker from this lexical analyzer.</summary>
 			/// <returns>The walker.</returns>
 			RegexLexerWalker							Walk()const;
 			/// <summary>Create a equivalence colorizer from this lexical analyzer.</summary>
 			/// <returns>The colorizer.</returns>
 			RegexLexerColorizer							Colorize()const;
-		};
-	}
+	};
+}
 //}
 
 #endif

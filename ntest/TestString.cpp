@@ -53,3 +53,35 @@ TEST_CASE(TestConstFriend)
 	WString string = L"You are very clever";
 	CheckString(L"You are" + string.Right(7), L"You are clever");
 }
+
+TEST_CASE(TestStringIsEmpty)
+{
+	WString string;
+	string = L"";
+	TEST_ASSERT(string.IsEmpty());
+
+}
+
+TEST_CASE(TestStringTrim)
+{
+	WString string;
+	TEST_ASSERT(string.Trim(' ') == L"");
+	TEST_ASSERT(string.TrimRight(' ') == L"");
+	TEST_ASSERT(string.TrimLeft(' ') == L"");
+
+	string = L" ";
+	TEST_ASSERT(string.TrimRight(' ') == L"");
+	TEST_ASSERT(string.TrimLeft(' ') == L"");
+
+	string = L"   ";
+	TEST_ASSERT(string.TrimRight(' ') == L"");
+	TEST_ASSERT(string.TrimLeft(' ') == L"");
+	string = L"aaaAaaaa";
+	TEST_ASSERT(string.TrimRight('a') == L"aaaA");
+	TEST_ASSERT(string.TrimLeft('a') == L"Aaaaa");
+	TEST_ASSERT(string.Trim('a') == L"A");
+	TEST_ASSERT(string.Mid(3, 1) == L"A");
+
+
+
+}

@@ -123,6 +123,14 @@ class ObjectString : public Object
 			}
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="source"></param>
+		/// <param name="index"></param>
+		/// <param name="count"></param>
+		/// <returns></returns>
 		ObjectString(const ObjectString<T>& dest, const ObjectString<T>& source, nint  index, nint  count)
 		{
 			if (index == 0 && count == dest.length && source.length == 0)
@@ -256,6 +264,12 @@ class ObjectString : public Object
 		{
 			Dec();
 		}
+
+		bool IsEmpty()const
+		{
+			return *this == Empty;
+		}
+
 
 		/// <summary>Get the zero-terminated buffer in the string. Copying parts of a string does not necessarily create a new buffer, so in some situation the string will not actually points to a zero-terminated buffer. In this case, this function will copy the content to a new buffer with a zero terminator and return.</summary>
 		/// <returns>Returns the buffer.</returns>
@@ -393,6 +407,8 @@ class ObjectString : public Object
 			return -1;
 		}
 
+
+
 		/// <summary>Copy the beginning of the string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="count">Size of characters to copy.</param>
@@ -421,6 +437,12 @@ class ObjectString : public Object
 			CHECK_ERROR(index + count >= 0 && index + count <= length, L"ObjectString<T>::Sub(nint, nint )#Argument count not in range.");
 			return ObjectString<T>(*this, index, count);
 		}
+		ObjectString<T>Mid(nint index, nint  count)const
+		{
+			CHECK_ERROR(index >= 0 && index <= length, L"ObjectString<T>::Sub(nint, nint )#Argument index not in range.");
+			CHECK_ERROR(index + count >= 0 && index + count <= length, L"ObjectString<T>::Sub(nint, nint )#Argument count not in range.");
+			return ObjectString<T>(*this, index, count);
+		}
 
 		/// <summary>Copy the beginning and the end of the string.</summary>
 		/// <returns>The copied string.</returns>
@@ -442,6 +464,49 @@ class ObjectString : public Object
 			CHECK_ERROR(index >= 0 && index <= length, L"ObjectString<T>::Insert(nint)#Argument count not in range.");
 			return ObjectString<T>(*this, string, index, 0);
 		}
+
+		ObjectString<T> Trim(T wc)
+		{
+			nint nsatrt = 0;
+			nint nend = length;
+
+			while (nend && buffer[nend - 1] == wc)
+			{
+				nend--;
+			}
+
+			while (buffer[nsatrt] == wc && nsatrt < length)
+			{
+				nsatrt++;
+			}
+
+			return ObjectString<T>(*this, nsatrt, nend - nsatrt);
+		};
+		ObjectString<T> TrimRight(T wc)const
+		{
+			nint nend = length ;
+
+			while (nend && buffer[nend - 1] == wc)
+			{
+				nend--;
+			}
+
+			return ObjectString<T>(*this, 0, nend);
+		};
+
+		ObjectString<T> TrimLeft(T wc)
+		{
+			nint nstart = 0;
+
+			while (buffer[nstart] == wc && nstart < length)
+			{
+				nstart++;
+			}
+
+			return ObjectString<T>(*this, nstart, length - nstart);
+		};
+
+
 
 		friend bool operator<(const T* left, const ObjectString<T>& right)
 		{
