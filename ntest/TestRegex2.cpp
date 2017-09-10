@@ -34,26 +34,26 @@ TEST_CASE(TestCharRange)
 
 TEST_CASE(RegexAutomaton)
 {
-
+// 	TEST_ASSERT(false);
 }
 
 TEST_CASE(TestRegexLexer1)
 {
 	NList<WString> codes;
 	codes.Add(L"/d+");
-	codes.Add(L"/s+");
-	codes.Add(L"[a-zA-Z_]/w*");
-	// 	RegexLexer lexer(codes);
-	//
-	// 	{
-	// 		NList<RegexToken> tokens;
-	// 		CopyFrom(tokens, lexer.Parse(L"vczh is$$a&&genius  1234"));
-	// 		// 		TestRegexLexer1Validation(tokens);
-	// 	}
-	// 	{
-	// 		NList<RegexToken> tokens;
-	// 		lexer.Parse(L"vczh is$$a&&genius  1234").ReadToEnd(tokens);
-	// 		// 		TestRegexLexer1Validation(tokens);
-	// 	}
+ 	codes.Add(L"/s+");
+ 	codes.Add(L"[a-zA-Z_]/w*");
+
+  	RegexLexer lexer(codes);
+ 	{
+ 	 	NList<RegexToken> tokens;
+ 	 	CopyFrom(tokens, lexer.Parse(L"vczh is$$a&&genius  1234"));
+ 	 	// 		TestRegexLexer1Validation(tokens);
+ 	}
+ 	{
+ 	 	NList<RegexToken> tokens;
+ 	 	lexer.Parse(L"vczh is$$a&&genius  1234").ReadToEnd(tokens);
+ 	 	// 		TestRegexLexer1Validation(tokens);
+ 	}
 }
 

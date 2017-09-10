@@ -19,6 +19,7 @@ Classes:
 template<typename T>
 class ObjectString : public Object
 {
+
 	private:
 		static const T				zero;
 
@@ -302,7 +303,6 @@ class ObjectString : public Object
 				realLength = string.realLength;
 				Inc();
 			}
-
 			return *this;
 		}
 
@@ -392,9 +392,9 @@ class ObjectString : public Object
 		/// <summary>Find a character.</summary>
 		/// <returns>The position of the character. Returns -1 if it doesn not exist.</returns>
 		/// <param name="c">The character to find.</param>
-		nint IndexOf(T c)const
+		nint IndexOf(T c,nint startIndex = 0)const
 		{
-			const T* reading = buffer + start;
+			const T* reading = buffer + start + startIndex;
 
 			for (nint i = 0; i < length; i++)
 			{
@@ -406,7 +406,35 @@ class ObjectString : public Object
 
 			return -1;
 		}
+		nint FindOf(T c, nint startIndex = 0)const
+		{
+			return IndexOf(c,startIndex);
+		}
 
+		nint IndexOf(T* buf)const
+		{
+			nint flag, INI_MAX;
+			nint nlen = CalculateLength(buf);
+			for (nint j = 0; j < nlen; j++)
+			{
+				flag = -1;
+				for (nint i = 0; i < length; i++)
+				{
+					if (buffer[i+ start] == buf[j])
+					{
+						flag = i;
+						break;
+					}
+				}
+				if (flag != -1)
+				{
+
+				}
+
+			}
+
+			return -1;
+		}
 
 
 		/// <summary>Copy the beginning of the string.</summary>
@@ -465,47 +493,90 @@ class ObjectString : public Object
 			return ObjectString<T>(*this, string, index, 0);
 		}
 
-		ObjectString<T> Trim(T wc)
+		ObjectString<T> Trim(T c)const
 		{
-			nint nsatrt = 0;
-			nint nend = length;
-
-			while (nend && buffer[nend - 1] == wc)
-			{
-				nend--;
-			}
-
-			while (buffer[nsatrt] == wc && nsatrt < length)
-			{
-				nsatrt++;
-			}
-
-			return ObjectString<T>(*this, nsatrt, nend - nsatrt);
+			return TrimLeft(c).TrimRight(c);
 		};
-		ObjectString<T> TrimRight(T wc)const
+	
+		ObjectString<T> TrimLeft(T c)const
 		{
-			nint nend = length ;
-
-			while (nend && buffer[nend - 1] == wc)
-			{
-				nend--;
-			}
-
-			return ObjectString<T>(*this, 0, nend);
-		};
-
-		ObjectString<T> TrimLeft(T wc)
-		{
-			nint nstart = 0;
-
-			while (buffer[nstart] == wc && nstart < length)
+			nint nstart = start;		//起始位置
+			nint nend = start + length;	//结束符位置（理论）
+			nint nlen = length;			//实际长度
+			while (buffer[nstart] == c && nstart < nend)
 			{
 				nstart++;
+				nlen--;
 			}
 
-			return ObjectString<T>(*this, nstart, length - nstart);
+			return ObjectString<T>(*this, nstart - start, nlen);
 		};
+		ObjectString<T>TrimLeft(const T* buf)const
+		{
+			nint nbuflen = CalculateLength(buf);
+			nint nfirst = start;
+			nint nlen = length;
+			nint nend = start + length;
+			nint nflag;
 
+			while (nfirst < nend)
+			{
+				nflag = -1;
+				for (nint i = 0; i < nbuflen; i++)
+				{
+					if (buffer[nfirst] == buf[i])
+					{
+						nflag = 0;
+						nfirst++;
+						nlen--;
+					}
+				}
+				if (nflag != 0)
+				{
+					break;
+				}
+			}
+			return ObjectString<T>(*this,nfirst - start,nlen);
+		}
+		
+		ObjectString<T> TrimRight(T c)const
+		{
+			nint nlast = start + length - 1;
+			nint nlen = length;
+			while (nlen && buffer[nlast] == c)
+			{
+				nlen--;
+				nlast--;
+			}
+
+			return ObjectString<T>(*this, 0, nlen);
+		};
+		
+		ObjectString<T>TrimRight(const T* buf)const
+		{
+			nint nlast = start + length - 1;
+			nint nlen = length;
+			nint nbuflen = CalculateLength(buf);
+			nint nflag;
+			while (nlen)
+			{
+				nflag = -1;
+				for (nint i = 0; i < nbuflen; i++)
+				{
+					if (buffer[nlast] == buf[i])
+					{
+						nflag = 0;
+						nlen--;
+						nlast--;
+					}
+				}
+				if (nflag != 0)
+				{
+					break;
+				}
+			}
+			return ObjectString<T>(*this, 0, nlen);
+		}
 
 
 		friend bool operator<(const T* left, const ObjectString<T>& right)
@@ -542,6 +613,8 @@ class ObjectString : public Object
 		{
 			return ObjectString<T>(left, false) + right;
 		}
+
+
 };
 
 template<typename T>
@@ -681,11 +754,11 @@ extern WString				u64tow(nuint64_t number);
 /// <summary>Convert a 64-bits floating pointer number to a string.</summary>
 /// <returns>The converted string.</returns>
 /// <param name="number">The number to convert.</param>
-extern AString				ftoa(double number);
+extern AString				ftoa(double number, int digitCount = 30);
 /// <summary>Convert a 64-bits floating pointer number to a string.</summary>
 /// <returns>The converted string.</returns>
 /// <param name="number">The number to convert.</param>
-extern WString				ftow(double number);
+extern WString				ftow(double number, int digitCount = 30);
 
 extern nint 					_wtoa(const wchar_t* w, char* a, nint  chars);
 /// <summary>Convert an Unicode string to an Ansi string.</summary>

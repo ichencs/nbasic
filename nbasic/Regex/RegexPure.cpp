@@ -13,50 +13,50 @@ PureInterpretor
 			,finalState(NULL)
 			,relatedFinalState(NULL)
 		{
-			stateCount=dfa->states.Count();
-			charSetCount=subsets.Count()+1;
-			startState=dfa->states.IndexOf(dfa->startState);
+			stateCount = dfa->states.Count();
+			charSetCount = subsets.Count() + 1;
+			startState = dfa->states.IndexOf(dfa->startState);
 
 			//填充字符映射表
-			for(nint i=0;i<SupportedCharCount;i++)
+			for (nint i = 0; i < SupportedCharCount; i++)
 			{
-				charMap[i]=charSetCount-1;
+				charMap[i] = charSetCount - 1;
 			}
-			for(nint i=0;i<subsets.Count();i++)
+			for (nint i = 0; i < subsets.Count(); i++)
 			{
-				CharRange range=subsets[i];
-				for(nint j=range.begin;j<=range.end;j++)
+				CharRange range = subsets[i];
+				for (nint j = range.begin; j <= range.end; j++)
 				{
-					charMap[j]=i;
+					charMap[j] = i;
 				}
 			}
-			
+
 			//构造状态转换表
-			transition=new nint*[stateCount];
-			for(nint i=0;i<stateCount;i++)
+			transition = new nint*[stateCount];
+			for (nint i = 0; i < stateCount; i++)
 			{
-				transition[i]=new nint[charSetCount];
-				for(nint j=0;j<charSetCount;j++)
+				transition[i] = new nint[charSetCount];
+				for (nint j = 0; j < charSetCount; j++)
 				{
-					transition[i][j]=-1;
+					transition[i][j] = -1;
 				}
 
-				State* state=dfa->states[i].Obj();
-				for(nint j=0;j<state->transitions.Count();j++)
+				State* state = dfa->states[i].Obj();
+				for (nint j = 0; j < state->transitions.Count(); j++)
 				{
-					Transition* dfaTransition=state->transitions[j];
-					switch(dfaTransition->type)
+					Transition* dfaTransition = state->transitions[j];
+					switch (dfaTransition->type)
 					{
 					case Transition::Chars:
+					{
+						nint index = subsets.IndexOf(dfaTransition->range);
+						if (index == -1)
 						{
-							nint index=subsets.IndexOf(dfaTransition->range);
-							if(index==-1)
-							{
-								CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#Specified chars don't appear in the normalized char ranges.");
-							}
-							transition[i][index]=dfa->states.IndexOf(dfaTransition->target);
+							CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#Specified chars don't appear in the normalized char ranges.");
 						}
-						break;
+						transition[i][index] = dfa->states.IndexOf(dfaTransition->target);
+					}
+					break;
 					default:
 						CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#PureInterpretor only accepts Transition::Chars transitions.");
 					}
@@ -64,10 +64,10 @@ PureInterpretor
 			}
 
 			//填充终结状态表
-			finalState=new bool[stateCount];
-			for(nint i=0;i<stateCount;i++)
+			finalState = new bool[stateCount];
+			for (nint i = 0; i < stateCount; i++)
 			{
-				finalState[i]=dfa->states[i]->finalState;
+				finalState[i] = dfa->states[i]->finalState;
 			}
 		}
 

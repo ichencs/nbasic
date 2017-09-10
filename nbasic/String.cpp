@@ -200,10 +200,10 @@
 		return buffer;
 	}
 
-	AString ftoa(double number)
+	AString ftoa(double number,int digitCount)
 	{
 		char buffer[320];
-		_gcvt_s(buffer, 320, number, 30);
+		_gcvt_s(buffer, 320, number, digitCount);
 		nint len = (nint)strlen(buffer);
 		if (buffer[len - 1] == '.')
 		{
@@ -212,9 +212,9 @@
 		return buffer;
 	}
 
-	WString ftow(double number)
+	WString ftow(double number, int digitCount)
 	{
-		return atow(ftoa(number));
+		return atow(ftoa(number, digitCount));
 	}
 
 	nint _wtoa(const wchar_t* w, char* a, nint  chars)

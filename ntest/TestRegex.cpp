@@ -301,41 +301,41 @@ void CompareToBaseline(WString fileName)
 	TEST_ASSERT(generatedReader.ReadToEnd() == baselineReader.ReadToEnd());
 }
 
-// void PrintRegex(WString name, WString code, bool compareToBaseline=true)
-// {
-// 	RegexExpression::Ref regex=ParseRegexExpression(code);
-// 	Expression::Ref expression=regex->Merge();
-// 	CharRange::List subsets;
-// 	expression->NormalizeCharSet(subsets);
-//
-// 	Dictionary<State*, State*> nfaStateMap;
-// 	Group<State*, State*> dfaStateMap;
-// 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-// 	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
-// 	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
-//
-// 	PrintAutomaton(name+L".eNfa.txt", eNfa);
-// 	PrintAutomaton(name+L".Nfa.txt", nfa);
-// 	PrintAutomaton(name+L".Dfa.txt", dfa);
-//
-// 	if(compareToBaseline)
-// 	{
-// 		CompareToBaseline(name+L".eNfa.txt");
-// 		CompareToBaseline(name+L".Nfa.txt");
-// 		CompareToBaseline(name+L".Dfa.txt");
-// 	}
-// }
+ void PrintRegex(WString name, WString code, bool compareToBaseline=true)
+ {
+ 	RegexExpression::Ref regex=ParseRegexExpression(code);
+ 	Expression::Ref expression=regex->Merge();
+ 	CharRange::List subsets;
+ 	expression->NormalizeCharSet(subsets);
+
+ 	Dictionary<State*, State*> nfaStateMap;
+ 	Group<State*, State*> dfaStateMap;
+ 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
+ 	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
+ 	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
+
+ 	PrintAutomaton(name+L".eNfa.txt", eNfa);
+ 	PrintAutomaton(name+L".Nfa.txt", nfa);
+ 	PrintAutomaton(name+L".Dfa.txt", dfa);
+
+ 	if(compareToBaseline)
+ 	{
+ 		CompareToBaseline(name+L".eNfa.txt");
+ 		CompareToBaseline(name+L".Nfa.txt");
+ 		CompareToBaseline(name+L".Dfa.txt");
+ 	}
+ }
 
 TEST_CASE(TestEpsilonNfa)
 {
-	// 	PrintRegex(L"RegexInteger",			L"/d");
-	// 	PrintRegex(L"RegexFullint",			L"(/+|-)?/d+");
-	// 	PrintRegex(L"RegexFloat",			L"(/+|-)?/d+(./d+)?");
-	// 	PrintRegex(L"RegexString",			L"\"([^\\\\\"]|\\\\\\.)*\"");
-	// 	PrintRegex(L"RegexComment",			L"///*([^*]|/*+[^*//])*/*+//");
-	// 	PrintRegex(L"RegexIP",				L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
-	// 	PrintRegex(L"RegexDuplicate",		L"^(<sec>/.+)(<$sec>)+$");
-	// 	PrintRegex(L"RegexPrescan",			L"/d+(=/w+)(!vczh)");
+	 	PrintRegex(L"RegexInteger",			L"/d");
+	 	PrintRegex(L"RegexFullint",			L"(/+|-)?/d+");
+	 	PrintRegex(L"RegexFloat",			L"(/+|-)?/d+(./d+)?");
+	 	PrintRegex(L"RegexString",			L"\"([^\\\\\"]|\\\\\\.)*\"");
+	 	PrintRegex(L"RegexComment",			L"///*([^*]|/*+[^*//])*/*+//");
+	 	PrintRegex(L"RegexIP",				L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
+	 	PrintRegex(L"RegexDuplicate",		L"^(<sec>/.+)(<$sec>)+$");
+	 	PrintRegex(L"RegexPrescan",			L"/d+(=/w+)(!vczh)");
 }
 
 /***********************************************************************
@@ -367,48 +367,48 @@ void RunPureInterpretor(const wchar_t* code, const wchar_t* input, nint start, n
 	}
 }
 
-// TEST_CASE(TestPureInterpretor)
-// {
-// 	RunPureInterpretor(L"/d", L"abcde12345abcde", 5, 1);
-// 	RunPureInterpretor(L"/d", L"12345abcde", 0, 1);
-// 	RunPureInterpretor(L"/d", L"vczh", -1, 0);
-//
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde12345abcde", 5, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde+12345abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde-12345abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"12345abcde", 0, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"+12345abcde", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"-12345abcde", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+", L"-+vczh+-", -1, 0);
-//
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345abcde", 5, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.abcde", 5, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.abcde", 5, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.54321abcde", 5, 11);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.54321abcde", 5, 12);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.54321abcde", 5, 12);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345", 0, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.", 0, 5);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.", 0, 6);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.54321", 0, 11);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.54321", 0, 12);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.54321", 0, 12);
-// 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-+vczh+-", -1, 0);
-//
-// 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"is\"genius", 4, 4);
-// 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"i\\r\\ns\"genius", 4, 8);
-// 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh is genius", -1, 0);
-//
-// 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/*is*/genius", 4, 6);
-// 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/***is***/genius", 4, 10);
-// 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh is genius", -1, 0);
-// }
+ TEST_CASE(TestPureInterpretor)
+ {
+ 	RunPureInterpretor(L"/d", L"abcde12345abcde", 5, 1);
+ 	RunPureInterpretor(L"/d", L"12345abcde", 0, 1);
+ 	RunPureInterpretor(L"/d", L"vczh", -1, 0);
+
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde12345abcde", 5, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde+12345abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde-12345abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"12345abcde", 0, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"+12345abcde", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"-12345abcde", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+", L"-+vczh+-", -1, 0);
+
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345abcde", 5, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.abcde", 5, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.abcde", 5, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.54321abcde", 5, 11);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.54321abcde", 5, 12);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.54321abcde", 5, 12);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345", 0, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.", 0, 5);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.", 0, 6);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.54321", 0, 11);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.54321", 0, 12);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.54321", 0, 12);
+ 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-+vczh+-", -1, 0);
+
+ 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"is\"genius", 4, 4);
+ 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"i\\r\\ns\"genius", 4, 8);
+ 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh is genius", -1, 0);
+
+ 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/*is*/genius", 4, 6);
+ 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/***is***/genius", 4, 10);
+ 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh is genius", -1, 0);
+ }
 
 /***********************************************************************
 ¸»Æ¥Åä
@@ -853,11 +853,11 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[6]->Result().Value() == L"ZW");
 }
 
-// TEST_CASE(TestRegexMatchPosition)
-// {
-// 	TestRegexMatchPosition(true);
-// 	TestRegexMatchPosition(false);
-// }
+ TEST_CASE(TestRegexMatchPosition)
+ {
+ 	TestRegexMatchPosition(true);
+ 	TestRegexMatchPosition(false);
+ }
 
 TEST_CASE(TestRegexCapture)
 {
@@ -1363,25 +1363,25 @@ void TestRegexLexer5Validation(NList<RegexToken>& tokens)
 	TEST_ASSERT(tokens[1].completeToken == false);
 }
 
-// TEST_CASE(TestRegexLexer5)
-// {
-// 	NList<WString> codes;
-// 	codes.Add(L"/d+");
-// 	codes.Add(L"\"[^\"]*\"");
-// 	RegexLexer lexer(codes);
-//
-// 	WString input = L"123\"456";
-// 	{
-// 		NList<RegexToken> tokens;
-// 		CopyFrom(tokens, lexer.Parse(input));
-// 		TestRegexLexer5Validation(tokens);
-// 	}
-// 	{
-// 		NList<RegexToken> tokens;
-// 		lexer.Parse(input).ReadToEnd(tokens);
-// 		TestRegexLexer5Validation(tokens);
-// 	}
-// }
+ TEST_CASE(TestRegexLexer5)
+ {
+ 	NList<WString> codes;
+ 	codes.Add(L"/d+");
+ 	codes.Add(L"\"[^\"]*\"");
+ 	RegexLexer lexer(codes);
+
+ 	WString input = L"123\"456";
+ 	{
+ 		NList<RegexToken> tokens;
+ 		CopyFrom(tokens, lexer.Parse(input));
+ 		TestRegexLexer5Validation(tokens);
+ 	}
+ 	{
+ 		NList<RegexToken> tokens;
+ 		lexer.Parse(input).ReadToEnd(tokens);
+ 		TestRegexLexer5Validation(tokens);
+ 	}
+ }
 
 /***********************************************************************
 ×Ö·û×ÅÉ«
@@ -1399,55 +1399,55 @@ void TestRegexLexer5Validation(NList<RegexToken>& tokens)
 		TEST_ASSERT(STOP==previousTokenStop);\
 	}while(0)\
 
-// TEST_CASE(TestRegexLexerWalker)
-// {
-// 	NList<WString> codes;
-// 	codes.Add(L"/d+(./d+)?");
-// 	codes.Add(L"[a-zA-Z_]/w*");
-// 	codes.Add(L"\"[^\"]*\"");
-// 	RegexLexer lexer(codes);
-// 	RegexLexerWalker walker = lexer.Walk();
-//
-// 	nint state = -1;
-//
-// 	WALK(L' ', -1,	true,	true);
-// 	WALK(L'g', 1,	true,	true);
-// 	WALK(L'e', 1,	true,	false);
-// 	WALK(L'n', 1,	true,	false);
-// 	WALK(L'i', 1,	true,	false);
-// 	WALK(L'u', 1,	true,	false);
-// 	WALK(L's', 1,	true,	false);
-//
-// 	WALK(L' ', -1,	true,	true);
-//
-// 	WALK(L'1', 0,	true,	true);
-// 	WALK(L'0', 0,	true,	false);
-// 	WALK(L'.', -1,	false,	false);
-//
-// 	WALK(L'.', -1,	true,	true);
-//
-// 	WALK(L'1', 0,	true,	true);
-// 	WALK(L'0', 0,	true,	false);
-// 	WALK(L'.', -1,	false,	false);
-// 	WALK(L'1', 0,	true,	false);
-// 	WALK(L'0', 0,	true,	false);
-//
-// 	WALK(L' ', -1,	true,	true);
-// 	WALK(L' ', -1,	true,	true);
-// 	WALK(L' ', -1,	true,	true);
-//
-// 	WALK(L'\"', -1,	false,	true);
-// 	WALK(L'\"', 2,	true,	false);
-//
-// 	WALK(L'\"', -1,	false,	true);
-// 	WALK(L'g', -1,	false,	false);
-// 	WALK(L'e', -1,	false,	false);
-// 	WALK(L'n', -1,	false,	false);
-// 	WALK(L'i', -1,	false,	false);
-// 	WALK(L'u', -1,	false,	false);
-// 	WALK(L's', -1,	false,	false);
-// 	WALK(L'\"', 2,	true,	false);
-// }
+ TEST_CASE(TestRegexLexerWalker)
+ {
+ 	NList<WString> codes;
+ 	codes.Add(L"/d+(./d+)?");
+ 	codes.Add(L"[a-zA-Z_]/w*");
+ 	codes.Add(L"\"[^\"]*\"");
+ 	RegexLexer lexer(codes);
+ 	RegexLexerWalker walker = lexer.Walk();
+
+ 	nint state = -1;
+
+ 	WALK(L' ', -1,	true,	true);
+ 	WALK(L'g', 1,	true,	true);
+ 	WALK(L'e', 1,	true,	false);
+ 	WALK(L'n', 1,	true,	false);
+ 	WALK(L'i', 1,	true,	false);
+ 	WALK(L'u', 1,	true,	false);
+ 	WALK(L's', 1,	true,	false);
+
+ 	WALK(L' ', -1,	true,	true);
+
+ 	WALK(L'1', 0,	true,	true);
+ 	WALK(L'0', 0,	true,	false);
+ 	WALK(L'.', -1,	false,	false);
+
+ 	WALK(L'.', -1,	true,	true);
+
+ 	WALK(L'1', 0,	true,	true);
+ 	WALK(L'0', 0,	true,	false);
+ 	WALK(L'.', -1,	false,	false);
+ 	WALK(L'1', 0,	true,	false);
+ 	WALK(L'0', 0,	true,	false);
+
+ 	WALK(L' ', -1,	true,	true);
+ 	WALK(L' ', -1,	true,	true);
+ 	WALK(L' ', -1,	true,	true);
+
+ 	WALK(L'\"', -1,	false,	true);
+ 	WALK(L'\"', 2,	true,	false);
+
+ 	WALK(L'\"', -1,	false,	true);
+ 	WALK(L'g', -1,	false,	false);
+ 	WALK(L'e', -1,	false,	false);
+ 	WALK(L'n', -1,	false,	false);
+ 	WALK(L'i', -1,	false,	false);
+ 	WALK(L'u', -1,	false,	false);
+ 	WALK(L's', -1,	false,	false);
+ 	WALK(L'\"', 2,	true,	false);
+ }
 
 void ColorizerProc(void* argument, nint start, nint length, nint token)
 {
@@ -1459,58 +1459,58 @@ void ColorizerProc(void* argument, nint start, nint length, nint token)
 	}
 }
 
-// TEST_CASE(TestRegexLexerColorizer)
-// {
-// 	NList<WString> codes;
-// 	codes.Add(L"/d+(./d+)?");
-// 	codes.Add(L"[a-zA-Z_]/w*");
-// 	codes.Add(L"\"[^\"]*\"");
-// 	RegexLexer lexer(codes);
-// 	RegexLexerColorizer colorizer = lexer.Colorize();
-//
-// 	const wchar_t line1[] = L" genius 10..10.10   \"a";
-// 	nint color1[] = {-1, 1, 1, 1, 1, 1, 1, -1, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, 2, 2};
-// 	nint length1 = sizeof(color1) / sizeof(*color1);
-//
-// 	const wchar_t line2[] = L"b\"\"genius\"";
-// 	nint color2[] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-// 	nint length2 = sizeof(color2) / sizeof(*color2);
-//
-// 	TEST_ASSERT(wcslen(line1) == length1);
-// 	TEST_ASSERT(wcslen(line2) == length2);
-//
-// 	nint colors[100];
-// 	{
-// 		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
-// 		{
-// 			colors[i] = -2;
-// 		}
-//
-// 		colorizer.Reset(colorizer.GetStartState());
-// 		colorizer.Colorize(line1, length1, &ColorizerProc, colors);
-//
-// 		for (nint i = 0; i < length1; i++)
-// 		{
-// 			TEST_ASSERT(color1[i] == colors[i]);
-// 		}
-// 	}
-// 	colorizer.Pass(L'\r');
-// 	colorizer.Pass(L'\n');
-// 	{
-// 		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
-// 		{
-// 			colors[i] = -2;
-// 		}
-//
-// 		colorizer.Reset(colorizer.GetCurrentState());
-// 		colorizer.Colorize(line2, length2, &ColorizerProc, colors);
-//
-// 		for (nint i = 0; i < length2; i++)
-// 		{
-// 			TEST_ASSERT(color2[i] == colors[i]);
-// 		}
-// 	}
-// }
+TEST_CASE(TestRegexLexerColorizer)
+{
+	NList<WString> codes;
+	codes.Add(L"/d+(./d+)?");
+	codes.Add(L"[a-zA-Z_]/w*");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes);
+	RegexLexerColorizer colorizer = lexer.Colorize();
+
+	const wchar_t line1[] = L" genius 10..10.10   \"a";
+	nint color1[] = { -1, 1, 1, 1, 1, 1, 1, -1, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, 2, 2 };
+	nint length1 = sizeof(color1) / sizeof(*color1);
+
+	const wchar_t line2[] = L"b\"\"genius\"";
+	nint color2[] = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+	nint length2 = sizeof(color2) / sizeof(*color2);
+
+	TEST_ASSERT(wcslen(line1) == length1);
+	TEST_ASSERT(wcslen(line2) == length2);
+
+	nint colors[100];
+	{
+		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
+		{
+			colors[i] = -2;
+		}
+
+		colorizer.Reset(colorizer.GetStartState());
+		colorizer.Colorize(line1, length1, &ColorizerProc, colors);
+
+		for (nint i = 0; i < length1; i++)
+		{
+			TEST_ASSERT(color1[i] == colors[i]);
+		}
+	}
+	colorizer.Pass(L'\r');
+	colorizer.Pass(L'\n');
+	{
+		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
+		{
+			colors[i] = -2;
+		}
+
+		colorizer.Reset(colorizer.GetCurrentState());
+		colorizer.Colorize(line2, length2, &ColorizerProc, colors);
+
+		for (nint i = 0; i < length2; i++)
+		{
+			TEST_ASSERT(color2[i] == colors[i]);
+		}
+	}
+}
 
 #undef WALK
 
@@ -1561,3 +1561,4 @@ TEST_CASE(TestRegexSpeed1)
 	FindRows(lines, sizeof(lines) / sizeof(*lines), pattern);
 #endif
 }
+
