@@ -80,10 +80,10 @@ Ptr
 					{
 						originalDestructor(counter, originalReference);
 					}
-					counter=nullptr;
-					reference=nullptr;
-					originalReference=nullptr;
-					originalDestructor=nullptr;
+					counter=NULL;
+					reference=NULL;
+					originalReference=NULL;
+					originalDestructor=NULL;
 				}
 			}
 		}
@@ -576,11 +576,11 @@ ComPtr
 		}
 	};
 
-	template<typename T, typename ...TArgs>
-	Ptr<T> MakePtr(TArgs ...args)
-	{
-		return new T(args...);
-	}
+// 	template<typename T, typename ...TArgs>
+// 	Ptr<T> MakePtr(TArgs ...args)
+// 	{
+// 		return new T(args...);
+// 	}
 
 /***********************************************************************
 Traits
