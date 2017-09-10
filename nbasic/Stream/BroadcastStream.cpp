@@ -3,8 +3,8 @@
 #include "BroadcastStream.h"
 
  
-	namespace stream
-	{
+// 	namespace stream
+// 	{
 /***********************************************************************
 BroadcastStream
 ***********************************************************************/
@@ -104,4 +104,4 @@ BroadcastStream
 		{
 			CHECK_FAIL(L"BroadcastStream::Peek(void*, nint)#Operation not supported.");
 		}
-	}
+// 	}

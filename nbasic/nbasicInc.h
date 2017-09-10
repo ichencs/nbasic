@@ -18,7 +18,7 @@
 #include "Exception.h"
 #include "NLocale.h"
 #include "GlobalStorage.h"
-// #include "Function.h"
+#include "NLocale.h"
 
 #include ".\Stream\Accessor.h"
 #include ".\Stream\BroadcastStream.h"
@@ -28,6 +28,7 @@
 #include ".\Stream\Interfaces.h"
 #include ".\Stream\memorystream.h"
 #include ".\Stream\recorderstream.h"
+#include ".\Stream\CompressionStream.h"
 
 #include ".\Collections\interfaces.h"
 #include ".\Collections\NPair.h"

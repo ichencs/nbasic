@@ -3,8 +3,8 @@
 #include "CacheStream.h"
 
  
-	namespace stream
-	{
+// 	namespace stream
+// 	{
 /***********************************************************************
 CacheStream
 ***********************************************************************/
@@ -298,4 +298,4 @@ CacheStream
 
 			return InternalRead(_buffer, _size);
 		}
-	}
+// 	}

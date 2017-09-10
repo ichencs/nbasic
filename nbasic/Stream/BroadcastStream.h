@@ -14,8 +14,8 @@ Interfaces:
 #include "../Collections/NList.h"
 
  
-	namespace stream
-	{
+// 	namespace stream
+// 	{
 		/// <summary>A writable stream that copy written content to multiple target streams.</summary>
 		class BroadcastStream : public Object, public virtual NIStream
 		{
@@ -48,6 +48,6 @@ Interfaces:
 			nint					Write(void* _buffer, nint _size);
 			nint					Peek(void* _buffer, nint _size);
 		};
-	}
+// 	}
 
 #endif

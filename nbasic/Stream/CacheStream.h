@@ -13,8 +13,8 @@ Interfaces:
 #include "Interfaces.h"
 
  
-	namespace stream
-	{
+// 	namespace stream
+// 	{
 		/// <summary>
 		/// A cache stream. Features (readable, writable, seekable, peekable) are enabled according to the target stream.
 		/// When you read from the cache strema, it will read a specified size of content from the target stream first and cache, reducing the numbers of operations on the target stream.
@@ -61,6 +61,6 @@ Interfaces:
 			nint					Write(void* _buffer, nint _size);
 			nint					Peek(void* _buffer, nint _size);
 		};
-	}
+// 	}
 
 #endif
