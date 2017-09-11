@@ -33,42 +33,42 @@ class TakeEnumerator : public virtual IEnumerator<T>
 			, count(_count)
 		{
 		}
-
+		
 		~TakeEnumerator()
 		{
 			delete enumerator;
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new TakeEnumerator(enumerator->Clone(), count);
 		}
-
+		
 		const T& Current()const override
 		{
 			return enumerator->Current();
 		}
-
+		
 		nint Index()const override
 		{
 			return enumerator->Index();
 		}
-
+		
 		bool Next()override
 		{
 			if (enumerator->Index() >= count - 1)
 			{
 				return false;
 			}
-
+			
 			return enumerator->Next();
 		}
-
+		
 		void Reset()override
 		{
 			enumerator->Reset();
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return enumerator->Evaluated();
@@ -93,33 +93,33 @@ class SkipEnumerator : public virtual IEnumerator<T>
 			, skipped(_skipped)
 		{
 		}
-
+		
 		~SkipEnumerator()
 		{
 			delete enumerator;
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new SkipEnumerator(enumerator->Clone(), count, skipped);
 		}
-
+		
 		const T& Current()const override
 		{
 			return enumerator->Current();
 		}
-
+		
 		nint Index()const override
 		{
 			return enumerator->Index() - count;
 		}
-
+		
 		bool Next()override
 		{
 			if (!skipped)
 			{
 				skipped = true;
-
+				
 				for (nint i = 0; i < count; i++)
 				{
 					if (!enumerator->Next())
@@ -128,16 +128,16 @@ class SkipEnumerator : public virtual IEnumerator<T>
 					}
 				}
 			}
-
+			
 			return enumerator->Next();
 		}
-
+		
 		void Reset()override
 		{
 			enumerator->Reset();
 			skipped = false;
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return enumerator->Evaluated();
@@ -164,27 +164,27 @@ class RepeatEnumerator : public virtual IEnumerator<T>
 			, repeatedCount(_repeatedCount)
 		{
 		}
-
+		
 		~RepeatEnumerator()
 		{
 			delete enumerator;
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new RepeatEnumerator(enumerator->Clone(), count, index, repeatedCount);
 		}
-
+		
 		const T& Current()const override
 		{
 			return enumerator->Current();
 		}
-
+		
 		nint Index()const override
 		{
 			return index;
 		}
-
+		
 		bool Next()override
 		{
 			while (repeatedCount < count)
@@ -194,21 +194,21 @@ class RepeatEnumerator : public virtual IEnumerator<T>
 					index++;
 					return true;
 				}
-
+				
 				repeatedCount++;
 				enumerator->Reset();
 			}
-
+			
 			return false;
 		}
-
+		
 		void Reset()override
 		{
 			enumerator->Reset();
 			index = -1;
 			repeatedCount = 0;
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return enumerator->Evaluated();
@@ -226,46 +226,46 @@ class DistinctEnumerator : public virtual IEnumerator<T>
 		IEnumerator<T>*		enumerator;
 		NSortedList<T>		distinct;
 		T					lastValue;
-
+		
 	public:
 		DistinctEnumerator(IEnumerator<T>* _enumerator)
 			: enumerator(_enumerator)
 		{
 		}
-
+		
 		DistinctEnumerator(const DistinctEnumerator& _enumerator)
 			: lastValue(_enumerator.lastValue)
 		{
 			enumerator = _enumerator.enumerator->Clone();
 			CopyFrom(distinct, _enumerator.distinct);
 		}
-
+		
 		~DistinctEnumerator()
 		{
 			delete enumerator;
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new DistinctEnumerator(*this);
 		}
-
+		
 		const T& Current()const override
 		{
 			return lastValue;
 		}
-
+		
 		nint Index()const override
 		{
 			return distinct.Count() - 1;
 		}
-
+		
 		bool Next()override
 		{
 			while (enumerator->Next())
 			{
 				const T& current = enumerator->Current();
-
+				
 				if (!SortedListOperations<T>::Contains(distinct, current))
 				{
 					lastValue = current;
@@ -273,10 +273,10 @@ class DistinctEnumerator : public virtual IEnumerator<T>
 					return true;
 				}
 			}
-
+			
 			return false;
 		}
-
+		
 		void Reset()override
 		{
 			enumerator->Reset();
@@ -300,43 +300,43 @@ class ReverseEnumerator : public virtual IEnumerator<T>
 		{
 			CopyFrom(cache, enumerable);
 		}
-
+		
 		ReverseEnumerator(const ReverseEnumerator& _enumerator)
 			: index(_enumerator.index)
 		{
 			CopyFrom(cache, _enumerator.cache);
 		}
-
+		
 		~ReverseEnumerator()
 		{
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new ReverseEnumerator(*this);
 		}
-
+		
 		const T& Current()const override
 		{
 			return cache.Get(cache.Count() - 1 - index);
 		}
-
+		
 		nint Index()const override
 		{
 			return index;
 		}
-
+		
 		bool Next()override
 		{
 			index++;
 			return index < cache.Count();
 		}
-
+		
 		void Reset()override
 		{
 			index = -1;
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return true;
@@ -357,7 +357,7 @@ class FromIteratorEnumerable : public Object, public IEnumerable<T>
 				I				begin;
 				I				end;
 				I				current;
-
+				
 			public:
 				Enumerator(I _begin, I _end, I _current)
 					: begin(_begin)
@@ -365,33 +365,33 @@ class FromIteratorEnumerable : public Object, public IEnumerable<T>
 					, current(_current)
 				{
 				}
-
+				
 				IEnumerator<T>* Clone()const override
 				{
 					return new Enumerator(begin, end, current);
 				}
-
+				
 				const T& Current()const override
 				{
 					return *current;
 				}
-
+				
 				nint Index()const override
 				{
 					return current - begin;
 				}
-
+				
 				bool Next()override
 				{
 					current++;
 					return begin <= current && current < end;
 				}
-
+				
 				void Reset()override
 				{
 					current = begin - 1;
 				}
-
+				
 				bool Evaluated()const override
 				{
 					return true;
@@ -405,13 +405,13 @@ class FromIteratorEnumerable : public Object, public IEnumerable<T>
 		{
 			return new Enumerator(begin, end, begin - 1);
 		}
-
+		
 		FromIteratorEnumerable(I _begin, I _end)
 			: begin(_begin)
 			, end(_end)
 		{
 		}
-
+		
 		FromIteratorEnumerable(const FromIteratorEnumerable<T, I>& enumerable)
 			: begin(enumerable.begin)
 			, end(enumerable.end)
@@ -437,7 +437,7 @@ FromIteratorEnumerable<T, T*> FromPointer(T* begin, T* end)
 }
 
 template<typename T, int size>
-FromIteratorEnumerable<T, T*> FromArray(T (&items)[size])
+FromIteratorEnumerable<T, T*> FromArray(T(&items)[size])
 {
 	return FromIteratorEnumerable<T, T*>(&items[0], &items[size]);
 }
