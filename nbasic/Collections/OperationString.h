@@ -29,7 +29,7 @@ void CopyFrom(ObjectString<D>& ds, const Ss& ss, bool append = false)
 {
 	NArray<D> da(ds.Buffer(), ds.Length());
 	CopyFrom(da, ss, append);
-	
+
 	if (da.Count() == 0)
 	{
 		ds = ObjectString<D>();
@@ -39,6 +39,7 @@ void CopyFrom(ObjectString<D>& ds, const Ss& ss, bool append = false)
 		ds = ObjectString<D>(&da[0], da.Count());
 	}
 }
+<<<<<<< HEAD
 
 //ÓÐÎÊÌâ
 template<typename D, typename Ss>
@@ -71,5 +72,9 @@ void SplitString(const ObjectString<D>& ds, Ss& lst, D delimiter)
 }
 
 
+=======
+// 	}
+// }
+>>>>>>> parent of 3eea6d6... string-split
 
 #endif

@@ -22,67 +22,67 @@ class ObjectString : public Object
 
 	private:
 		static const T				zero;
-		
+
 		mutable T*					buffer;
 		mutable volatile nint* 		counter;
 		mutable nint				start;
 		mutable nint				length;
 		mutable nint				realLength;
-		
+
 		static nint  CalculateLength(const T* buffer)
 		{
 			nint result = 0;
-			
+
 			while (*buffer++)
 			{
 				result++;
 			}
-			
+
 			return result;
 		}
-		
+
 		static nint  Compare(const T* bufA, const ObjectString<T>& strB)
 		{
 			const T* bufB = strB.buffer + strB.start;
 			const T* bufAOld = bufA;
 			nint length = strB.length;
-			
+
 			while (length-- && *bufA)
 			{
 				nint diff = *bufA++ - *bufB++;
-				
+
 				if (diff != 0)
 				{
 					return diff;
 				}
 			};
-			
+
 			return CalculateLength(bufAOld) - strB.length;
 		}
-		
+
 	public:
-	
+
 		static nint  Compare(const ObjectString<T>& strA, const ObjectString<T>& strB)
 		{
 			const T* bufA = strA.buffer + strA.start;
 			const T* bufB = strB.buffer + strB.start;
 			nint length = strA.length < strB.length ? strA.length : strB.length;
-			
+
 			while (length--)
 			{
 				nint diff = *bufA++ -*bufB++;
-				
+
 				if (diff != 0)
 				{
 					return diff;
 				}
 			};
-			
+
 			return strA.length - strB.length;
 		}
-		
+
 	private:
-	
+
 		void Inc()const
 		{
 			if (counter)
@@ -90,7 +90,7 @@ class ObjectString : public Object
 				INCRC(counter);
 			}
 		}
-		
+
 		void Dec()const
 		{
 			if (counter)
@@ -102,7 +102,7 @@ class ObjectString : public Object
 				}
 			}
 		}
-		
+
 		ObjectString(const ObjectString<T>& string, nint  _start, nint  _length)
 		{
 			if (_length <= 0)
@@ -123,7 +123,7 @@ class ObjectString : public Object
 				Inc();
 			}
 		}
-		
+
 		/// <summary>
 		///
 		/// </summary>
@@ -144,7 +144,7 @@ class ObjectString : public Object
 			}
 			else
 			{
-				counter = new nint(1);
+				counter = new nint (1);
 				start = 0;
 				length = dest.length - count + source.length;
 				realLength = length;
@@ -157,7 +157,7 @@ class ObjectString : public Object
 		}
 	public:
 		static ObjectString<T>	Empty;
-		
+
 		/// <summary>Create an empty string.</summary>
 		ObjectString()
 		{
@@ -167,12 +167,12 @@ class ObjectString : public Object
 			length = 0;
 			realLength = 0;
 		}
-		
+
 		/// <summary>Create a string continaing one character.</summary>
 		/// <param name="_char">The character.</param>
 		ObjectString(const T& _char)
 		{
-			counter = new nint(1);
+			counter = new nint (1);
 			start = 0;
 			length = 1;
 			buffer = new T[2];
@@ -180,7 +180,7 @@ class ObjectString : public Object
 			buffer[1] = 0;
 			realLength = length;
 		}
-		
+
 		/// <summary>Copy a string.</summary>
 		/// <param name="_buffer">Memory to copy. It does not have to contain the zero terminator.</param>
 		/// <param name="_length">Size of the content in characters.</param>
@@ -199,23 +199,23 @@ class ObjectString : public Object
 				buffer = new T[_length + 1];
 				memcpy(buffer, _buffer, _length * sizeof(T));
 				buffer[_length] = 0;
-				counter = new nint(1);
+				counter = new nint (1);
 				start = 0;
 				length = _length;
 				realLength = _length;
 			}
 		}
-		
+
 		/// <summary>Copy a string.</summary>
 		/// <param name="_buffer">Memory to copy. It should have to contain the zero terminator.</param>
 		/// <param name="copy">Set to true to copy the memory. Set to false to use the memory directly.</param>
 		ObjectString(const T* _buffer, bool copy = true)
 		{
 			CHECK_ERROR(_buffer != 0, L"ObjectString<T>::ObjectString(const T*, bool)#Cannot construct a string from nullptr.");
-			
+
 			if (copy)
 			{
-				counter = new nint(1);
+				counter = new nint (1);
 				start = 0;
 				length = CalculateLength(_buffer);
 				buffer = new T[length + 1];
@@ -231,7 +231,7 @@ class ObjectString : public Object
 				realLength = length;
 			}
 		}
-		
+
 		/// <summary>Copy a string.</summary>
 		/// <param name="string">The string to copy.</param>
 		ObjectString(const ObjectString<T>& string)
@@ -243,7 +243,7 @@ class ObjectString : public Object
 			realLength = string.realLength;
 			Inc();
 		}
-		
+
 		/// <summary>Move a string.</summary>
 		/// <param name="string">The string to move.</param>
 		// 		ObjectString(ObjectString<T>&& string)
@@ -260,18 +260,18 @@ class ObjectString : public Object
 		// 			string.length=0;
 		// 			string.realLength=0;
 		// 		}
-		
+
 		~ObjectString()
 		{
 			Dec();
 		}
-		
+
 		bool IsEmpty()const
 		{
 			return *this == Empty;
 		}
-		
-		
+
+
 		/// <summary>Get the zero-terminated buffer in the string. Copying parts of a string does not necessarily create a new buffer, so in some situation the string will not actually points to a zero-terminated buffer. In this case, this function will copy the content to a new buffer with a zero terminator and return.</summary>
 		/// <returns>Returns the buffer.</returns>
 		const T* Buffer()const
@@ -283,14 +283,14 @@ class ObjectString : public Object
 				newBuffer[length] = 0;
 				Dec();
 				buffer = newBuffer;
-				counter = new nint(1);
+				counter = new nint (1);
 				start = 0;
 				realLength = length;
 			}
-			
+
 			return buffer + start;
 		}
-		
+
 		ObjectString<T>& operator=(const ObjectString<T>& string)
 		{
 			if (this != &string)
@@ -303,142 +303,140 @@ class ObjectString : public Object
 				realLength = string.realLength;
 				Inc();
 			}
-			
 			return *this;
 		}
-		
+
 		ObjectString<T>& operator+=(const ObjectString<T>& string)
 		{
 			return *this = *this + string;
 		}
-		
+
 		ObjectString<T> operator+(const ObjectString<T>& string)const
 		{
 			return ObjectString<T>(*this, string, length, 0);
 		}
-		
+
 		bool operator==(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) == 0;
 		}
-		
+
 		bool operator!=(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) != 0;
 		}
-		
+
 		bool operator>(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) > 0;
 		}
-		
+
 		bool operator>=(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) >= 0;
 		}
-		
+
 		bool operator<(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) < 0;
 		}
-		
+
 		bool operator<=(const ObjectString<T>& string)const
 		{
 			return Compare(*this, string) <= 0;
 		}
-		
+
 		bool operator==(const T* buffer)const
 		{
 			return Compare(buffer, *this) == 0;
 		}
-		
+
 		bool operator!=(const T* buffer)const
 		{
 			return Compare(buffer, *this) != 0;
 		}
-		
+
 		bool operator>(const T* buffer)const
 		{
 			return Compare(buffer, *this) < 0;
 		}
-		
+
 		bool operator>=(const T* buffer)const
 		{
 			return Compare(buffer, *this) <= 0;
 		}
-		
+
 		bool operator<(const T* buffer)const
 		{
 			return Compare(buffer, *this) > 0;
 		}
-		
+
 		bool operator<=(const T* buffer)const
 		{
 			return Compare(buffer, *this) >= 0;
 		}
-		
+
 		T operator[](nint index)const
 		{
 			CHECK_ERROR(index >= 0 && index < length, L"ObjectString:<T>:operator[](nint)#Argument index not in range.");
 			return buffer[start + index];
 		}
-		
+
 		/// <summary>Get the size of the string in characters.</summary>
 		/// <returns>The size.</returns>
 		nint Length()const
 		{
 			return length;
 		}
-		
+
 		/// <summary>Find a character.</summary>
 		/// <returns>The position of the character. Returns -1 if it doesn not exist.</returns>
 		/// <param name="c">The character to find.</param>
-		nint IndexOf(T c, nint startIndex = 0)const
+		nint IndexOf(T c,nint startIndex = 0)const
 		{
-			const T* reading = buffer + start;
-			
-			for (nint i = startIndex; i < length; i++)
+			const T* reading = buffer + start + startIndex;
+
+			for (nint i = 0; i < length; i++)
 			{
 				if (reading[i] == c)
 				{
 					return i;
 				}
 			}
-			
+
 			return -1;
 		}
 		nint FindOf(T c, nint startIndex = 0)const
 		{
-			return IndexOf(c, startIndex);
+			return IndexOf(c,startIndex);
 		}
-		
+
 		nint IndexOf(T* buf)const
 		{
 			nint flag, INI_MAX;
 			nint nlen = CalculateLength(buf);
-			
 			for (nint j = 0; j < nlen; j++)
 			{
 				flag = -1;
-				
 				for (nint i = 0; i < length; i++)
 				{
-					if (buffer[i + start] == buf[j])
+					if (buffer[i+ start] == buf[j])
 					{
 						flag = i;
 						break;
 					}
 				}
-				
 				if (flag != -1)
 				{
+
 				}
+
 			}
-			
+
 			return -1;
 		}
-		
-		
+
+
 		/// <summary>Copy the beginning of the string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="count">Size of characters to copy.</param>
@@ -447,7 +445,7 @@ class ObjectString : public Object
 			CHECK_ERROR(count >= 0 && count <= length, L"ObjectString<T>::Left(nint)#Argument count not in range.");
 			return ObjectString<T>(*this, 0, count);
 		}
-		
+
 		/// <summary>Copy the ending of the string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="count">Size of characters to copy.</param>
@@ -456,7 +454,7 @@ class ObjectString : public Object
 			CHECK_ERROR(count >= 0 && count <= length, L"ObjectString<T>::Right(nint)#Argument count not in range.");
 			return ObjectString<T>(*this, length - count, count);
 		}
-		
+
 		/// <summary>Copy the middle of the string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="index">Position of characters to copy.</param>
@@ -467,16 +465,13 @@ class ObjectString : public Object
 			CHECK_ERROR(index + count >= 0 && index + count <= length, L"ObjectString<T>::Sub(nint, nint )#Argument count not in range.");
 			return ObjectString<T>(*this, index, count);
 		}
-		ObjectString<T>Mid(nint index, nint  count = -1)const
+		ObjectString<T>Mid(nint index, nint  count)const
 		{
-			if (count < 0)
-			{
-				count = length - start - index;
-			}
-			
-			return Sub(index, count);
+			CHECK_ERROR(index >= 0 && index <= length, L"ObjectString<T>::Sub(nint, nint )#Argument index not in range.");
+			CHECK_ERROR(index + count >= 0 && index + count <= length, L"ObjectString<T>::Sub(nint, nint )#Argument count not in range.");
+			return ObjectString<T>(*this, index, count);
 		}
-		
+
 		/// <summary>Copy the beginning and the end of the string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="index">Position of characters NOT to copy.</param>
@@ -487,7 +482,7 @@ class ObjectString : public Object
 			CHECK_ERROR(index + count >= 0 && index + count <= length, L"ObjectString<T>::Remove(nint, nint )#Argument count not in range.");
 			return ObjectString<T>(*this, ObjectString<T>(), index, count);
 		}
-		
+
 		/// <summary>Make a new string by inserting a string in this string.</summary>
 		/// <returns>The copied string.</returns>
 		/// <param name="index">Position of characters to insert.</param>
@@ -497,24 +492,23 @@ class ObjectString : public Object
 			CHECK_ERROR(index >= 0 && index <= length, L"ObjectString<T>::Insert(nint)#Argument count not in range.");
 			return ObjectString<T>(*this, string, index, 0);
 		}
-		
+
 		ObjectString<T> Trim(T c)const
 		{
 			return TrimLeft(c).TrimRight(c);
 		};
-		
+	
 		ObjectString<T> TrimLeft(T c)const
 		{
 			nint nstart = start;		//起始位置
 			nint nend = start + length;	//结束符位置（理论）
 			nint nlen = length;			//实际长度
-			
 			while (buffer[nstart] == c && nstart < nend)
 			{
 				nstart++;
 				nlen--;
 			}
-			
+
 			return ObjectString<T>(*this, nstart - start, nlen);
 		};
 		ObjectString<T>TrimLeft(const T* buf)const
@@ -524,11 +518,10 @@ class ObjectString : public Object
 			nint nlen = length;
 			nint nend = start + length;
 			nint nflag;
-			
+
 			while (nfirst < nend)
 			{
 				nflag = -1;
-				
 				for (nint i = 0; i < nbuflen; i++)
 				{
 					if (buffer[nfirst] == buf[i])
@@ -538,27 +531,24 @@ class ObjectString : public Object
 						nlen--;
 					}
 				}
-				
 				if (nflag != 0)
 				{
 					break;
 				}
 			}
-			
-			return ObjectString<T>(*this, nfirst - start, nlen);
+			return ObjectString<T>(*this,nfirst - start,nlen);
 		}
 		
 		ObjectString<T> TrimRight(T c)const
 		{
 			nint nlast = start + length - 1;
 			nint nlen = length;
-			
 			while (nlen && buffer[nlast] == c)
 			{
 				nlen--;
 				nlast--;
 			}
-			
+
 			return ObjectString<T>(*this, 0, nlen);
 		};
 		
@@ -568,11 +558,9 @@ class ObjectString : public Object
 			nint nlen = length;
 			nint nbuflen = CalculateLength(buf);
 			nint nflag;
-			
 			while (nlen)
 			{
 				nflag = -1;
-				
 				for (nint i = 0; i < nbuflen; i++)
 				{
 					if (buffer[nlast] == buf[i])
@@ -582,53 +570,51 @@ class ObjectString : public Object
 						nlast--;
 					}
 				}
-				
 				if (nflag != 0)
 				{
 					break;
 				}
 			}
-			
 			return ObjectString<T>(*this, 0, nlen);
 		}
-		
-		
+
+
 		friend bool operator<(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) < 0;
 		}
-		
+
 		friend bool operator<=(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) <= 0;
 		}
-		
+
 		friend bool operator>(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) > 0;
 		}
-		
+
 		friend bool operator>=(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) >= 0;
 		}
-		
+
 		friend bool operator==(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) == 0;
 		}
-		
+
 		friend bool operator!=(const T* left, const ObjectString<T>& right)
 		{
 			return Compare(left, right) != 0;
 		}
-		
+
 		friend ObjectString<T> operator+(const T* left, const ObjectString<T>& right)
 		{
 			return ObjectString<T>(left, false) + right;
 		}
-		
-		
+
+
 };
 
 template<typename T>

@@ -7,12 +7,12 @@ void CheckString(const WString& string, const wchar_t* buffer)
 {
 	size_t len = wcslen(buffer);
 	TEST_ASSERT(string.Length() == len);
-	
+
 	for (size_t i = 0; i < len; i++)
 	{
 		TEST_ASSERT(string[i] == buffer[i]);
 	}
-	
+
 	TEST_ASSERT(wcscmp(string.Buffer(), buffer) == 0);
 }
 
@@ -20,12 +20,12 @@ void CheckString(const AString& string, const char* buffer)
 {
 	size_t len = strlen(buffer);
 	TEST_ASSERT(string.Length() == len);
-	
+
 	for (size_t i = 0; i < len; i++)
 	{
 		TEST_ASSERT(string[i] == buffer[i]);
 	}
-	
+
 	TEST_ASSERT(strcmp(string.Buffer(), buffer) == 0);
 }
 
@@ -60,6 +60,7 @@ TEST_CASE(TestStringIsEmpty)
 	WString string;
 	string = L"";
 	TEST_ASSERT(string.IsEmpty());
+
 }
 
 TEST_CASE(TestStringTrim)
@@ -68,8 +69,10 @@ TEST_CASE(TestStringTrim)
 	TEST_ASSERT(string.Trim(L'!') == L"nice to meet you");
 	TEST_ASSERT(string.TrimRight(L'!') == L"nice to meet you");
 	TEST_ASSERT(string.TrimLeft(L'n') == L"ice to meet you!!!");
+
 	TEST_ASSERT(string.TrimRight(L'!').TrimRight(L'u').TrimRight(L'o').TrimRight(L'y') == L"nice to meet ");
 	TEST_ASSERT(string.TrimLeft(L'n').TrimLeft(L'i').TrimLeft(L'c') == L"e to meet you!!!");
+
 	string = L"nice";
 	TEST_ASSERT(string.TrimRight(L'e').TrimRight(L'c').TrimRight(L'i').TrimRight(L'n') == L"");
 	TEST_ASSERT(string.TrimLeft(L'n').TrimLeft(L'i').TrimLeft(L'c').TrimLeft(L'e') == L"");
@@ -79,40 +82,37 @@ TEST_CASE(TestStringTrim)
 	TEST_ASSERT(string.Trim('a') == L"A");
 	string = L"abcde";
 	TEST_ASSERT(string.TrimLeft(L'a').TrimLeft(L'b').TrimLeft(L'c').TrimLeft(L'd').TrimLeft(L'e') == L"");
-	//	WString wstrTemp = string.TrimLeft(L'a').TrimRight(L'a');
-	TEST_ASSERT(string.Trim('a') == string.TrimLeft(L'a').TrimRight(L'a'));
+
+//	WString wstrTemp = string.TrimLeft(L'a').TrimRight(L'a');
+ 	TEST_ASSERT(string.Trim('a') == string.TrimLeft(L'a').TrimRight(L'a'));
 	TEST_ASSERT(string.Mid(3, 1) == L"d");
 	TEST_ASSERT(string.TrimLeft(L"ab") == L"cde");
 	TEST_ASSERT(string.TrimLeft(L"ab").TrimLeft(L"cd") == L"e");
 	TEST_ASSERT(string.TrimLeft(L"ab").TrimLeft(L"cd").TrimLeft(L"e") == L"");
+
 	TEST_ASSERT(string.TrimLeft(L"ba") == L"cde");
 	TEST_ASSERT(string.TrimLeft(L"ba").TrimLeft(L"cd") == L"e");
 	TEST_ASSERT(string.TrimLeft(L"ba").TrimLeft(L"cde") == L"");
+	
 	TEST_ASSERT(string.TrimRight(L"de") == L"abc");
 	TEST_ASSERT(string.TrimRight(L"ed").TrimLeft(L"bca") == L"");
 	TEST_ASSERT(string.TrimRight(L"cde").TrimLeft(L"ba") == L"");
 	TEST_ASSERT(string.TrimLeft(L"ba").TrimRight(L"cde") == L"");
 	TEST_ASSERT(string.TrimLeft(L"ba").TrimRight(L"de") == L"c");
 	TEST_ASSERT(string.TrimRight(L"ed").TrimRight(L"bc") == L"a");
+
 }
 
 TEST_CASE(TestDoouble)
 {
 	double d = 3.141592653578951234567521;
-	WString wstr = ftow(d, 5);
+	WString wstr = ftow(d,5);
 	TEST_ASSERT(wstr == L"3.1416");
+
+	
 }
 
-TEST_CASE(TestSub)
-{
-	WString string = L"0123456789";
-	TEST_ASSERT(string.Mid(0) == L"0123456789");
-	TEST_ASSERT(string.Mid(1) == L"123456789");
-	TEST_ASSERT(string.Mid(2) == L"23456789");
-	TEST_ASSERT(string.Mid(3) == L"3456789");
-	TEST_ASSERT(string.Mid(9) == L"9");
-}
-
+<<<<<<< HEAD
 TEST_CASE(TestSplit)
 {
 	NList<WString> strList;
@@ -124,3 +124,5 @@ TEST_CASE(TestSplit)
 		Console::WriteLine(strList.Get(i));
 	}
 }
+=======
+>>>>>>> parent of 3eea6d6... string-split
