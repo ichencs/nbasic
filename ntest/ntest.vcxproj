@@ -334,6 +334,7 @@
     <ClCompile Include="TestRegex2.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />
+    <ClCompile Include="TestThread.cpp" />
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

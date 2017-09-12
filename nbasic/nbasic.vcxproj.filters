@@ -66,6 +66,7 @@
     <ClCompile Include="Regex\RegexWriter.cpp">
       <Filter>Regex</Filter>
     </ClCompile>
+    <ClCompile Include="Threading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -166,7 +167,16 @@
     <ClInclude Include="Collections\OperationEnumerable.h">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h" />
+    <ClInclude Include="Threading.h" />
+    <ClInclude Include="Collections\OperationConcat.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationPair.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationSet.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

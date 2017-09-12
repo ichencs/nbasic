@@ -268,16 +268,18 @@
     <ClInclude Include="Collections\Interfaces.h" />
     <ClInclude Include="Collections\NList.h" />
     <ClInclude Include="Collections\Operation.h" />
+    <ClInclude Include="Collections\OperationConcat.h" />
     <ClInclude Include="Collections\OperationCopyFrom.h" />
     <ClInclude Include="Collections\NPair.h" />
     <ClInclude Include="Collections\OperationEnumerable.h" />
     <ClInclude Include="Collections\OperationForEach.h" />
+    <ClInclude Include="Collections\OperationPair.h" />
     <ClInclude Include="Collections\OperationSequence.h" />
+    <ClInclude Include="Collections\OperationSet.h" />
     <ClInclude Include="Collections\OperationString.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="Function.h" />
     <ClInclude Include="GlobalStorage.h" />
     <ClInclude Include="NLocale.h" />
     <ClInclude Include="nbasicInc.h" />
@@ -304,6 +306,7 @@
     <ClInclude Include="Stream\RecorderStream.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Threading.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Basic.cpp" />
@@ -342,6 +345,7 @@
     <ClCompile Include="Stream\memorywrapperstream.cpp" />
     <ClCompile Include="Stream\RecorderStream.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="Threading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="类图.cd" />
