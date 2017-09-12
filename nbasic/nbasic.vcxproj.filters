@@ -63,10 +63,13 @@
     <ClCompile Include="Regex\RegexWriter.cpp">
       <Filter>Regex</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Threading.cpp" />
     <ClCompile Include="Stream\NFileStream.cpp">
       <Filter>Stream</Filter>
     </ClCompile>
+=======
+>>>>>>> parent of 440740d... genggai
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -161,6 +164,7 @@
     <ClInclude Include="Collections\OperationEnumerable.h">
       <Filter>Collections</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Threading.h" />
     <ClInclude Include="Collections\OperationConcat.h">
       <Filter>Collections</Filter>
@@ -177,6 +181,9 @@
     <ClInclude Include="Stream\NFileStream.h">
       <Filter>Stream</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="Function.h" />
+>>>>>>> parent of 440740d... genggai
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

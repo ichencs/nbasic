@@ -19,7 +19,6 @@
 #include "NLocale.h"
 #include "GlobalStorage.h"
 #include "NLocale.h"
-#include "Threading.h"
 
 #include ".\Stream\Accessor.h"
 #include ".\Stream\BroadcastStream.h"
