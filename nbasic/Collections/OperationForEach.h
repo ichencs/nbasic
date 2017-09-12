@@ -26,7 +26,7 @@ class ForEachIterator : public Object
 {
 	public:
 		virtual bool				Next(T& variable)const = 0;
-
+		
 		operator bool()const
 		{
 			return true;
@@ -47,12 +47,12 @@ class EnumerableForEachIterator : public ForEachIterator<T>
 			: enumerator(enumerable.CreateEnumerator())
 		{
 		}
-
+		
 		EnumerableForEachIterator(const EnumerableForEachIterator<T>& enumerableIterator)
 			: enumerator(enumerableIterator.enumerator)
 		{
 		}
-
+		
 		bool Next(T& variable)const
 		{
 			if (enumerator->Next())

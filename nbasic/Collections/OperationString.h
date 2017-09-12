@@ -42,7 +42,7 @@ void CopyFrom(ObjectString<D>& ds, const Ss& ss, bool append = false)
 
 //”–Œ Ã‚
 template<typename D, typename Ss>
-void Split(const ObjectString<D>& ds, Ss& lst, D delimiter)
+void SplitString(const ObjectString<D>& ds, Ss& lst, D delimiter)
 {
 	nint index = - 1;
 	nint length = ds.Length();

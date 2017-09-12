@@ -1,6 +1,5 @@
 #include "Threading.h"
 #include "Collections/NList.h"
-#ifdef VCZH_MSVC
 #include <Windows.h>
 #include <memory.h>
 // #include <synchapi.h>
@@ -999,7 +998,6 @@ void ThreadLocalStorage::Set(void* data)
 
 #undef KEY
 // }
-#endif
 
 /***********************************************************************
 ThreadLocalStorage Common Implementations

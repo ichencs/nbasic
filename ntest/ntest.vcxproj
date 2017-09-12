@@ -335,6 +335,7 @@
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />
     <ClCompile Include="TestThread.cpp" />
+    <ClCompile Include="TestThread2.cpp" />
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

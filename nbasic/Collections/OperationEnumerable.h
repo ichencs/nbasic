@@ -30,26 +30,26 @@ class EmptyEnumerable : public Object, public IEnumerable<T>
 				{
 					return new Enumerator;
 				}
-
+				
 				const T& Current()const override
 				{
 					return *(T*)0;
 				}
-
+				
 				nint Index()const override
 				{
 					return -1;
 				}
-
+				
 				bool Next()override
 				{
 					return false;
 				}
-
+				
 				void Reset()override
 				{
 				}
-
+				
 				bool Evaluated()const override
 				{
 					return true;
@@ -80,29 +80,29 @@ class RangeEnumerator : public Object, public virtual IEnumerator<T>
 			, current(_current)
 		{
 		}
-
+		
 		RangeEnumerator(T _start, T _count)
 			: start(_start)
 			, count(_count)
 			, current(_start - 1)
 		{
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new RangeEnumerator(start, count, current);
 		}
-
+		
 		const T& Current()const override
 		{
 			return current;
 		}
-
+		
 		T Index()const override
 		{
 			return current - start;
 		}
-
+		
 		bool Next()override
 		{
 			if (start - 1 <= current && current < start + count - 1)
@@ -115,12 +115,12 @@ class RangeEnumerator : public Object, public virtual IEnumerator<T>
 				return false;
 			}
 		}
-
+		
 		void Reset()override
 		{
 			current = start - 1;
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return true;
@@ -137,40 +137,40 @@ class ContainerEnumerator : public Object, public virtual IEnumerator<T>
 	private:
 		Ptr<TContainer>					container;
 		nint							index;
-
+		
 	public:
 		ContainerEnumerator(Ptr<TContainer> _container, nint _index = -1)
 		{
 			container = _container;
 			index = _index;
 		}
-
+		
 		IEnumerator<T>* Clone()const override
 		{
 			return new ContainerEnumerator(container, index);
 		}
-
+		
 		const T& Current()const override
 		{
 			return container->Get(index);
 		}
-
+		
 		nint Index()const override
 		{
 			return index;
 		}
-
+		
 		bool Next()override
 		{
 			index++;
 			return index >= 0 && index < container->Count();
 		}
-
+		
 		void Reset()override
 		{
 			index = -1;
 		}
-
+		
 		bool Evaluated()const override
 		{
 			return true;
@@ -186,30 +186,30 @@ nint CompareEnumerable(const IEnumerable<T>& a, const IEnumerable<U>& b)
 {
 	Ptr<IEnumerator<T>> ator = a.CreateEnumerator();
 	Ptr<IEnumerator<U>> btor = b.CreateEnumerator();
-
+	
 	while (true)
 	{
 		bool a = ator->Next();
 		bool b = btor->Next();
-
+		
 		if (a && !b)
 		{
 			return 1;
 		}
-
+		
 		if (!a && b)
 		{
 			return -1;
 		}
-
+		
 		if (!a && !b)
 		{
 			break;
 		}
-
+		
 		const T& ac = ator->Current();
 		const U& bc = btor->Current();
-
+		
 		if (ac < bc)
 		{
 			return -1;
@@ -219,11 +219,11 @@ nint CompareEnumerable(const IEnumerable<T>& a, const IEnumerable<U>& b)
 			{
 				return 1;
 			}
-
+			
 		ator->Next();
 		btor->Next();
 	}
-
+	
 	return 0;
 }
 

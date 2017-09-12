@@ -1,12 +1,12 @@
 #include "GlobalStorage.h"
-#include "Collections/Dictionary.h"
+#include "Collections/NDictionary.h"
 
 
 class GlobalStorageManager
 {
 	public:
-		Ptr<Dictionary<WString, GlobalStorage*>> storages;
-
+		Ptr<NDictionary<WString, GlobalStorage*>> storages;
+		
 		GlobalStorageManager()
 		{
 		}
@@ -56,7 +56,7 @@ void InitializeGlobalStorage()
 {
 	if (!GetGlobalStorageManager().storages)
 	{
-		GetGlobalStorageManager().storages = new Dictionary<WString, GlobalStorage*>;
+		GetGlobalStorageManager().storages = new NDictionary<WString, GlobalStorage*>;
 	}
 }
 
@@ -68,7 +68,7 @@ void FinalizeGlobalStorage()
 		{
 			GetGlobalStorageManager().storages->Values().Get(i)->ClearResource();
 		}
-
+		
 		GetGlobalStorageManager().storages = 0;
 	}
 }

@@ -117,7 +117,7 @@ TEST_CASE(TestSplit)
 {
 	NList<WString> strList;
 	WString wstr = L".1.2.3.4.5.6.";
-	Split(wstr, strList, L'.');
+	SplitString(wstr, strList, L'.');
 	
 	for (nint i = 0; i < strList.Count(); i++)
 	{

@@ -264,7 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.h" />
-    <ClInclude Include="Collections\Dictionary.h" />
+    <ClInclude Include="Collections\NDictionary.h" />
     <ClInclude Include="Collections\Interfaces.h" />
     <ClInclude Include="Collections\NList.h" />
     <ClInclude Include="Collections\Operation.h" />
@@ -299,7 +299,7 @@
     <ClInclude Include="Stream\CacheStream.h" />
     <ClInclude Include="Stream\CharFormat.h" />
     <ClInclude Include="Stream\CompressionStream.h" />
-    <ClInclude Include="Stream\FileStream.h" />
+    <ClInclude Include="Stream\NFileStream.h" />
     <ClInclude Include="Stream\Interfaces.h" />
     <ClInclude Include="Stream\memorystream.h" />
     <ClInclude Include="Stream\memorywrapperstream.h" />
@@ -340,7 +340,7 @@
     <ClCompile Include="Stream\CacheStream.cpp" />
     <ClCompile Include="Stream\CharFormat.cpp" />
     <ClCompile Include="Stream\CompressionStream.cpp" />
-    <ClCompile Include="Stream\FileStream.cpp" />
+    <ClCompile Include="Stream\NFileStream.cpp" />
     <ClCompile Include="Stream\memorystream.cpp" />
     <ClCompile Include="Stream\memorywrapperstream.cpp" />
     <ClCompile Include="Stream\RecorderStream.cpp" />

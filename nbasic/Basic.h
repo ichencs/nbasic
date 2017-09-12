@@ -11,23 +11,15 @@ Classes:
 Macros:
 	CHECK_ERROR(CONDITION,DESCRIPTION)			：检查内部错误
 ***********************************************************************/
-#ifndef VCZH_BASIC
-#define VCZH_BASIC
-
-// #ifdef VCZH_CHECK_MEMORY_LEAKS
-// #define _CRTDBG_MAP_ALLOC
-// #include <stdlib.h>
-// #include <crtdbg.h>
-// #define VCZH_CHECK_MEMORY_LEAKS_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
-// #define new VCZH_CHECK_MEMORY_LEAKS_NEW
-// #endif
+#ifndef NICE_BASIC
+#define NICE_BASIC
 
 #if defined _WIN64 || __x86_64 || __LP64__
-#define VCZH_64
+#define NICE_64
 #endif
 
 #if defined _MSC_VER
-#define VCZH_MSVC
+// #define NICE_MSVC
 #endif
 
 #include <intrin.h>
@@ -40,7 +32,6 @@ Macros:
 32位/64位兼容
 ***********************************************************************/
 
-#if defined VCZH_MSVC
 /// <summary>1-byte signed integer.</summary>
 typedef signed __int8			nint8_t;
 /// <summary>1-byte unsigned integer.</summary>
@@ -57,9 +48,8 @@ typedef unsigned __int32		nuint32_t;
 typedef signed __int64			nint64_t;
 /// <summary>8-bytes unsigned integer.</summary>
 typedef unsigned __int64		nuint64_t;
-#endif
 
-#ifdef VCZH_64
+#ifdef NICE_64
 /// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
 typedef nint64_t				nint;
 /// <summary>Signed interface whose size is equal to sizeof(void*).</summary>
@@ -79,7 +69,7 @@ typedef nuint32_t				nuint;
 /// <summary>Signed interger representing position.</summary>
 typedef nint64_t				pos_t;
 
-#ifdef VCZH_64
+#ifdef NICE_64
 #define ITOA_S		_i64toa_s
 #define ITOW_S		_i64tow_s
 #define I64TOA_S	_i64toa_s
@@ -123,7 +113,7 @@ class Error
 		const wchar_t*		description;
 	public:
 		Error(const wchar_t* _description);
-
+		
 		const wchar_t*		Description()const;
 };
 
@@ -237,28 +227,28 @@ class ObjectBox : public Object
 			: object(_object)
 		{
 		}
-
+		
 		/// <summary>Box a movable value.</summary>
 		/// <param name="_object">The value to box.</param>
 		// 		ObjectBox(T&& _object)
 		// 			:object(MoveValue(_object))
 		// 		{
 		// 		}
-
+		
 		/// <summary>Copy a box.</summary>
 		/// <param name="value">The box.</param>
 		ObjectBox(const ObjectBox<T>& value)
 			: object(value.object)
 		{
 		}
-
+		
 		/// <summary>Move a box.</summary>
 		/// <param name="value">The box.</param>
 		// 		ObjectBox(ObjectBox<T>&& value)
 		// 			:object(MoveValue(value.object))
 		// 		{
 		// 		}
-
+		
 		/// <summary>Box a value.</summary>
 		/// <returns>The boxed value.</returns>
 		/// <param name="_object">The value to box.</param>
@@ -267,7 +257,7 @@ class ObjectBox : public Object
 			object = _object;
 			return *this;
 		}
-
+		
 		/// <summary>Copy a box.</summary>
 		/// <returns>The boxed value.</returns>
 		/// <param name="value">The box.</param>
@@ -276,8 +266,8 @@ class ObjectBox : public Object
 			object = value.object;
 			return *this;
 		}
-
-
+		
+		
 		/// <summary>Unbox the value.</summary>
 		/// <returns>The original value.</returns>
 		const T& Unbox()
@@ -299,30 +289,30 @@ class Nullable
 			: object(0)
 		{
 		}
-
+		
 		/// <summary>Create a non-null value.</summary>
 		/// <param name="value">The value to copy.</param>
 		Nullable(const T& value)
 			: object(new T(value))
 		{
 		}
-
+		
 		/// <summary>Create a non-null value.</summary>
 		/// <param name="value">The value to move.</param>
 		// 		Nullable(T&& value)
 		// 			:object(new T(MoveValue(value)))
 		// 		{
 		// 		}
-
+		
 		/// <summary>Copy a nullable value.</summary>
 		/// <param name="nullable">The nullable value to copy.</param>
 		Nullable(const Nullable<T>& nullable)
 			: object(nullable.object ? new T(*nullable.object) : 0)
 		{
 		}
-
-
-
+		
+		
+		
 		~Nullable()
 		{
 			if (object)
@@ -331,7 +321,7 @@ class Nullable
 				object = 0;
 			}
 		}
-
+		
 		/// <summary>Create a non-null value.</summary>
 		/// <returns>The created nullable value.</returns>
 		/// <param name="value">The value to copy.</param>
@@ -342,11 +332,11 @@ class Nullable
 				delete object;
 				object = 0;
 			}
-
+			
 			object = new T(value);
 			return *this;
 		}
-
+		
 		/// <summary>Copy a nullable value.</summary>
 		/// <returns>The created nullable value.</returns>
 		/// <param name="nullable">The nullable value to copy.</param>
@@ -359,17 +349,17 @@ class Nullable
 					delete object;
 					object = 0;
 				}
-
+				
 				if (nullable.object)
 				{
 					object = new T(*nullable.object);
 				}
 			}
-
+			
 			return *this;
 		}
-
-
+		
+		
 		static bool Equals(const Nullable<T>& a, const Nullable<T>& b)
 		{
 			return
@@ -381,7 +371,7 @@ class Nullable
 			  ? false
 			  : true;
 		}
-
+		
 		static nint Compare(const Nullable<T>& a, const Nullable<T>& b)
 		{
 			return
@@ -393,44 +383,44 @@ class Nullable
 			  ? -1
 			  : 0;
 		}
-
+		
 		bool operator==(const Nullable<T>& nullable)const
 		{
 			return Equals(*this, nullable);
 		}
-
+		
 		bool operator!=(const Nullable<T>& nullable)const
 		{
 			return !Equals(*this, nullable);
 		}
-
+		
 		bool operator<(const Nullable<T>& nullable)const
 		{
 			return Compare(*this, nullable) < 0;
 		}
-
+		
 		bool operator<=(const Nullable<T>& nullable)const
 		{
 			return Compare(*this, nullable) <= 0;
 		}
-
+		
 		bool operator>(const Nullable<T>& nullable)const
 		{
 			return Compare(*this, nullable) > 0;
 		}
-
+		
 		bool operator>=(const Nullable<T>& nullable)const
 		{
 			return Compare(*this, nullable) >= 0;
 		}
-
+		
 		/// <summary>Convert the nullable value to a bool value.</summary>
 		/// <returns>Returns true if it is not null.</returns>
 		operator bool()const
 		{
 			return object != 0;
 		}
-
+		
 		/// <summary>Unbox the value. This operation will cause an access violation of it is null.</summary>
 		/// <returns>The original value.</returns>
 		const T& Value()const
@@ -458,7 +448,7 @@ struct KeyType
 	public:
 		/// <summary>The index type of a value for containers.</summary>
 		typedef T Type;
-
+		
 		/// <summary>Convert a value to its index type.</summary>
 		/// <returns>The corresponding index value.</returns>
 		/// <param name="value">The value.</param>
@@ -567,20 +557,20 @@ struct DateTime
 	nint				minute;
 	nint				second;
 	nint				milliseconds;
-
+	
 	nuint64_t			totalMilliseconds;
-
+	
 	// in gcc, this will be mktime(t) * 1000 + gettimeofday().tv_usec / 1000
 	nuint64_t			filetime;
-
+	
 	/// <summary>Get the current local time.</summary>
 	/// <returns>The current local time.</returns>
 	static DateTime		LocalTime();
-
+	
 	/// <summary>Get the current UTC time.</summary>
 	/// <returns>The current UTC time.</returns>
 	static DateTime		UtcTime();
-
+	
 	/// <summary>Create a date time value.</summary>
 	/// <returns>The created date time value.</returns>
 	/// <param name="_year">The year.</param>
@@ -591,12 +581,12 @@ struct DateTime
 	/// <param name="_second">The second.</param>
 	/// <param name="_milliseconds">The millisecond.</param>
 	static DateTime		FromDateTime(nint _year, nint _month, nint _day, nint _hour = 0, nint _minute = 0, nint _second = 0, nint _milliseconds = 0);
-
+	
 	static DateTime		FromFileTime(nuint64_t filetime);
-
+	
 	/// <summary>Create an empty date time value.</summary>
 	DateTime();
-
+	
 	/// <summary>Convert the UTC time to the local time.</summary>
 	/// <returns>The UTC time.</returns>
 	DateTime			ToLocalTime();
@@ -611,7 +601,7 @@ struct DateTime
 	/// <returns>The moved time.</returns>
 	/// <param name="milliseconds">The delta in milliseconds.</param>
 	DateTime			Backward(nuint64_t milliseconds);
-
+	
 	bool operator==(const DateTime& value)const
 	{
 		return filetime == value.filetime;

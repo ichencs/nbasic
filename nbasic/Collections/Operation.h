@@ -78,19 +78,19 @@ void SortLambda(T* items, nint length, F orderer)
 	{
 		return;
 	}
-
+	
 	nint pivot = 0;
 	nint left = 0;
 	nint right = 0;
 	bool flag = false;
-
+	
 	while (left + right + 1 != length)
 	{
 		nint& mine = (flag ? left : right);
 		nint& theirs = (flag ? right : left);
 		nint candidate = (flag ? left : length - right - 1);
 		nint factor = (flag ? -1 : 1);
-
+		
 		if (orderer(items[pivot], items[candidate])*factor <= 0)
 		{
 			mine++;
@@ -105,7 +105,7 @@ void SortLambda(T* items, nint length, F orderer)
 			flag = !flag;
 		}
 	}
-
+	
 	SortLambda(items, left, orderer);
 	SortLambda(items + left + 1, right, orderer);
 }
@@ -127,10 +127,10 @@ class LazyList : public Object, public IEnumerable<T>
 {
 	protected:
 		Ptr<IEnumerator<T>>			enumeratorPrototype;
-
+		
 		template<typename U>
 		static U Element(const IEnumerable<U>&);
-
+		
 		IEnumerator<T>* xs()const
 		{
 			return enumeratorPrototype->Clone();
@@ -142,28 +142,28 @@ class LazyList : public Object, public IEnumerable<T>
 			: enumeratorPrototype(enumerator)
 		{
 		}
-
+		
 		/// <summary>Create a lazy list with an enumerator.</summary>
 		/// <param name="enumerator">The enumerator.</param>
 		LazyList(Ptr<IEnumerator<T>> enumerator)
 			: enumeratorPrototype(enumerator)
 		{
 		}
-
+		
 		/// <summary>Create a lazy list with an enumerable.</summary>
 		/// <param name="enumerable">The enumerator.</param>
 		LazyList(const IEnumerable<T>& enumerable)
 			: enumeratorPrototype(enumerable.CreateEnumerator())
 		{
 		}
-
+		
 		/// <summary>Create a lazy list with an lazy list.</summary>
 		/// <param name="lazyList">The lazy list.</param>
 		LazyList(const LazyList<T>& lazyList)
 			: enumeratorPrototype(lazyList.enumeratorPrototype)
 		{
 		}
-
+		
 		/// <summary>Create a lazy list with a container.</summary>
 		/// <typeparam name="TContainer">Type of the container.</typeparam>
 		/// <param name="container">The container.</param>
@@ -172,26 +172,26 @@ class LazyList : public Object, public IEnumerable<T>
 			: enumeratorPrototype(new ContainerEnumerator<T, TContainer>(container))
 		{
 		}
-
+		
 		/// <summary>Create an empty lazy list.</summary>
 		LazyList()
 			: enumeratorPrototype(EmptyEnumerable<T>().CreateEnumerator())
 		{
 		}
-
+		
 		LazyList<T>& operator=(const LazyList<T>& lazyList)
 		{
 			enumeratorPrototype = lazyList.enumeratorPrototype;
 			return *this;
 		}
-
+		
 		IEnumerator<T>* CreateEnumerator()const
 		{
 			return enumeratorPrototype->Clone();
 		}
-
+		
 		//-------------------------------------------------------
-
+		
 		/// <summary>Create a new lazy list with all elements transformed.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -201,7 +201,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 		{
 		// 			return new SelectEnumerator<T, FUNCTION_RESULT_TYPE(F)>(xs(), f);
 		// 		}
-
+		
 		/// <summary>Create a new lazy list with all elements that satisfy with a condition.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -211,7 +211,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 		{
 		// 			return new WhereEnumerator<T>(xs(), f);
 		// 		}
-
+		
 		/// <summary>Create a new lazy list with all elements casted to a new type.</summary>
 		/// <typeparam name="U">The new type.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -221,7 +221,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 			Func<Ptr<U>(T)> f = [](T t)->Ptr<U> {return t.template Cast<U>();};
 		// 			return new SelectEnumerator<T, Ptr<U>>(xs(), f);
 		// 		}
-
+		
 		/// <summary>Create a new lazy list with only elements that successfully casted to a new type.</summary>
 		/// <typeparam name="U">The new type.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -233,7 +233,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 				return t;
 		// 			});
 		// 		}
-
+		
 		/// <summary>Create a new lazy list with all elements sorted.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -243,17 +243,17 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			Ptr<NList<T> > sorted = new NList<T>;
 			CopyFrom(*sorted.Obj(), *this);
-
+			
 			if (sorted->Count() > 0)
 			{
 				SortLambda<T, F>(&sorted->operator[](0), sorted->Count(), f);
 			}
-
+			
 			return new ContainerEnumerator<T, NList<T>>(sorted);
 		}
-
+		
 		//-------------------------------------------------------
-
+		
 		/// <summary>Aggregate a lazy list. An exception will raise if the lazy list is empty.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The aggregated value.</returns>
@@ -262,22 +262,22 @@ class LazyList : public Object, public IEnumerable<T>
 		T Aggregate(F f)const
 		{
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			if (!enumerator->Next())
 			{
 				throw Error(L"LazyList<T>::Aggregate(F)#Aggregate failed to calculate from an empty container.");
 			}
-
+			
 			T result = enumerator->Current();
-
+			
 			while (enumerator->Next())
 			{
 				result = f(result, enumerator->Current());
 			}
-
+			
 			return result;
 		}
-
+		
 		/// <summary>Aggregate a lazy list.</summary>
 		/// <typeparam name="I">Type of the initial value.</typeparam>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
@@ -293,7 +293,7 @@ class LazyList : public Object, public IEnumerable<T>
 			}
 			return init;
 		}
-
+		
 		/// <summary>Test does all elements in the lazy list satisfy with a condition.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>Returns true if all elements satisfy with a condition.</returns>
@@ -306,7 +306,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 				return a && b;
 		// 			});
 		// 		}
-
+		
 		/// <summary>Test does any elements in the lazy list satisfy with a condition.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>Returns true if at least one element satisfies with a condition.</returns>
@@ -319,7 +319,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 				return a || b;
 		// 			});
 		// 		}
-
+		
 		/// <summary>Get the maximum value in the lazy list. An exception will raise if the lazy list is empty.</summary>
 		/// <returns>The maximum value.</returns>
 		// 		T Max()const
@@ -329,7 +329,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 				return a > b ? a : b;
 		// 			});
 		// 		}
-
+		
 		/// <summary>Get the minimum value in the lazy list. An exception will raise if the lazy list is empty.</summary>
 		/// <returns>The minimum value.</returns>
 		// 		T Min()const
@@ -339,42 +339,42 @@ class LazyList : public Object, public IEnumerable<T>
 		// 				return a < b ? a : b;
 		// 			});
 		// 		}
-
+		
 		/// <summary>Get the first value in the lazy list. An exception will raise if the lazy list is empty.</summary>
 		/// <returns>The first value.</returns>
 		T First()const
 		{
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			if (!enumerator->Next())
 			{
 				throw Error(L"LazyList<T>::First(F)#First failed to calculate from an empty container.");
 			}
-
+			
 			return enumerator->Current();
 		}
-
+		
 		/// <summary>Get the first value in the lazy list.</summary>
 		/// <returns>The first value.</returns>
 		/// <param name="defaultValue">Returns this argument if the lazy list is empty.</param>
 		T First(T defaultValue)const
 		{
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			if (!enumerator->Next())
 			{
 				return defaultValue;
 			}
-
+			
 			return enumerator->Current();
 		}
-
+		
 		/// <summary>Get the last value in the lazy list. An exception will raise if the lazy list is empty.</summary>
 		/// <returns>The last value.</returns>
 		T Last()const
 		{
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			if (!enumerator->Next())
 			{
 				throw Error(L"LazyList<T>::Last(F)#Last failed to calculate from an empty container.");
@@ -382,46 +382,46 @@ class LazyList : public Object, public IEnumerable<T>
 			else
 			{
 				T value = enumerator->Current();
-
+				
 				while (enumerator->Next())
 				{
 					value = enumerator->Current();
 				}
-
+				
 				return value;
 			}
 		}
-
+		
 		/// <summary>Get the last value in the lazy list.</summary>
 		/// <returns>The last value.</returns>
 		/// <param name="defaultValue">Returns this argument if the lazy list is empty.</param>
 		T Last(T defaultValue)const
 		{
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			while (enumerator->Next())
 			{
 				defaultValue = enumerator->Current();
 			}
-
+			
 			return defaultValue;
 		}
-
+		
 		/// <summary>Get the number of elements in the lazy list.</summary>
 		/// <returns>The number of elements.</returns>
 		nint Count()const
 		{
 			nint result = 0;
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
-
+			
 			while (enumerator->Next())
 			{
 				result++;
 			}
-
+			
 			return result;
 		}
-
+		
 		/// <summary>Test is the lazy list empty.</summary>
 		/// <returns>Returns true if the lazy list is empty.</returns>
 		bool IsEmpty()const
@@ -429,9 +429,9 @@ class LazyList : public Object, public IEnumerable<T>
 			Ptr<IEnumerator<T>> enumerator = CreateEnumerator();
 			return !enumerator->Next();
 		}
-
+		
 		//-------------------------------------------------------
-
+		
 		/// <summary>Create a new lazy list containing elements of the two container one after another.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="remains">Elements that put after this lazy list.</param>
@@ -439,7 +439,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return new ConcatEnumerator<T>(xs(), remains.CreateEnumerator());
 		}
-
+		
 		/// <summary>Create a new lazy list with some prefix elements.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="count">The size of the prefix.</param>
@@ -447,7 +447,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return new TakeEnumerator<T>(xs(), count);
 		}
-
+		
 		/// <summary>Create a new lazy list without some prefix elements.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="count">The size of the prefix.</param>
@@ -455,7 +455,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return new SkipEnumerator<T>(xs(), count);
 		}
-
+		
 		/// <summary>Create a new lazy list with several copies of this lazy list one after another.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="count">The numbers of copies.</param>
@@ -463,23 +463,23 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return new RepeatEnumerator<T>(xs(), count);
 		}
-
+		
 		/// <summary>Create a new lazy list with all elements in this lazy list. If some elements appear several times, only one will be kept.</summary>
 		/// <returns>The created lazy list.</returns>
 		LazyList<T> Distinct()const
 		{
 			return new DistinctEnumerator<T>(xs());
 		}
-
+		
 		/// <summary>Create a new lazy list with all elements in this lazy list in a reverse order.</summary>
 		/// <returns>The created lazy list.</returns>
 		LazyList<T> Reverse()const
 		{
 			return new ReverseEnumerator<T>(*this);
 		}
-
+		
 		//-------------------------------------------------------
-
+		
 		/// <summary>Create a new lazy list of pairs from elements from two containers.</summary>
 		/// <typeparam name="U">Type of all elements in the second container.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -489,7 +489,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return new PairwiseEnumerator<T, U>(xs(), remains.CreateEnumerator());
 		}
-
+		
 		/// <summary>Create a new lazy list with only elements that appear in both containers.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="remains">The second container.</param>
@@ -497,7 +497,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return LazyList<T>(new IntersectExceptEnumerator<T, true>(xs(), remains)).Distinct();
 		}
-
+		
 		/// <summary>Create a new lazy list with only elements that appear in this lazy list but not in another container.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="remains">The second container.</param>
@@ -505,7 +505,7 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return LazyList<T>(new IntersectExceptEnumerator<T, false>(xs(), remains)).Distinct();
 		}
-
+		
 		/// <summary>Create a new lazy list with elements in two containers. If some elements appear several times, only one will be kept.</summary>
 		/// <returns>The created lazy list.</returns>
 		/// <param name="remains">The second container.</param>
@@ -513,9 +513,9 @@ class LazyList : public Object, public IEnumerable<T>
 		{
 			return Concat(remains).Distinct();
 		}
-
+		
 		//-------------------------------------------------------
-
+		
 		LazyList<T> Evaluate()const
 		{
 			if (enumeratorPrototype->Evaluated())
@@ -529,7 +529,7 @@ class LazyList : public Object, public IEnumerable<T>
 				return xs;
 			}
 		}
-
+		
 		/// <summary>Create a new lazy list, whose elements are from transformed elements in this lazy list.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -541,7 +541,7 @@ class LazyList : public Object, public IEnumerable<T>
 		// 			typedef typename LazyListU::ElementType U;
 		// 			return Select(f).Aggregate(LazyList<U>(), [](const LazyList<U>& a, const IEnumerable<U>& b)->LazyList<U> {return a.Concat(b);});
 		// 		}
-
+		
 		/// <summary>Create a new lazy list, whose elements are groupd by from elements in this lazy list.</summary>
 		/// <typeparam name="F">Type of the lambda expression.</typeparam>
 		/// <returns>The created lazy list.</returns>
@@ -590,13 +590,13 @@ LazyList<T> From(const T* begin, const T* end)
 }
 
 template<typename T, int size>
-LazyList<T> From(T (&items)[size])
+LazyList<T> From(T(&items)[size])
 {
 	return FromArray(items);
 }
 
 template<typename T, int size>
-LazyList<T> From(const T (&items)[size])
+LazyList<T> From(const T(&items)[size])
 {
 	return FromArray(items);
 }

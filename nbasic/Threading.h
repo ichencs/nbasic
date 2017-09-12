@@ -40,7 +40,6 @@ struct ConditionVariableData;
 /// <summary>Base type of all synchronization objects.</summary>
 class WaitableObject : public Object, public NotCopyable
 {
-		// #if defined VCZH_MSVC
 	private:
 		threading_internal::WaitableData*			waitableData;
 	protected:
@@ -149,9 +148,7 @@ class Thread : public WaitableObject
 		/// <summary>Get the state of the thread.</summary>
 		/// <returns>The state of the thread.</returns>
 		ThreadState									GetState();
-#ifdef VCZH_MSVC
 		void										SetCPU(nint index);
-#endif
 };
 
 /// <summary>Mutex.ª•≥‚¡ø</summary>
@@ -398,7 +395,6 @@ class ConditionVariable : public Object, public NotCopyable
 		/// <returns>Returns true if this operation succeeded.</returns>
 		/// <param name="cs">The critical section.</param>
 		bool										SleepWith(CriticalSection& cs);
-#ifdef VCZH_MSVC
 		/// <summary>Bind a conditional variable with a owned critical section and release it for a period of time. When the function returns, the condition variable is activated or it is time out, and the current thread owned the critical section again. This function is only available in Windows.</summary>
 		/// <returns>Returns true if this operation succeeded.</returns>
 		/// <param name="cs">The critical section.</param>
@@ -422,7 +418,6 @@ class ConditionVariable : public Object, public NotCopyable
 		/// <param name="lock">The writer lock.</param>
 		/// <param name="ms">Time in milliseconds.</param>
 		bool										SleepWithWriterForTime(ReaderWriterLock& lock, nint ms);
-#endif
 		/// <summary>Wake one thread that pending on this condition variable.</summary>
 		void										WakeOnePending();
 		/// <summary>Wake all thread that pending on this condition variable.</summary>

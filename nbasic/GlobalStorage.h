@@ -33,7 +33,7 @@ class GlobalStorage : public Object, private NotCopyable
 	public:
 		GlobalStorage(const wchar_t* key);
 		~GlobalStorage();
-
+		
 		bool					Cleared();
 		virtual void			ClearResource() = 0;
 };

@@ -21,9 +21,6 @@
     <ClCompile Include="Stream\CompressionStream.cpp">
       <Filter>Stream</Filter>
     </ClCompile>
-    <ClCompile Include="Stream\FileStream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
     <ClCompile Include="Stream\memorystream.cpp">
       <Filter>Stream</Filter>
     </ClCompile>
@@ -67,6 +64,9 @@
       <Filter>Regex</Filter>
     </ClCompile>
     <ClCompile Include="Threading.cpp" />
+    <ClCompile Include="Stream\NFileStream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nbasicInc.h" />
@@ -74,9 +74,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Basic.h" />
-    <ClInclude Include="Collections\Dictionary.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
     <ClInclude Include="Collections\Interfaces.h">
       <Filter>Collections</Filter>
     </ClInclude>
@@ -99,9 +96,6 @@
       <Filter>Stream</Filter>
     </ClInclude>
     <ClInclude Include="Stream\CompressionStream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\FileStream.h">
       <Filter>Stream</Filter>
     </ClInclude>
     <ClInclude Include="Stream\Interfaces.h">
@@ -176,6 +170,12 @@
     </ClInclude>
     <ClInclude Include="Collections\OperationSet.h">
       <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\NDictionary.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\NFileStream.h">
+      <Filter>Stream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

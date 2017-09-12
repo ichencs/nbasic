@@ -253,23 +253,23 @@ TEST_CASE(TestMemoryStream)
 
 TEST_CASE(TestFileStream)
 {
-	FileStream destroyer(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
+	NFileStream destroyer(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
 	TestWriteonlySeekableProperty(destroyer, 0, 0);
 	destroyer.Close();
 	TestClosedProperty(destroyer);
-	FileStream tryRead(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
+	NFileStream tryRead(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
 	TestReadonlySeekableProperty(tryRead, 0, 0);
 	tryRead.Close();
 	TestClosedProperty(tryRead);
-	FileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
+	NFileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
 	TestWriteonlySeekableStream(w);
 	w.Close();
 	TestClosedProperty(w);
-	FileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
+	NFileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
 	TestReadonlylSeekableStreamWithSize15(r);
 	r.Close();
 	TestClosedProperty(r);
-	FileStream rw(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadWrite);
+	NFileStream rw(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadWrite);
 	TestBidirectionalUnlimitedStream(rw);
 	rw.Close();
 	TestClosedProperty(rw);
@@ -337,14 +337,14 @@ TEST_CASE(TestCacheStreamWithWriteOnlyUnseekableStream)
 
 TEST_CASE(TestCacheStreamWithSeekableStream)
 {
-	FileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
+	NFileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
 	CacheStream cw(w, 4);
 	TestWriteonlySeekableStream(cw);
 	cw.Close();
 	TestClosedProperty(cw);
 	w.Close();
 	TestClosedProperty(w);
-	FileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
+	NFileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
 	CacheStream cr(r, 4);
 	TestReadonlylSeekableStreamWithSize15(cr);
 	cr.Close();
@@ -718,7 +718,7 @@ TEST_CASE(TestLzwEncoding)
 	}
 }
 
-#if defined VCZH_MSVC && defined NDEBUG
+#if defined NDEBUG
 
 namespace lzw_helper
 {
@@ -748,7 +748,7 @@ TEST_CASE(TestLzwSpeed)
 	MemoryStream compressedStream(BufferSize), decompressedStream(BufferSize);
 	UnitTest::PrintInfo(L"    Reading UnitTest.pdb ...");
 	{
-		FileStream fileStream(GetTestOutputPath() + L"../UnitTest/Release/UnitTest.pdb", FileStream::ReadOnly);
+		NFileStream fileStream(GetTestOutputPath() + L"../UnitTest/Release/UnitTest.pdb", NFileStream::ReadOnly);
 		Copy(decompressedStream, fileStream, buffer, (nint)fileStream.Size());
 	}
 	decompressedStream.SeekFromBegin(0);

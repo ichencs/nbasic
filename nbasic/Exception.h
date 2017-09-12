@@ -13,42 +13,42 @@ Classes:
 
 #include "String.h"
 
-	/// <summary>Base type of all exceptions.</summary>
-	class Exception : public Object
-	{
+/// <summary>Base type of all exceptions.</summary>
+class Exception : public Object
+{
 	protected:
 		WString						message;
-
+		
 	public:
-		Exception(const WString& _message=WString::Empty);
-
+		Exception(const WString& _message = WString::Empty);
+		
 		const WString&				Message()const;
-	};
+};
 
-	class ArgumentException : public Exception
-	{
+class ArgumentException : public Exception
+{
 	protected:
 		WString						function;
 		WString						name;
-
+		
 	public:
-		ArgumentException(const WString& _message=WString::Empty, const WString& _function=WString::Empty, const WString& _name=WString::Empty);
-
+		ArgumentException(const WString& _message = WString::Empty, const WString& _function = WString::Empty, const WString& _name = WString::Empty);
+		
 		const WString&				GetFunction()const;
 		const WString&				GetName()const;
-	};
+};
 
-	class ParsingException : public Exception
-	{
+class ParsingException : public Exception
+{
 	protected:
 		nint							position;
 		WString						expression;
-
+		
 	public:
 		ParsingException(const WString& _message, const WString& _expression, nint _position);
-
+		
 		const WString&				GetExpression()const;
 		nint							GetPosition()const;
-	};
+};
 
 #endif

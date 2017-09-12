@@ -23,7 +23,7 @@ TEST_CASE(TestRegexCharSetParsing)
 {
 	RegexAssert(L"a", rC(L'a'), true);
 	RegexAssert(L"vczh", rC(L'v') + rC(L'c') + rC(L'z') + rC(L'h'), true);
-
+	
 	RegexAssert(L"/d", r_d(), true);
 	RegexAssert(L"/l", r_l(), true);
 	RegexAssert(L"/w", r_w(), true);
@@ -33,7 +33,7 @@ TEST_CASE(TestRegexCharSetParsing)
 	RegexAssert(L"/r", rC(L'\r'), true);
 	RegexAssert(L"/n", rC(L'\n'), true);
 	RegexAssert(L"/t", rC(L'\t'), true);
-
+	
 	RegexAssert(L"\\d", r_d(), true);
 	RegexAssert(L"\\l", r_l(), true);
 	RegexAssert(L"\\w", r_w(), true);
@@ -43,7 +43,7 @@ TEST_CASE(TestRegexCharSetParsing)
 	RegexAssert(L"\\r", rC(L'\r'), true);
 	RegexAssert(L"\\n", rC(L'\n'), true);
 	RegexAssert(L"\\t", rC(L'\t'), true);
-
+	
 	RegexAssert(L"^", rBegin(), false);
 	RegexAssert(L"$", rEnd(), false);
 	RegexAssert(L"[abc]", rC(L'a') % rC(L'b') % rC(L'c'), true);
@@ -63,7 +63,7 @@ TEST_CASE(TestRegexLoopParsing)
 	RegexAssert(L"/d{3}", r_d().Loop(3, 3), true);
 	RegexAssert(L"/d{3,5}", r_d().Loop(3, 5), true);
 	RegexAssert(L"/d{4,}", r_d().AtLeast(4), true);
-
+	
 	RegexAssert(L"\\d+", r_d().Some(), true);
 	RegexAssert(L"\\d*", r_d().Any(), true);
 	RegexAssert(L"\\d?", r_d().Opt(), true);
@@ -94,7 +94,7 @@ TEST_CASE(TestRegexComplexParsing)
 	RegexAssert(L"ab|ac", (rC(L'a') + rC(L'b')) | (rC(L'a') + rC(L'c')), true);
 	RegexAssert(L"a(b|c)", rC(L'a') + (rC(L'b') | rC(L'c')), true);
 	RegexAssert(L"/.*[/r/n/t]", rAnyChar().Any() + (rC(L'\r') % rC(L'\n') % rC(L'\t')), true);
-
+	
 	RegexAssert(L"((<part>\\d+).){3}(<part>\\d+)", (rCapture(L"part", r_d().Some()) + rC(L'.')).Loop(3, 3) + rCapture(L"part", r_d().Some()), true);
 	RegexAssert(L"\\.*[\\r\\n\\t]", rAnyChar().Any() + (rC(L'\r') % rC(L'\n') % rC(L'\t')), true);
 }
@@ -103,15 +103,15 @@ TEST_CASE(TestRegexCompleteParsingA)
 {
 	WString code = L"(<#part>/d+)(<#capture>(<section>(<&part>)))((<&capture>).){3}(<&capture>)";
 	RegexExpression::Ref regex = ParseRegexExpression(code);
-
+	
 	Expression::Ref part = r_d().Some().expression;
 	Expression::Ref capture = rCapture(L"section", rUsing(L"part")).expression;
 	Expression::Ref main = ((rUsing(L"capture") + rC(L'.')).Loop(3, 3) + rUsing(L"capture")).expression;
-
+	
 	TEST_ASSERT(regex->definitions.Count() == 2);
 	TEST_ASSERT(regex->definitions.Keys()[0] == L"capture");
 	TEST_ASSERT(regex->definitions.Keys()[1] == L"part");
-
+	
 	TEST_ASSERT(regex->definitions[L"part"]->IsEqual(part.Obj()));
 	TEST_ASSERT(regex->definitions[L"capture"]->IsEqual(capture.Obj()));
 	TEST_ASSERT(regex->expression->IsEqual(main.Obj()));
@@ -121,9 +121,9 @@ TEST_CASE(TestRegexCompleteParsingB)
 {
 	WString code = L"((<part>\\d+).){3}(<part>\\d+)";
 	RegexExpression::Ref regex = ParseRegexExpression(code);
-
+	
 	Expression::Ref main = ((rCapture(L"part", r_d().Some()) + rC(L'.')).Loop(3, 3) + rCapture(L"part", r_d().Some())).expression;
-
+	
 	TEST_ASSERT(regex->definitions.Count() == 0);
 	TEST_ASSERT(regex->expression->IsEqual(main.Obj()));
 }
@@ -138,7 +138,7 @@ void NormalizedRegexAssert(const wchar_t* input, RegexNode node)
 	Expression::Ref exp = ParseExpression(input);
 	exp->NormalizeCharSet(subsets);
 	TEST_ASSERT(exp->IsEqual(node.expression.Obj()));
-
+	
 	subsets.Clear();
 	exp->CollectCharSet(subsets);
 	exp->ApplyCharSet(subsets);
@@ -180,32 +180,32 @@ epsilon-NFA-DFA
 
 void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 {
-	FileStream file(GetTestOutputPath() + fileName, FileStream::WriteOnly);
+	NFileStream file(GetTestOutputPath() + fileName, NFileStream::WriteOnly);
 	BomEncoder encoder(BomEncoder::Utf16);
 	EncoderStream output(file, encoder);
 	StreamWriter writer(output);
-
+	
 	wchar_t intbuf[100] = {0};
-
+	
 	for (nint i = 0; i < automaton->states.Count(); i++)
 	{
 		State* state = automaton->states[i].Obj();
-
+		
 		if (automaton->startState == state)
 		{
 			writer.WriteString(L"[START]");
 		}
-
+		
 		if (state->finalState)
 		{
 			writer.WriteString(L"[FINISH]");
 		}
-
+		
 		writer.WriteString(L"State<");
 		ITOW_S(i, intbuf, sizeof(intbuf) / sizeof(*intbuf), 10);
 		writer.WriteString(intbuf);
 		writer.WriteLine(L">");
-
+		
 		for (nint j = 0; j < state->transitions.Count(); j++)
 		{
 			Transition* transition = state->transitions[j];
@@ -213,7 +213,7 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 			writer.WriteString(L"    To State<");
 			writer.WriteString(intbuf);
 			writer.WriteString(L"> : ");
-
+			
 			switch (transition->type)
 			{
 				case Transition::Chars:
@@ -229,29 +229,29 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 					writer.WriteChar(transition->range.end);
 					writer.WriteLine(L"]>");
 					break;
-
+					
 				case Transition::Epsilon:
 					writer.WriteLine(L"<Epsilon>");
 					break;
-
+					
 				case Transition::BeginString:
 					writer.WriteLine(L"^");
 					break;
-
+					
 				case Transition::EndString:
 					writer.WriteLine(L"$");
 					break;
-
+					
 				case Transition::Nop:
 					writer.WriteLine(L"<Nop>");
 					break;
-
+					
 				case Transition::Capture:
 					writer.WriteString(L"<Capture : ");
 					writer.WriteString(automaton->captureNames[transition->capture]);
 					writer.WriteLine(L" >");
 					break;
-
+					
 				case Transition::Match:
 					writer.WriteString(L"<Match : ");
 					writer.WriteString(automaton->captureNames[transition->capture]);
@@ -260,19 +260,19 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 					writer.WriteString(intbuf);
 					writer.WriteLine(L" >");
 					break;
-
+					
 				case Transition::Positive:
 					writer.WriteLine(L"<Positive>");
 					break;
-
+					
 				case Transition::Negative:
 					writer.WriteLine(L"<Negative>");
 					break;
-
+					
 				case Transition::NegativeFail:
 					writer.WriteLine(L"<NegativeFail>");
 					break;
-
+					
 				case Transition::End:
 					writer.WriteLine(L"<End>");
 					break;
@@ -285,57 +285,57 @@ void CompareToBaseline(WString fileName)
 {
 	WString generatedPath = GetTestOutputPath() + fileName;
 	WString baselinePath = GetTestResourcePath() + L"Baseline/" + fileName;
-
-	FileStream generatedFile(generatedPath, FileStream::ReadOnly);
-	FileStream baselineFile(baselinePath, FileStream::ReadOnly);
-
+	
+	NFileStream generatedFile(generatedPath, NFileStream::ReadOnly);
+	NFileStream baselineFile(baselinePath, NFileStream::ReadOnly);
+	
 	BomDecoder generatedDecoder;
 	BomDecoder baselineDecoder;
-
+	
 	DecoderStream generatedStream(generatedFile, generatedDecoder);
 	DecoderStream baselineStream(baselineFile, baselineDecoder);
-
+	
 	StreamReader generatedReader(generatedStream);
 	StreamReader baselineReader(baselineStream);
-
+	
 	TEST_ASSERT(generatedReader.ReadToEnd() == baselineReader.ReadToEnd());
 }
 
- void PrintRegex(WString name, WString code, bool compareToBaseline=true)
- {
- 	RegexExpression::Ref regex=ParseRegexExpression(code);
- 	Expression::Ref expression=regex->Merge();
- 	CharRange::List subsets;
- 	expression->NormalizeCharSet(subsets);
-
- 	Dictionary<State*, State*> nfaStateMap;
- 	Group<State*, State*> dfaStateMap;
- 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
- 	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
- 	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
-
- 	PrintAutomaton(name+L".eNfa.txt", eNfa);
- 	PrintAutomaton(name+L".Nfa.txt", nfa);
- 	PrintAutomaton(name+L".Dfa.txt", dfa);
-
- 	if(compareToBaseline)
- 	{
- 		CompareToBaseline(name+L".eNfa.txt");
- 		CompareToBaseline(name+L".Nfa.txt");
- 		CompareToBaseline(name+L".Dfa.txt");
- 	}
- }
+void PrintRegex(WString name, WString code, bool compareToBaseline = true)
+{
+	RegexExpression::Ref regex = ParseRegexExpression(code);
+	Expression::Ref expression = regex->Merge();
+	CharRange::List subsets;
+	expression->NormalizeCharSet(subsets);
+	
+	NDictionary<State*, State*> nfaStateMap;
+	NGroup<State*, State*> dfaStateMap;
+	Automaton::Ref eNfa = expression->GenerateEpsilonNfa();
+	Automaton::Ref nfa = EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
+	Automaton::Ref dfa = NfaToDfa(nfa, dfaStateMap);
+	
+	PrintAutomaton(name + L".eNfa.txt", eNfa);
+	PrintAutomaton(name + L".Nfa.txt", nfa);
+	PrintAutomaton(name + L".Dfa.txt", dfa);
+	
+	if (compareToBaseline)
+	{
+		CompareToBaseline(name + L".eNfa.txt");
+		CompareToBaseline(name + L".Nfa.txt");
+		CompareToBaseline(name + L".Dfa.txt");
+	}
+}
 
 TEST_CASE(TestEpsilonNfa)
 {
-	 	PrintRegex(L"RegexInteger",			L"/d");
-	 	PrintRegex(L"RegexFullint",			L"(/+|-)?/d+");
-	 	PrintRegex(L"RegexFloat",			L"(/+|-)?/d+(./d+)?");
-	 	PrintRegex(L"RegexString",			L"\"([^\\\\\"]|\\\\\\.)*\"");
-	 	PrintRegex(L"RegexComment",			L"///*([^*]|/*+[^*//])*/*+//");
-	 	PrintRegex(L"RegexIP",				L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
-	 	PrintRegex(L"RegexDuplicate",		L"^(<sec>/.+)(<$sec>)+$");
-	 	PrintRegex(L"RegexPrescan",			L"/d+(=/w+)(!vczh)");
+	PrintRegex(L"RegexInteger",			L"/d");
+	PrintRegex(L"RegexFullint",			L"(/+|-)?/d+");
+	PrintRegex(L"RegexFloat",			L"(/+|-)?/d+(./d+)?");
+	PrintRegex(L"RegexString",			L"\"([^\\\\\"]|\\\\\\.)*\"");
+	PrintRegex(L"RegexComment",			L"///*([^*]|/*+[^*//])*/*+//");
+	PrintRegex(L"RegexIP",				L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
+	PrintRegex(L"RegexDuplicate",		L"^(<sec>/.+)(<$sec>)+$");
+	PrintRegex(L"RegexPrescan",			L"/d+(=/w+)(!vczh)");
 }
 
 /***********************************************************************
@@ -345,21 +345,21 @@ TEST_CASE(TestEpsilonNfa)
 void RunPureInterpretor(const wchar_t* code, const wchar_t* input, nint start, nint length)
 {
 	CharRange::List subsets;
-	Dictionary<State*, State*> nfaStateMap;
-	Group<State*, State*> dfaStateMap;
+	NDictionary<State*, State*> nfaStateMap;
+	NGroup<State*, State*> dfaStateMap;
 	PureResult matchResult;
-
+	
 	RegexExpression::Ref regex = ParseRegexExpression(code);
 	Expression::Ref expression = regex->Merge();
 	expression->NormalizeCharSet(subsets);
 	Automaton::Ref eNfa = expression->GenerateEpsilonNfa();
 	Automaton::Ref nfa = EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap);
 	Automaton::Ref dfa = NfaToDfa(nfa, dfaStateMap);
-
+	
 	Ptr<PureInterpretor> interpretor = new PureInterpretor(dfa, subsets);
 	bool expectedSuccessful = start != -1;
 	TEST_ASSERT(interpretor->Match(input, input, matchResult) == expectedSuccessful);
-
+	
 	if (expectedSuccessful)
 	{
 		TEST_ASSERT(start == matchResult.start);
@@ -367,48 +367,48 @@ void RunPureInterpretor(const wchar_t* code, const wchar_t* input, nint start, n
 	}
 }
 
- TEST_CASE(TestPureInterpretor)
- {
- 	RunPureInterpretor(L"/d", L"abcde12345abcde", 5, 1);
- 	RunPureInterpretor(L"/d", L"12345abcde", 0, 1);
- 	RunPureInterpretor(L"/d", L"vczh", -1, 0);
-
- 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde12345abcde", 5, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde+12345abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"abcde-12345abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"12345abcde", 0, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"+12345abcde", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"-12345abcde", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+", L"-+vczh+-", -1, 0);
-
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345abcde", 5, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.abcde", 5, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.abcde", 5, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.54321abcde", 5, 11);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.54321abcde", 5, 12);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.54321abcde", 5, 12);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345", 0, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.", 0, 5);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.", 0, 6);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.54321", 0, 11);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.54321", 0, 12);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.54321", 0, 12);
- 	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-+vczh+-", -1, 0);
-
- 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"is\"genius", 4, 4);
- 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"i\\r\\ns\"genius", 4, 8);
- 	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh is genius", -1, 0);
-
- 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/*is*/genius", 4, 6);
- 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/***is***/genius", 4, 10);
- 	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh is genius", -1, 0);
- }
+TEST_CASE(TestPureInterpretor)
+{
+	RunPureInterpretor(L"/d", L"abcde12345abcde", 5, 1);
+	RunPureInterpretor(L"/d", L"12345abcde", 0, 1);
+	RunPureInterpretor(L"/d", L"vczh", -1, 0);
+	
+	RunPureInterpretor(L"(/+|-)?/d+", L"abcde12345abcde", 5, 5);
+	RunPureInterpretor(L"(/+|-)?/d+", L"abcde+12345abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+", L"abcde-12345abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+", L"12345abcde", 0, 5);
+	RunPureInterpretor(L"(/+|-)?/d+", L"+12345abcde", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+", L"-12345abcde", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+", L"-+vczh+-", -1, 0);
+	
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345abcde", 5, 5);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.abcde", 5, 5);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.abcde", 5, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345.54321abcde", 5, 11);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345.54321abcde", 5, 12);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345.54321abcde", 5, 12);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345", 0, 5);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.", 0, 5);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.", 0, 6);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"12345.54321", 0, 11);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.54321", 0, 12);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.54321", 0, 12);
+	RunPureInterpretor(L"(/+|-)?/d+(./d+)?", L"-+vczh+-", -1, 0);
+	
+	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"is\"genius", 4, 4);
+	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"i\\r\\ns\"genius", 4, 8);
+	RunPureInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh is genius", -1, 0);
+	
+	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/*is*/genius", 4, 6);
+	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/***is***/genius", 4, 10);
+	RunPureInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh is genius", -1, 0);
+}
 
 /***********************************************************************
 ¸»Æ¥Åä
@@ -417,16 +417,16 @@ void RunPureInterpretor(const wchar_t* code, const wchar_t* input, nint start, n
 Ptr<RichInterpretor> BuildRichInterpretor(const wchar_t* code)
 {
 	CharRange::List subsets;
-	Dictionary<State*, State*> nfaStateMap;
-	Group<State*, State*> dfaStateMap;
-
+	NDictionary<State*, State*> nfaStateMap;
+	NGroup<State*, State*> dfaStateMap;
+	
 	RegexExpression::Ref regex = ParseRegexExpression(code);
 	Expression::Ref expression = regex->Merge();
 	expression->NormalizeCharSet(subsets);
 	Automaton::Ref eNfa = expression->GenerateEpsilonNfa();
 	Automaton::Ref nfa = EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
 	Automaton::Ref dfa = NfaToDfa(nfa, dfaStateMap);
-
+	
 	return new RichInterpretor(dfa);
 }
 
@@ -436,7 +436,7 @@ void RunRichInterpretor(const wchar_t* code, const wchar_t* input, nint start, n
 	Ptr<RichInterpretor> interpretor = BuildRichInterpretor(code);
 	bool expectedSuccessful = start != -1;
 	TEST_ASSERT(interpretor->Match(input, input, matchResult) == expectedSuccessful);
-
+	
 	if (expectedSuccessful)
 	{
 		TEST_ASSERT(start == matchResult.start);
@@ -449,7 +449,7 @@ TEST_CASE(TestRichInterpretorSimple)
 	RunRichInterpretor(L"/d", L"abcde12345abcde", 5, 1);
 	RunRichInterpretor(L"/d", L"12345abcde", 0, 1);
 	RunRichInterpretor(L"/d", L"vczh", -1, 0);
-
+	
 	RunRichInterpretor(L"(/+|-)?/d+", L"abcde12345abcde", 5, 5);
 	RunRichInterpretor(L"(/+|-)?/d+", L"abcde+12345abcde", 5, 6);
 	RunRichInterpretor(L"(/+|-)?/d+", L"abcde-12345abcde", 5, 6);
@@ -457,7 +457,7 @@ TEST_CASE(TestRichInterpretorSimple)
 	RunRichInterpretor(L"(/+|-)?/d+", L"+12345abcde", 0, 6);
 	RunRichInterpretor(L"(/+|-)?/d+", L"-12345abcde", 0, 6);
 	RunRichInterpretor(L"(/+|-)?/d+", L"-+vczh+-", -1, 0);
-
+	
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde12345abcde", 5, 5);
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde+12345abcde", 5, 6);
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"abcde-12345abcde", 5, 6);
@@ -477,11 +477,11 @@ TEST_CASE(TestRichInterpretorSimple)
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"+12345.54321", 0, 12);
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"-12345.54321", 0, 12);
 	RunRichInterpretor(L"(/+|-)?/d+(./d+)?", L"-+vczh+-", -1, 0);
-
+	
 	RunRichInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"is\"genius", 4, 4);
 	RunRichInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh\"i\\r\\ns\"genius", 4, 8);
 	RunRichInterpretor(L"\"([^\\\\\"]|\\\\\\.)*\"", L"vczh is genius", -1, 0);
-
+	
 	RunRichInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/*is*/genius", 4, 6);
 	RunRichInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh/***is***/genius", 4, 10);
 	RunRichInterpretor(L"///*([^*]|/*+[^*//])*/*+//", L"vczh is genius", -1, 0);
@@ -493,17 +493,17 @@ TEST_CASE(TestRichInterpretorBeginEndString)
 	RunRichInterpretor(L"/d+", L"1234abc", 0, 4);
 	RunRichInterpretor(L"/d+", L"abc1234", 3, 4);
 	RunRichInterpretor(L"/d+", L"1234", 0, 4);
-
+	
 	RunRichInterpretor(L"^/d+", L"abc1234abc", -1, 0);
 	RunRichInterpretor(L"^/d+", L"1234abc", 0, 4);
 	RunRichInterpretor(L"^/d+", L"abc1234", -1, 0);
 	RunRichInterpretor(L"^/d+", L"1234", 0, 4);
-
+	
 	RunRichInterpretor(L"/d+$", L"abc1234abc", -1, 0);
 	RunRichInterpretor(L"/d+$", L"1234abc", -1, 0);
 	RunRichInterpretor(L"/d+$", L"abc1234", 3, 4);
 	RunRichInterpretor(L"/d+$", L"1234", 0, 4);
-
+	
 	RunRichInterpretor(L"^/d+$", L"abc1234abc", -1, 0);
 	RunRichInterpretor(L"^/d+$", L"1234abc", -1, 0);
 	RunRichInterpretor(L"^/d+$", L"abc1234", -1, 0);
@@ -527,7 +527,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		nint index = regex->CaptureNames().IndexOf(L"number");
 		TEST_ASSERT(index == 0);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 5);
 		TEST_ASSERT(result.length == 6);
@@ -543,7 +543,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		nint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 0);
 		TEST_ASSERT(result.length == 11);
@@ -568,7 +568,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		nint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 5);
 		TEST_ASSERT(result.length == 18);
@@ -584,7 +584,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		nint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 5);
 		TEST_ASSERT(result.length == 18);
@@ -602,7 +602,7 @@ TEST_CASE(TestRichInterpretorPrematching)
 		const wchar_t* input = L"win98win2000winxp";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 5);
 		TEST_ASSERT(result.length == 3);
@@ -613,7 +613,7 @@ TEST_CASE(TestRichInterpretorPrematching)
 		const wchar_t* input = L"win98win2000winxp";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 5);
 		TEST_ASSERT(result.length == 3);
@@ -630,7 +630,7 @@ TEST_CASE(TestRichInterpretorChaos)
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		TEST_ASSERT(regex->CaptureNames().IndexOf(L"a") == 0);
 		TEST_ASSERT(regex->CaptureNames().IndexOf(L"b") == 1);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 0);
 		TEST_ASSERT(result.length == 40);
@@ -648,7 +648,7 @@ TEST_CASE(TestRichInterpretorChaos)
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
 		TEST_ASSERT(regex->CaptureNames().IndexOf(L"sec") == 0);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 0);
 		TEST_ASSERT(result.length == 25);
@@ -662,7 +662,7 @@ TEST_CASE(TestRichInterpretorChaos)
 		const wchar_t* input = L"1428.57142857142857142857";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-
+		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
 		TEST_ASSERT(result.start == 0);
 		TEST_ASSERT(result.length == 25);
@@ -688,34 +688,34 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(regex.Test(L"123abc") == true);
 	TEST_ASSERT(regex.Test(L"abc123abc") == true);
 	TEST_ASSERT(regex.Test(L"abc") == false);
-
+	
 	RegexMatch::Ref match;
 	RegexMatch::List matches;
-
+	
 	match = regex.MatchHead(L"123abc");
 	TEST_ASSERT(match);
 	TEST_ASSERT(match->Success() == true);
 	TEST_ASSERT(match->Result().Start() == 0);
 	TEST_ASSERT(match->Result().Length() == 3);
 	TEST_ASSERT(match->Result().Value() == L"123");
-
+	
 	match = regex.MatchHead(L"abc123abc");
 	TEST_ASSERT(!match);
-
+	
 	match = regex.Match(L"123abc");
 	TEST_ASSERT(match);
 	TEST_ASSERT(match->Success() == true);
 	TEST_ASSERT(match->Result().Start() == 0);
 	TEST_ASSERT(match->Result().Length() == 3);
 	TEST_ASSERT(match->Result().Value() == L"123");
-
+	
 	match = regex.Match(L"abc123abc");
 	TEST_ASSERT(match);
 	TEST_ASSERT(match->Success() == true);
 	TEST_ASSERT(match->Result().Start() == 3);
 	TEST_ASSERT(match->Result().Length() == 3);
 	TEST_ASSERT(match->Result().Value() == L"123");
-
+	
 	matches.Clear();
 	regex.Search(L"12abc34def56", matches);
 	TEST_ASSERT(matches.Count() == 3);
@@ -731,7 +731,7 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[2]->Result().Start() == 10);
 	TEST_ASSERT(matches[2]->Result().Length() == 2);
 	TEST_ASSERT(matches[2]->Result().Value() == L"56");
-
+	
 	matches.Clear();
 	regex.Split(L"12abc34def56", false, matches);
 	TEST_ASSERT(matches.Count() == 2);
@@ -743,7 +743,7 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[1]->Result().Start() == 7);
 	TEST_ASSERT(matches[1]->Result().Length() == 3);
 	TEST_ASSERT(matches[1]->Result().Value() == L"def");
-
+	
 	matches.Clear();
 	regex.Split(L"12abc34def56", true, matches);
 	TEST_ASSERT(matches.Count() == 4);
@@ -763,7 +763,7 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[3]->Result().Start() == 12);
 	TEST_ASSERT(matches[3]->Result().Length() == 0);
 	TEST_ASSERT(matches[3]->Result().Value() == L"");
-
+	
 	matches.Clear();
 	regex.Cut(L"12abc34def56", false, matches);
 	TEST_ASSERT(matches.Count() == 5);
@@ -787,7 +787,7 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[4]->Result().Start() == 10);
 	TEST_ASSERT(matches[4]->Result().Length() == 2);
 	TEST_ASSERT(matches[4]->Result().Value() == L"56");
-
+	
 	matches.Clear();
 	regex.Cut(L"12abc34def56", true, matches);
 	TEST_ASSERT(matches.Count() == 7);
@@ -819,7 +819,7 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[6]->Result().Start() == 12);
 	TEST_ASSERT(matches[6]->Result().Length() == 0);
 	TEST_ASSERT(matches[6]->Result().Value() == L"");
-
+	
 	matches.Clear();
 	regex.Cut(L"XY12abc34def56ZW", true, matches);
 	TEST_ASSERT(matches.Count() == 7);
@@ -853,11 +853,11 @@ void TestRegexMatchPosition(bool preferPure)
 	TEST_ASSERT(matches[6]->Result().Value() == L"ZW");
 }
 
- TEST_CASE(TestRegexMatchPosition)
- {
- 	TestRegexMatchPosition(true);
- 	TestRegexMatchPosition(false);
- }
+TEST_CASE(TestRegexMatchPosition)
+{
+	TestRegexMatchPosition(true);
+	TestRegexMatchPosition(false);
+}
 
 TEST_CASE(TestRegexCapture)
 {
@@ -865,7 +865,7 @@ TEST_CASE(TestRegexCapture)
 		Regex regex(L"^(<a>/w+?)(<b>/w+?)((<$a>)(<$b>))+(<$a>)/w{6}$", true);
 		TEST_ASSERT(regex.IsPureMatch() == false);
 		TEST_ASSERT(regex.IsPureTest() == false);
-
+		
 		RegexMatch::Ref match = regex.Match(L"vczhgeniusvczhgeniusvczhgeniusvczhgenius");
 		TEST_ASSERT(match);
 		TEST_ASSERT(match->Success() == true);
@@ -887,10 +887,10 @@ TEST_CASE(TestRegexCapture)
 	{
 		Regex regex(L"^(?/d+).(?/d+).(?/d+).(<$0>).(<$1>).(<$2>)$");
 		RegexMatch::Ref match;
-
+		
 		match = regex.MatchHead(L"12.34.56.12.56.34");
 		TEST_ASSERT(!match);
-
+		
 		match = regex.MatchHead(L"123.4.56.123.4.56");
 		TEST_ASSERT(match);
 		TEST_ASSERT(match->Success() == true);
@@ -917,12 +917,12 @@ TEST_CASE(TestRegexCapture)
 void TestRegexLexer1Validation(NList<RegexToken>& tokens)
 {
 	TEST_ASSERT(tokens.Count() == 9);
-
+	
 	for (nint i = 0; i < tokens.Count(); i++)
 	{
 		TEST_ASSERT(tokens[i].completeToken == true);
 	}
-
+	
 	//[vczh]
 	TEST_ASSERT(tokens[0].start == 0);
 	TEST_ASSERT(tokens[0].length == 4);
@@ -1020,12 +1020,12 @@ void TestRegexLexer1Validation(NList<RegexToken>& tokens)
 void TestRegexLexer2Validation(NList<RegexToken>& tokens)
 {
 	TEST_ASSERT(tokens.Count() == 19);
-
+	
 	for (nint i = 0; i < tokens.Count(); i++)
 	{
 		TEST_ASSERT(tokens[i].completeToken == true);
 	}
-
+	
 	//[12345]
 	TEST_ASSERT(tokens[0].start == 0);
 	TEST_ASSERT(tokens[0].length == 5);
@@ -1363,25 +1363,25 @@ void TestRegexLexer5Validation(NList<RegexToken>& tokens)
 	TEST_ASSERT(tokens[1].completeToken == false);
 }
 
- TEST_CASE(TestRegexLexer5)
- {
- 	NList<WString> codes;
- 	codes.Add(L"/d+");
- 	codes.Add(L"\"[^\"]*\"");
- 	RegexLexer lexer(codes);
-
- 	WString input = L"123\"456";
- 	{
- 		NList<RegexToken> tokens;
- 		CopyFrom(tokens, lexer.Parse(input));
- 		TestRegexLexer5Validation(tokens);
- 	}
- 	{
- 		NList<RegexToken> tokens;
- 		lexer.Parse(input).ReadToEnd(tokens);
- 		TestRegexLexer5Validation(tokens);
- 	}
- }
+TEST_CASE(TestRegexLexer5)
+{
+	NList<WString> codes;
+	codes.Add(L"/d+");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes);
+	
+	WString input = L"123\"456";
+	{
+		NList<RegexToken> tokens;
+		CopyFrom(tokens, lexer.Parse(input));
+		TestRegexLexer5Validation(tokens);
+	}
+	{
+		NList<RegexToken> tokens;
+		lexer.Parse(input).ReadToEnd(tokens);
+		TestRegexLexer5Validation(tokens);
+	}
+}
 
 /***********************************************************************
 ×Ö·û×ÅÉ«
@@ -1399,60 +1399,60 @@ void TestRegexLexer5Validation(NList<RegexToken>& tokens)
 		TEST_ASSERT(STOP==previousTokenStop);\
 	}while(0)\
 
- TEST_CASE(TestRegexLexerWalker)
- {
- 	NList<WString> codes;
- 	codes.Add(L"/d+(./d+)?");
- 	codes.Add(L"[a-zA-Z_]/w*");
- 	codes.Add(L"\"[^\"]*\"");
- 	RegexLexer lexer(codes);
- 	RegexLexerWalker walker = lexer.Walk();
-
- 	nint state = -1;
-
- 	WALK(L' ', -1,	true,	true);
- 	WALK(L'g', 1,	true,	true);
- 	WALK(L'e', 1,	true,	false);
- 	WALK(L'n', 1,	true,	false);
- 	WALK(L'i', 1,	true,	false);
- 	WALK(L'u', 1,	true,	false);
- 	WALK(L's', 1,	true,	false);
-
- 	WALK(L' ', -1,	true,	true);
-
- 	WALK(L'1', 0,	true,	true);
- 	WALK(L'0', 0,	true,	false);
- 	WALK(L'.', -1,	false,	false);
-
- 	WALK(L'.', -1,	true,	true);
-
- 	WALK(L'1', 0,	true,	true);
- 	WALK(L'0', 0,	true,	false);
- 	WALK(L'.', -1,	false,	false);
- 	WALK(L'1', 0,	true,	false);
- 	WALK(L'0', 0,	true,	false);
-
- 	WALK(L' ', -1,	true,	true);
- 	WALK(L' ', -1,	true,	true);
- 	WALK(L' ', -1,	true,	true);
-
- 	WALK(L'\"', -1,	false,	true);
- 	WALK(L'\"', 2,	true,	false);
-
- 	WALK(L'\"', -1,	false,	true);
- 	WALK(L'g', -1,	false,	false);
- 	WALK(L'e', -1,	false,	false);
- 	WALK(L'n', -1,	false,	false);
- 	WALK(L'i', -1,	false,	false);
- 	WALK(L'u', -1,	false,	false);
- 	WALK(L's', -1,	false,	false);
- 	WALK(L'\"', 2,	true,	false);
- }
+TEST_CASE(TestRegexLexerWalker)
+{
+	NList<WString> codes;
+	codes.Add(L"/d+(./d+)?");
+	codes.Add(L"[a-zA-Z_]/w*");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes);
+	RegexLexerWalker walker = lexer.Walk();
+	
+	nint state = -1;
+	
+	WALK(L' ', -1,	true,	true);
+	WALK(L'g', 1,	true,	true);
+	WALK(L'e', 1,	true,	false);
+	WALK(L'n', 1,	true,	false);
+	WALK(L'i', 1,	true,	false);
+	WALK(L'u', 1,	true,	false);
+	WALK(L's', 1,	true,	false);
+	
+	WALK(L' ', -1,	true,	true);
+	
+	WALK(L'1', 0,	true,	true);
+	WALK(L'0', 0,	true,	false);
+	WALK(L'.', -1,	false,	false);
+	
+	WALK(L'.', -1,	true,	true);
+	
+	WALK(L'1', 0,	true,	true);
+	WALK(L'0', 0,	true,	false);
+	WALK(L'.', -1,	false,	false);
+	WALK(L'1', 0,	true,	false);
+	WALK(L'0', 0,	true,	false);
+	
+	WALK(L' ', -1,	true,	true);
+	WALK(L' ', -1,	true,	true);
+	WALK(L' ', -1,	true,	true);
+	
+	WALK(L'\"', -1,	false,	true);
+	WALK(L'\"', 2,	true,	false);
+	
+	WALK(L'\"', -1,	false,	true);
+	WALK(L'g', -1,	false,	false);
+	WALK(L'e', -1,	false,	false);
+	WALK(L'n', -1,	false,	false);
+	WALK(L'i', -1,	false,	false);
+	WALK(L'u', -1,	false,	false);
+	WALK(L's', -1,	false,	false);
+	WALK(L'\"', 2,	true,	false);
+}
 
 void ColorizerProc(void* argument, nint start, nint length, nint token)
 {
 	nint* colors = (nint*)argument;
-
+	
 	for (nint i = 0; i < length; i++)
 	{
 		colors[start + i] = token;
@@ -1467,28 +1467,28 @@ TEST_CASE(TestRegexLexerColorizer)
 	codes.Add(L"\"[^\"]*\"");
 	RegexLexer lexer(codes);
 	RegexLexerColorizer colorizer = lexer.Colorize();
-
+	
 	const wchar_t line1[] = L" genius 10..10.10   \"a";
 	nint color1[] = { -1, 1, 1, 1, 1, 1, 1, -1, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, 2, 2 };
 	nint length1 = sizeof(color1) / sizeof(*color1);
-
+	
 	const wchar_t line2[] = L"b\"\"genius\"";
 	nint color2[] = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 	nint length2 = sizeof(color2) / sizeof(*color2);
-
+	
 	TEST_ASSERT(wcslen(line1) == length1);
 	TEST_ASSERT(wcslen(line2) == length2);
-
+	
 	nint colors[100];
 	{
 		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
 		{
 			colors[i] = -2;
 		}
-
+		
 		colorizer.Reset(colorizer.GetStartState());
 		colorizer.Colorize(line1, length1, &ColorizerProc, colors);
-
+		
 		for (nint i = 0; i < length1; i++)
 		{
 			TEST_ASSERT(color1[i] == colors[i]);
@@ -1501,10 +1501,10 @@ TEST_CASE(TestRegexLexerColorizer)
 		{
 			colors[i] = -2;
 		}
-
+		
 		colorizer.Reset(colorizer.GetCurrentState());
 		colorizer.Colorize(line2, length2, &ColorizerProc, colors);
-
+		
 		for (nint i = 0; i < length2; i++)
 		{
 			TEST_ASSERT(color2[i] == colors[i]);
@@ -1520,24 +1520,24 @@ TEST_CASE(TestRegexLexerColorizer)
 
 namespace TestRegexSpeedHelper
 {
-	void FindRows(WString* lines, int count, const WString& pattern)
+void FindRows(WString* lines, int count, const WString& pattern)
+{
+	Regex regex(pattern);
+	DateTime dt1 = DateTime::LocalTime();
+	
+	for (int i = 0; i < 10000000; i++)
 	{
-		Regex regex(pattern);
-		DateTime dt1 = DateTime::LocalTime();
-
-		for (int i = 0; i < 10000000; i++)
+		for (int j = 0; j < count; j++)
 		{
-			for (int j = 0; j < count; j++)
-			{
-				bool result = regex.TestHead(lines[j]);
-				TEST_ASSERT(result);
-			}
+			bool result = regex.TestHead(lines[j]);
+			TEST_ASSERT(result);
 		}
-
-		DateTime dt2 = DateTime::LocalTime();
-		nuint64_t ms = dt2.totalMilliseconds - dt1.totalMilliseconds;
-		UnitTest::PrintInfo(L"Running 10000000 times of Regex::TestHead uses: " + i64tow(ms) + L" milliseconds.");
 	}
+	
+	DateTime dt2 = DateTime::LocalTime();
+	nuint64_t ms = dt2.totalMilliseconds - dt1.totalMilliseconds;
+	UnitTest::PrintInfo(L"Running 10000000 times of Regex::TestHead uses: " + i64tow(ms) + L" milliseconds.");
+}
 }
 using namespace TestRegexSpeedHelper;
 
