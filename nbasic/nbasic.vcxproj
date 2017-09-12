@@ -264,12 +264,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.h" />
-    <ClInclude Include="Collections\NDictionary.h" />
     <ClInclude Include="Collections\Interfaces.h" />
+    <ClInclude Include="Collections\NDictionary.h" />
     <ClInclude Include="Collections\NList.h" />
+    <ClInclude Include="Collections\NPair.h" />
     <ClInclude Include="Collections\Operation.h" />
     <ClInclude Include="Collections\OperationCopyFrom.h" />
-    <ClInclude Include="Collections\NPair.h" />
     <ClInclude Include="Collections\OperationEnumerable.h" />
     <ClInclude Include="Collections\OperationForEach.h" />
     <ClInclude Include="Collections\OperationSequence.h" />
@@ -277,11 +277,10 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="Function.h" />
     <ClInclude Include="GlobalStorage.h" />
-    <ClInclude Include="NLocale.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="nchar.h" />
+    <ClInclude Include="NLocale.h" />
     <ClInclude Include="NVariant.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Regex\Regex.h" />
@@ -297,13 +296,14 @@
     <ClInclude Include="Stream\CacheStream.h" />
     <ClInclude Include="Stream\CharFormat.h" />
     <ClInclude Include="Stream\CompressionStream.h" />
-    <ClInclude Include="Stream\NFileStream.h" />
     <ClInclude Include="Stream\Interfaces.h" />
     <ClInclude Include="Stream\memorystream.h" />
     <ClInclude Include="Stream\memorywrapperstream.h" />
+    <ClInclude Include="Stream\NFileStream.h" />
     <ClInclude Include="Stream\RecorderStream.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Threading.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Basic.cpp" />
@@ -311,8 +311,8 @@
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="GlobalStorage.cpp" />
-    <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="nchar.cpp" />
+    <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="NVariant.cpp" />
     <ClCompile Include="Regex\Regex.cpp" />
     <ClCompile Include="Regex\RegexAutomaton.cpp" />
@@ -337,11 +337,12 @@
     <ClCompile Include="Stream\CacheStream.cpp" />
     <ClCompile Include="Stream\CharFormat.cpp" />
     <ClCompile Include="Stream\CompressionStream.cpp" />
-    <ClCompile Include="Stream\NFileStream.cpp" />
     <ClCompile Include="Stream\memorystream.cpp" />
     <ClCompile Include="Stream\memorywrapperstream.cpp" />
+    <ClCompile Include="Stream\NFileStream.cpp" />
     <ClCompile Include="Stream\RecorderStream.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="Threading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="类图.cd" />

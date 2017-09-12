@@ -272,11 +272,11 @@ class ThreadPoolLite : public Object
 		/// <summary>Queue a lambda expression.</summary>
 		/// <typeparam name="T">The type of the lambda expression.</typeparam>
 		/// <param name="proc">The lambda expression.</param>
-		template<typename T>
-		static void QueueLambda(const T& proc)
-		{
-			Queue(Func<void()>(proc));
-		}
+		// 		template<typename T>
+		// 		static void QueueLambda(const T& proc)
+		// 		{
+		// 			Queue(Func<void()>(proc));
+		// 		}
 		
 		// #ifdef VCZH_GCC
 		// 		static bool									Stop(bool discardPendingTasks);

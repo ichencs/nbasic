@@ -334,11 +334,8 @@
     <ClCompile Include="TestRegex2.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="TestThread.cpp" />
     <ClCompile Include="TestThread2.cpp" />
-=======
->>>>>>> parent of 440740d... genggai
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,43 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Basic.cpp" />
-    <ClCompile Include="nchar.cpp">
-      <Filter>未完成项</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\Accessor.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\BroadcastStream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\CacheStream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\CharFormat.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\CompressionStream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\memorystream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\memorywrapperstream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Stream\RecorderStream.cpp">
-      <Filter>Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="Exception.cpp" />
-    <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="String.cpp" />
-    <ClCompile Include="NVariant.cpp">
-      <Filter>未完成项</Filter>
-    </ClCompile>
-    <ClCompile Include="NLocale.cpp" />
-    <ClCompile Include="GlobalStorage.cpp" />
     <ClCompile Include="Regex\Regex.cpp">
       <Filter>Regex</Filter>
     </ClCompile>
@@ -63,74 +27,48 @@
     <ClCompile Include="Regex\RegexWriter.cpp">
       <Filter>Regex</Filter>
     </ClCompile>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <ClCompile Include="Threading.cpp" />
-    <ClCompile Include="Stream\NFileStream.cpp">
-      <Filter>Stream</Filter>
+    <ClCompile Include="Stream\Accessor.cpp">
+      <Filter>stream</Filter>
     </ClCompile>
-=======
->>>>>>> parent of 440740d... genggai
-=======
->>>>>>> parent of 440740d... genggai
+    <ClCompile Include="Stream\BroadcastStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CacheStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CharFormat.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\CompressionStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\memorystream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\memorywrapperstream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\NFileStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\RecorderStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="GlobalStorage.cpp" />
+    <ClCompile Include="nchar.cpp" />
+    <ClCompile Include="NLocale.cpp" />
+    <ClCompile Include="NVariant.cpp" />
+    <ClCompile Include="Threading.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Basic.h" />
-    <ClInclude Include="Collections\Interfaces.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationCopyFrom.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="nchar.h">
-      <Filter>未完成项</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\Accessor.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\BroadcastStream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\CacheStream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\CharFormat.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\CompressionStream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\Interfaces.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\memorystream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\memorywrapperstream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Stream\RecorderStream.h">
-      <Filter>Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\NList.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="Exception.h" />
-    <ClInclude Include="FileSystem.h" />
     <ClInclude Include="String.h" />
-    <ClInclude Include="Collections\NPair.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="NVariant.h">
-      <Filter>未完成项</Filter>
-    </ClInclude>
-    <ClInclude Include="NLocale.h" />
-    <ClInclude Include="GlobalStorage.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="Regex\Regex.h">
       <Filter>Regex</Filter>
     </ClInclude>
@@ -152,66 +90,92 @@
     <ClInclude Include="Regex\RegexWriter.h">
       <Filter>Regex</Filter>
     </ClInclude>
-    <ClInclude Include="Collections\OperationString.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationForEach.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\Operation.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationSequence.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationEnumerable.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <ClInclude Include="Threading.h" />
-    <ClInclude Include="Collections\OperationConcat.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationPair.h">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\OperationSet.h">
-      <Filter>Collections</Filter>
+    <ClInclude Include="Collections\Interfaces.h">
+      <Filter>collection</Filter>
     </ClInclude>
     <ClInclude Include="Collections\NDictionary.h">
-      <Filter>Collections</Filter>
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\NList.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\NPair.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Operation.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationCopyFrom.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationEnumerable.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationForEach.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationSequence.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\OperationString.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\Accessor.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\BroadcastStream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CacheStream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CharFormat.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\CompressionStream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\Interfaces.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\memorystream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream\memorywrapperstream.h">
+      <Filter>stream</Filter>
     </ClInclude>
     <ClInclude Include="Stream\NFileStream.h">
-      <Filter>Stream</Filter>
+      <Filter>stream</Filter>
     </ClInclude>
-=======
-    <ClInclude Include="Function.h" />
->>>>>>> parent of 440740d... genggai
-=======
-    <ClInclude Include="Function.h" />
->>>>>>> parent of 440740d... genggai
+    <ClInclude Include="Stream\RecorderStream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="GlobalStorage.h" />
+    <ClInclude Include="nbasicInc.h" />
+    <ClInclude Include="nchar.h" />
+    <ClInclude Include="NLocale.h" />
+    <ClInclude Include="NVariant.h" />
+    <ClInclude Include="Threading.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="类图.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Collections">
-      <UniqueIdentifier>{f175cc35-9709-4775-81fe-f645f9799917}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="未完成项">
-      <UniqueIdentifier>{6f28cf11-b45b-4752-bcb7-725b62fac15f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Stream">
-      <UniqueIdentifier>{50e6b770-fa11-4c7e-bb04-582fd188f70e}</UniqueIdentifier>
+    <Filter Include="collection">
+      <UniqueIdentifier>{44f6fa25-448e-43f2-a847-50e24a1b131b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Regex">
-      <UniqueIdentifier>{41221a28-648a-4897-92d6-5c5db3a14341}</UniqueIdentifier>
+      <UniqueIdentifier>{1b2e3b6f-e148-4c0e-8123-f50d57ac3578}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="类图.cd">
-      <Filter>未完成项</Filter>
-    </None>
+    <Filter Include="stream">
+      <UniqueIdentifier>{febf72f4-0584-4664-a5d1-a2759e9f03f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
