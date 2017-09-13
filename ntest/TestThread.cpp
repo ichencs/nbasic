@@ -1,27 +1,29 @@
 #include "stdafx.h"
 #include "UnitTest.h"
 
+using namespace vl;
+using namespace vl::collections;
 /***********************************************************************
 Thread
 ***********************************************************************/
 
 namespace mynamespace
 {
-struct ThreadData
-{
-	bool modified;
-	
-	ThreadData()
-		: modified(false)
+	struct ThreadData
 	{
+		bool modified;
+		
+		ThreadData()
+			: modified(false)
+		{
+		}
+	};
+	
+	void SimpleThreadProc(Thread* thread, void* argument)
+	{
+		Thread::Sleep(1000);
+		((ThreadData*)argument)->modified = true;
 	}
-};
-
-void SimpleThreadProc(Thread* thread, void* argument)
-{
-	Thread::Sleep(1000);
-	((ThreadData*)argument)->modified = true;
-}
 }
 using namespace mynamespace;
 
@@ -42,36 +44,36 @@ Mutex
 
 namespace mynamespace
 {
-struct Mutex_ThreadData
-{
-	Mutex				mutex;
-	volatile nint		counter;
+	struct Mutex_ThreadData
+	{
+		Mutex				mutex;
+		volatile vint		counter;
+		
+		Mutex_ThreadData()
+			: counter(0)
+		{
+			TEST_ASSERT(mutex.Create(true));
+		}
+	};
 	
-	Mutex_ThreadData()
-		: counter(0)
+	void Mutex_ThreadProc(Thread* thread, void* argument)
 	{
-		TEST_ASSERT(mutex.Create(true));
+		Mutex_ThreadData* data = (Mutex_ThreadData*)argument;
+		{
+			TEST_ASSERT(data->mutex.Wait());
+			data->counter++;
+			TEST_ASSERT(data->mutex.Release());
+		}
 	}
-};
-
-void Mutex_ThreadProc(Thread* thread, void* argument)
-{
-	Mutex_ThreadData* data = (Mutex_ThreadData*)argument;
-	{
-		TEST_ASSERT(data->mutex.Wait());
-		data->counter++;
-		TEST_ASSERT(data->mutex.Release());
-	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestMutex)
 {
 	Mutex_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(Mutex_ThreadProc, &data, false));
 		}
@@ -95,37 +97,37 @@ Semaphore
 
 namespace mynamespace
 {
-struct Semaphore_ThreadData
-{
-	CriticalSection		cs;
-	Semaphore			semaphore;
-	volatile nint		counter;
+	struct Semaphore_ThreadData
+	{
+		CriticalSection		cs;
+		Semaphore			semaphore;
+		volatile vint		counter;
+		
+		Semaphore_ThreadData(vint max)
+			: counter(0)
+		{
+			TEST_ASSERT(semaphore.Create(0, max));
+		}
+	};
 	
-	Semaphore_ThreadData(nint max)
-		: counter(0)
+	void Semaphore_ThreadProc(Thread* thread, void* argument)
 	{
-		TEST_ASSERT(semaphore.Create(0, max));
+		Semaphore_ThreadData* data = (Semaphore_ThreadData*)argument;
+		TEST_ASSERT(data->semaphore.Wait());
+		{
+			CriticalSection::Scope lock(data->cs);
+			data->counter++;
+		}
 	}
-};
-
-void Semaphore_ThreadProc(Thread* thread, void* argument)
-{
-	Semaphore_ThreadData* data = (Semaphore_ThreadData*)argument;
-	TEST_ASSERT(data->semaphore.Wait());
-	{
-		CriticalSection::Scope lock(data->cs);
-		data->counter++;
-	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestSemaphore)
 {
 	Semaphore_ThreadData data(10);
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(Semaphore_ThreadProc, &data, false));
 		}
@@ -165,37 +167,37 @@ EventObject
 
 namespace mynamespace
 {
-struct ManualEvent_ThreadData
-{
-	CriticalSection		cs;
-	EventObject			eventObject;
-	volatile nint		counter;
+	struct ManualEvent_ThreadData
+	{
+		CriticalSection		cs;
+		EventObject			eventObject;
+		volatile vint		counter;
+		
+		ManualEvent_ThreadData()
+			: counter(0)
+		{
+			TEST_ASSERT(eventObject.CreateManualUnsignal(false));
+		}
+	};
 	
-	ManualEvent_ThreadData()
-		: counter(0)
+	void ManualEvent_ThreadProc(Thread* thread, void* argument)
 	{
-		TEST_ASSERT(eventObject.CreateManualUnsignal(false));
+		ManualEvent_ThreadData* data = (ManualEvent_ThreadData*)argument;
+		TEST_ASSERT(data->eventObject.Wait());
+		{
+			CriticalSection::Scope lock(data->cs);
+			data->counter++;
+		}
 	}
-};
-
-void ManualEvent_ThreadProc(Thread* thread, void* argument)
-{
-	ManualEvent_ThreadData* data = (ManualEvent_ThreadData*)argument;
-	TEST_ASSERT(data->eventObject.Wait());
-	{
-		CriticalSection::Scope lock(data->cs);
-		data->counter++;
-	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestManualEventObject)
 {
 	ManualEvent_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(ManualEvent_ThreadProc, &data, false));
 		}
@@ -215,33 +217,33 @@ TEST_CASE(TestManualEventObject)
 
 namespace mynamespace
 {
-struct AutoEvent_ThreadData
-{
-	EventObject			eventObject;
-	volatile nint		counter;
-	
-	AutoEvent_ThreadData()
-		: counter(0)
+	struct AutoEvent_ThreadData
 	{
-		TEST_ASSERT(eventObject.CreateAutoUnsignal(false));
+		EventObject			eventObject;
+		volatile vint		counter;
+		
+		AutoEvent_ThreadData()
+			: counter(0)
+		{
+			TEST_ASSERT(eventObject.CreateAutoUnsignal(false));
+		}
+	};
+	
+	void AutoEvent_ThreadProc(Thread* thread, void* argument)
+	{
+		AutoEvent_ThreadData* data = (AutoEvent_ThreadData*)argument;
+		TEST_ASSERT(data->eventObject.Wait());
+		data->counter++;
 	}
-};
-
-void AutoEvent_ThreadProc(Thread* thread, void* argument)
-{
-	AutoEvent_ThreadData* data = (AutoEvent_ThreadData*)argument;
-	TEST_ASSERT(data->eventObject.Wait());
-	data->counter++;
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestAutoEventObject)
 {
 	AutoEvent_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(AutoEvent_ThreadProc, &data, false));
 		}
@@ -250,7 +252,7 @@ TEST_CASE(TestAutoEventObject)
 		TEST_ASSERT(data.counter == 0);
 	}
 	
-	for (nint i = 0; i < 10; i++)
+	for (vint i = 0; i < 10; i++)
 	{
 		TEST_ASSERT(data.counter == i);
 		TEST_ASSERT(data.eventObject.Signal());
@@ -273,36 +275,36 @@ CriticalSection
 
 namespace mynamespace
 {
-struct CS_ThreadData
-{
-	CriticalSection			cs;
-	volatile nint			counter;
+	struct CS_ThreadData
+	{
+		CriticalSection			cs;
+		volatile vint			counter;
+		
+		CS_ThreadData()
+			: counter(0)
+		{
+		}
+	};
 	
-	CS_ThreadData()
-		: counter(0)
+	void CS_ThreadProc(Thread* thread, void* argument)
 	{
+		CS_ThreadData* data = (CS_ThreadData*)argument;
+		{
+			CriticalSection::Scope lock(data->cs);
+			data->counter++;
+		}
 	}
-};
-
-void CS_ThreadProc(Thread* thread, void* argument)
-{
-	CS_ThreadData* data = (CS_ThreadData*)argument;
-	{
-		CriticalSection::Scope lock(data->cs);
-		data->counter++;
-	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestCriticalSection)
 {
 	CS_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
 		CriticalSection::Scope lock(data.cs);
 		
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(CS_ThreadProc, &data, false));
 		}
@@ -326,56 +328,56 @@ ReaderWriterLock
 
 namespace mynamespace
 {
-struct SRW_ThreadData
-{
-	EventObject				ev;
-	SpinLock				sl;
-	ReaderWriterLock		lock;
-	volatile nint			counter;
-	
-	SRW_ThreadData()
-		: counter(0)
+	struct SRW_ThreadData
 	{
-		ev.CreateManualUnsignal(false);
-	}
-};
-
-void SRW_ReaderProc(Thread* thread, void* argument)
-{
-	SRW_ThreadData* data = (SRW_ThreadData*)argument;
-	data->ev.Wait();
+		EventObject				ev;
+		SpinLock				sl;
+		ReaderWriterLock		lock;
+		volatile vint			counter;
+		
+		SRW_ThreadData()
+			: counter(0)
+		{
+			ev.CreateManualUnsignal(false);
+		}
+	};
 	
-	for (nint i = 0; i < 10; i++)
+	void SRW_ReaderProc(Thread* thread, void* argument)
 	{
-		ReaderWriterLock::ReaderScope srw(data->lock);
-		SpinLock::Scope sl(data->sl);
-		data->counter++;
+		SRW_ThreadData* data = (SRW_ThreadData*)argument;
+		data->ev.Wait();
+		
+		for (vint i = 0; i < 10; i++)
+		{
+			ReaderWriterLock::ReaderScope srw(data->lock);
+			SpinLock::Scope sl(data->sl);
+			data->counter++;
+		}
 	}
-}
-
-void SRW_WriterProc(Thread* thread, void* argument)
-{
-	SRW_ThreadData* data = (SRW_ThreadData*)argument;
-	data->ev.Wait();
 	
-	for (nint i = 0; i < 10; i++)
+	void SRW_WriterProc(Thread* thread, void* argument)
 	{
-		ReaderWriterLock::WriterScope srw(data->lock);
-		SpinLock::Scope sl(data->sl);
-		data->counter++;
+		SRW_ThreadData* data = (SRW_ThreadData*)argument;
+		data->ev.Wait();
+		
+		for (vint i = 0; i < 10; i++)
+		{
+			ReaderWriterLock::WriterScope srw(data->lock);
+			SpinLock::Scope sl(data->sl);
+			data->counter++;
+		}
 	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestReaderWriterLock)
 {
 	SRW_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
 		threads.Add(Thread::CreateAndStart(SRW_WriterProc, &data, false));
 		
-		for (nint i = 0; i < 9; i++)
+		for (vint i = 0; i < 9; i++)
 		{
 			threads.Add(Thread::CreateAndStart(SRW_ReaderProc, &data, false));
 		}
@@ -399,36 +401,36 @@ SpinLock
 
 namespace mynamespace
 {
-struct SL_ThreadData
-{
-	SpinLock				lock;
-	volatile nint			counter;
+	struct SL_ThreadData
+	{
+		SpinLock				lock;
+		volatile vint			counter;
+		
+		SL_ThreadData()
+			: counter(0)
+		{
+		}
+	};
 	
-	SL_ThreadData()
-		: counter(0)
+	void SL_ThreadProc(Thread* thread, void* argument)
 	{
+		SL_ThreadData* data = (SL_ThreadData*)argument;
+		{
+			SpinLock::Scope lock(data->lock);
+			data->counter++;
+		}
 	}
-};
-
-void SL_ThreadProc(Thread* thread, void* argument)
-{
-	SL_ThreadData* data = (SL_ThreadData*)argument;
-	{
-		SpinLock::Scope lock(data->lock);
-		data->counter++;
-	}
-}
 }
 using namespace mynamespace;
 
 TEST_CASE(TestSpinLock)
 {
 	SL_ThreadData data;
-	NList<Thread*> threads;
+	List<Thread*> threads;
 	{
 		SpinLock::Scope lock(data.lock);
 		
-		for (nint i = 0; i < 10; i++)
+		for (vint i = 0; i < 10; i++)
 		{
 			threads.Add(Thread::CreateAndStart(SL_ThreadProc, &data, false));
 		}
@@ -451,21 +453,14 @@ TEST_CASE(TestSpinLock)
 // 	SL_ThreadData data;
 // 	{
 // 		SpinLock::Scope lock(data.lock);
-//
-// 		for (nint i = 0; i < 10; i++)
+// 		for(vint i=0;i<10;i++)
 // 		{
-// 			ThreadPoolLite::QueueLambda([&data]()
-// 			{
-// 				SL_ThreadProc(nullptr, &data);
-// 			});
+// 			ThreadPoolLite::QueueLambda([&data](){SL_ThreadProc(NULL, &data); });
 // 		}
-//
 // 		Thread::Sleep(1000);
-// 		TEST_ASSERT(data.counter == 0);
+// 		TEST_ASSERT(data.counter==0);
 // 	}
-//
 // 	while (data.counter != 10);
-//
 // 	Thread::Sleep(1000);
 // 	TEST_ASSERT(data.lock.TryEnter());
 // #ifdef VCZH_GCC
@@ -475,48 +470,48 @@ TEST_CASE(TestSpinLock)
 
 namespace mynamespace
 {
-ThreadVariable<int> tls1;
-ThreadVariable<const wchar_t*> tls2;
-ThreadVariable<WString> tls3;
-
-void TlsProc(int i, volatile nint& counter)
-{
-	TEST_ASSERT(tls1.HasData() == false);
-	tls1.Set(i);
-	TEST_ASSERT(tls1.HasData() == true);
-	TEST_ASSERT(tls1.Get() == i);
-	tls1.Clear();
-	TEST_ASSERT(tls1.HasData() == false);
+	ThreadVariable<int> tls1;
+	ThreadVariable<const wchar_t*> tls2;
+	ThreadVariable<WString> tls3;
 	
-	WString text = itow(i);
-	TEST_ASSERT(tls2.HasData() == false);
-	tls2.Set(text.Buffer());
-	TEST_ASSERT(tls2.HasData() == true);
-	TEST_ASSERT(tls2.Get() == text.Buffer());
-	tls2.Clear();
-	TEST_ASSERT(tls2.HasData() == false);
-	
-	TEST_ASSERT(tls3.HasData() == false);
-	tls3.Set(text);
-	TEST_ASSERT(tls3.HasData() == true);
-	TEST_ASSERT(tls3.Get() == text);
-	tls3.Clear();
-	TEST_ASSERT(tls3.HasData() == false);
-	
-	tls1.Set(0);
-	tls2.Set(L"");
-	tls3.Set(L"");
-	
-	INCRC(&counter);
-}
+	void TlsProc(int i, volatile vint& counter)
+	{
+		TEST_ASSERT(tls1.HasData() == false);
+		tls1.Set(i);
+		TEST_ASSERT(tls1.HasData() == true);
+		TEST_ASSERT(tls1.Get() == i);
+		tls1.Clear();
+		TEST_ASSERT(tls1.HasData() == false);
+		
+		WString text = itow(i);
+		TEST_ASSERT(tls2.HasData() == false);
+		tls2.Set(text.Buffer());
+		TEST_ASSERT(tls2.HasData() == true);
+		TEST_ASSERT(tls2.Get() == text.Buffer());
+		tls2.Clear();
+		TEST_ASSERT(tls2.HasData() == false);
+		
+		TEST_ASSERT(tls3.HasData() == false);
+		tls3.Set(text);
+		TEST_ASSERT(tls3.HasData() == true);
+		TEST_ASSERT(tls3.Get() == text);
+		tls3.Clear();
+		TEST_ASSERT(tls3.HasData() == false);
+		
+		tls1.Set(0);
+		tls2.Set(L"");
+		tls3.Set(L"");
+		
+		INCRC(&counter);
+	}
 }
 using namespace mynamespace;
 
 // TEST_CASE(ThreadLocalStorage)
 // {
 // 	ThreadLocalStorage::FixStorages();
-// 	volatile nint counter = 0;
-// 	NList<Thread*> threads;
+// 	volatile vint counter = 0;
+// 	List<Thread*> threads;
 // 	{
 // 		for (int i = 0; i < 10; i++)
 // 		{

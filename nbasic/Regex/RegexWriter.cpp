@@ -1,16 +1,17 @@
 #include "RegexWriter.h"
 #include "../Collections/OperationCopyFrom.h"
 
- 
+namespace vl
+{
 	namespace regex
 	{
-		using namespace regex_internal;
+		using namespace vl::regex_internal;
 
 /***********************************************************************
 RegexNode
 ***********************************************************************/
 
-		RegexNode::RegexNode(regex_internal::Expression::Ref _expression)
+		RegexNode::RegexNode(vl::regex_internal::Expression::Ref _expression)
 			:expression(_expression)
 		{
 		}
@@ -30,7 +31,7 @@ RegexNode
 			return Loop(0, 1);
 		}
 
-		RegexNode RegexNode::Loop(nint min, nint max)const
+		RegexNode RegexNode::Loop(vint min, vint max)const
 		{
 			LoopExpression* target=new LoopExpression;
 			target->min=min;
@@ -40,7 +41,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode RegexNode::AtLeast(nint min)const
+		RegexNode RegexNode::AtLeast(vint min)const
 		{
 			return Loop(min, -1);
 		}
@@ -93,7 +94,7 @@ RegexNode
 			Ptr<CharSetExpression> target=new CharSetExpression;
 			target->reverse=false;
 			CopyFrom(target->ranges, left->ranges);
-			for(nint i=0;i<right->ranges.Count();i++)
+			for(vint i=0;i<right->ranges.Count();i++)
 			{
 				if(!target->AddRangeWithConflict(right->ranges[i]))
 				{
@@ -122,7 +123,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode rMatch(const WString& name, nint index)
+		RegexNode rMatch(const WString& name, vint index)
 		{
 			MatchExpression* target=new MatchExpression;
 			target->name=name;
@@ -130,7 +131,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode rMatch(nint index)
+		RegexNode rMatch(vint index)
 		{
 			MatchExpression* target=new MatchExpression;
 			target->index=index;
@@ -176,3 +177,4 @@ RegexNode
 			return rC(1, 65535);
 		}
 	}
+}

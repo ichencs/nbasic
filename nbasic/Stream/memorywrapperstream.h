@@ -12,35 +12,41 @@ Interfaces:
 
 #include "Interfaces.h"
 
-/// <summary>A readable, writable, seekable and peekable stream that operates a buffer.</summary>
-class MemoryWrapperStream : public Object, public virtual NIStream
+namespace vl
 {
-	protected:
-		char*					buffer;
-		nint						size;
-		nint						position;
-	public:
-		/// <summary>Create a stream.</summary>
-		/// <param name="_buffer">The buffer to operate.</param>
-		/// <param name="_size">Size of the buffer.</param>
-		MemoryWrapperStream(void* _buffer, nint _size);
-		~MemoryWrapperStream();
-		
-		bool					CanRead()const;
-		bool					CanWrite()const;
-		bool					CanSeek()const;
-		bool					CanPeek()const;
-		bool					IsLimited()const;
-		bool					IsAvailable()const;
-		void					Close();
-		pos_t					Position()const;
-		pos_t					Size()const;
-		void					Seek(pos_t _size);
-		void					SeekFromBegin(pos_t _size);
-		void					SeekFromEnd(pos_t _size);
-		nint					Read(void* _buffer, nint _size);
-		nint					Write(void* _buffer, nint _size);
-		nint					Peek(void* _buffer, nint _size);
-};
+	namespace stream
+	{
+		/// <summary>A readable, writable, seekable and peekable stream that operates a buffer.</summary>
+		class MemoryWrapperStream : public Object, public virtual IStream
+		{
+		protected:
+			char*					buffer;
+			vint						size;
+			vint						position;
+		public:
+			/// <summary>Create a stream.</summary>
+			/// <param name="_buffer">The buffer to operate.</param>
+			/// <param name="_size">Size of the buffer.</param>
+			MemoryWrapperStream(void* _buffer, vint _size);
+			~MemoryWrapperStream();
+
+			bool					CanRead()const;
+			bool					CanWrite()const;
+			bool					CanSeek()const;
+			bool					CanPeek()const;
+			bool					IsLimited()const;
+			bool					IsAvailable()const;
+			void					Close();
+			pos_t					Position()const;
+			pos_t					Size()const;
+			void					Seek(pos_t _size);
+			void					SeekFromBegin(pos_t _size);
+			void					SeekFromEnd(pos_t _size);
+			vint					Read(void* _buffer, vint _size);
+			vint					Write(void* _buffer, vint _size);
+			vint					Peek(void* _buffer, vint _size);
+		};
+	}
+}
 
 #endif

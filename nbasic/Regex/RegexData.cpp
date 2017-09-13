@@ -1,6 +1,7 @@
 #include "RegexData.h"
 
- 
+namespace vl
+{
 	namespace regex_internal
 	{
 
@@ -81,3 +82,4 @@ CharRange
 		}
 
 	}
+}

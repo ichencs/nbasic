@@ -11,10 +11,14 @@ Interfaces:
 #ifndef VCZH_COLLECTIONS_INTERFACES
 #define VCZH_COLLECTIONS_INTERFACES
 
-#include "..\Basic.h"
-#include "..\Pointer.h"
-#include "NPair.h"
+#include "../Basic.h"
+#include "../Pointer.h"
+#include "Pair.h"
 
+namespace vl
+{
+	namespace collections
+	{
 
 /***********************************************************************
 接口
@@ -36,7 +40,7 @@ Interfaces:
 			virtual const T&							Current()const=0;
 			/// <summary>Get the position of the current element in the enumerator.</summary>
 			/// <returns>The position of the current element.</returns>
-			virtual nint								Index()const=0;
+			virtual vint								Index()const=0;
 			/// <summary>Step forward.</summary>
 			/// <returns>Returns false if the enumerator reaches the end.</returns>
 			virtual bool								Next()=0;
@@ -63,6 +67,8 @@ Interfaces:
 随机存取
 ***********************************************************************/
 
+		namespace randomaccess_internal
+		{
 			template<typename T>
 			struct RandomAccessable
 			{
@@ -73,22 +79,22 @@ Interfaces:
 			template<typename T>
 			struct RandomAccess
 			{
-				static nint GetCount(const T& t)
+				static vint GetCount(const T& t)
 				{
 					return t.Count();
 				}
 
-				static const typename T::ElementType& GetValue(const T& t, nint index)
+				static const typename T::ElementType& GetValue(const T& t, vint index)
 				{
 					return t.Get(index);
 				}
 
-				static void SetCount(T& t, nint count)
+				static void SetCount(T& t, vint count)
 				{
 					t.Resize(count);
 				}
 
-				static void SetValue(T& t, nint index, const typename T::ElementType& value)
+				static void SetValue(T& t, vint index, const typename T::ElementType& value)
 				{
 					t.Set(index, value);
 				}
@@ -98,6 +104,8 @@ Interfaces:
 					t.Add(value);
 				}
 			};
-
+		}
+	}
+}
 
 #endif

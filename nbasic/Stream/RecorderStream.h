@@ -12,34 +12,40 @@ Interfaces:
 
 #include "Interfaces.h"
 
-/// <summary>A readable stream that, read from an stream, and write everything that is read to another stream.</summary>
-class RecorderStream : public Object, public virtual NIStream
+namespace vl
 {
-	protected:
-		NIStream*				in;
-		NIStream*				out;
-	public:
-		/// <summary>Create a stream.</summary>
-		/// <param name="_in">The stream to read.</param>
-		/// <param name="_out">The stream to write what is read from "_in".</param>
-		RecorderStream(NIStream& _in, NIStream& _out);
-		~RecorderStream();
-		
-		bool					CanRead()const;
-		bool					CanWrite()const;
-		bool					CanSeek()const;
-		bool					CanPeek()const;
-		bool					IsLimited()const;
-		bool					IsAvailable()const;
-		void					Close();
-		pos_t					Position()const;
-		pos_t					Size()const;
-		void					Seek(pos_t _size);
-		void					SeekFromBegin(pos_t _size);
-		void					SeekFromEnd(pos_t _size);
-		nint					Read(void* _buffer, nint _size);
-		nint					Write(void* _buffer, nint _size);
-		nint					Peek(void* _buffer, nint _size);
-};
+	namespace stream
+	{
+		/// <summary>A readable stream that, read from an stream, and write everything that is read to another stream.</summary>
+		class RecorderStream : public Object, public virtual IStream
+		{
+		protected:
+			IStream*				in;
+			IStream*				out;
+		public:
+			/// <summary>Create a stream.</summary>
+			/// <param name="_in">The stream to read.</param>
+			/// <param name="_out">The stream to write what is read from "_in".</param>
+			RecorderStream(IStream& _in, IStream& _out);
+			~RecorderStream();
+
+			bool					CanRead()const;
+			bool					CanWrite()const;
+			bool					CanSeek()const;
+			bool					CanPeek()const;
+			bool					IsLimited()const;
+			bool					IsAvailable()const;
+			void					Close();
+			pos_t					Position()const;
+			pos_t					Size()const;
+			void					Seek(pos_t _size);
+			void					SeekFromBegin(pos_t _size);
+			void					SeekFromEnd(pos_t _size);
+			vint					Read(void* _buffer, vint _size);
+			vint					Write(void* _buffer, vint _size);
+			vint					Peek(void* _buffer, vint _size);
+		};
+	}
+}
 
 #endif

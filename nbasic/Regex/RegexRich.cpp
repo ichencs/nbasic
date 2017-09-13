@@ -1,8 +1,10 @@
 #include "RegexRich.h"
 
- 
+namespace vl
+{
 	namespace regex_internal
 	{
+		using namespace collections;
 
 /***********************************************************************
 回溯辅助数据结构
@@ -12,7 +14,7 @@
 		{
 		public:
 			bool					available;
-			nint					previous;
+			vint					previous;
 		};
 
 		class StateSaver
@@ -27,11 +29,11 @@
 
 			const wchar_t*			reading;					//当前字符串位置
 			State*					currentState;				//当前状态
-			nint					minTransition;				//最小可用转换
-			nint					captureCount;				//有效capture数量
-			nint					stateSaverCount;			//有效回溯状态数量
-			nint					extensionSaverAvailable;	//有效未封闭扩展功能数量
-			nint					extensionSaverCount;		//所有未封闭扩展功能数量
+			vint					minTransition;				//最小可用转换
+			vint					captureCount;				//有效capture数量
+			vint					stateSaverCount;			//有效回溯状态数量
+			vint					extensionSaverAvailable;	//有效未封闭扩展功能数量
+			vint					extensionSaverCount;		//所有未封闭扩展功能数量
 			StateStoreType			storeType;					//保存状态的原因
 
 			bool operator==(const StateSaver& saver)const
@@ -47,7 +49,7 @@
 		class ExtensionSaver : public SaverBase
 		{
 		public:
-			nint					captureListIndex;
+			vint					captureListIndex;
 			Transition*				transition;
 			const wchar_t*			reading;
 
@@ -61,7 +63,7 @@
 		};
 
 		template<typename T, typename K>
-		void Push(NList<T, K>& elements, nint& available, nint& count, const T& element)
+		void Push(List<T, K>& elements, vint& available, vint& count, const T& element)
 		{
 			if(elements.Count()==count)
 			{
@@ -77,7 +79,7 @@
 		}
 
 		template<typename T, typename K>
-		T Pop(NList<T, K>& elements, nint& available, nint& count)
+		T Pop(List<T, K>& elements, vint& available, vint& count)
 		{
 			T& current=elements[available];
 			available=current.previous;
@@ -85,7 +87,7 @@
 		}
 
 		template<typename T, typename K>
-		void PushNonSaver(NList<T, K>& elements, nint& count, const T& element)
+		void PushNonSaver(List<T, K>& elements, vint& count, const T& element)
 		{
 			if(elements.Count()==count)
 			{
@@ -99,7 +101,7 @@
 		}
 
 		template<typename T, typename K>
-		T PopNonSaver(NList<T, K>& elements, nint& count)
+		T PopNonSaver(List<T, K>& elements, vint& count)
 		{
 			return elements[--count];
 		}
@@ -137,13 +139,13 @@ RichInterpretor
 		{
 			datas=new UserData[dfa->states.Count()];
 
-			for(nint i=0;i<dfa->states.Count();i++)
+			for(vint i=0;i<dfa->states.Count();i++)
 			{
 				State* state=dfa->states[i].Obj();
-				nint charEdges=0;
-				nint nonCharEdges=0;
+				vint charEdges=0;
+				vint nonCharEdges=0;
 				bool mustSave=false;
-				for(nint j=0;j<state->transitions.Count();j++)
+				for(vint j=0;j<state->transitions.Count();j++)
 				{
 					if(state->transitions[j]->type==Transition::Chars)
 					{
@@ -171,8 +173,8 @@ RichInterpretor
 
 		bool RichInterpretor::MatchHead(const wchar_t* input, const wchar_t* start, RichResult& result)
 		{
-			NList<StateSaver> stateSavers;
-			NList<ExtensionSaver> extensionSavers;
+			List<StateSaver> stateSavers;
+			List<ExtensionSaver> extensionSavers;
 
 			StateSaver currentState;
 			currentState.captureCount=0;
@@ -189,7 +191,7 @@ RichInterpretor
 				bool found=false;
 				StateSaver oldState=currentState;
 				//开始遍历转换
-				for(nint i=currentState.minTransition;i<currentState.currentState->transitions.Count();i++)
+				for(vint i=currentState.minTransition;i<currentState.currentState->transitions.Count();i++)
 				{
 					Transition* transition=currentState.currentState->transitions[i];
 					switch(transition->type)
@@ -240,8 +242,8 @@ RichInterpretor
 						break;
 					case Transition::Match:
 						{
-							nint index=0;
-							for(nint j=0;j<currentState.captureCount;j++)
+							vint index=0;
+							for(vint j=0;j<currentState.captureCount;j++)
 							{
 								CaptureRecord& capture=result.captures[j];
 								if(capture.capture==transition->capture)
@@ -309,7 +311,7 @@ RichInterpretor
 								}
 								break;
 							case Transition::Positive:
-								for(nint j=currentState.stateSaverCount-1;j>=0;j--)
+								for(vint j=currentState.stateSaverCount-1;j>=0;j--)
 								{
 									StateSaver& stateSaver=stateSavers[j];
 									if(stateSaver.storeType==StateSaver::Positive)
@@ -324,7 +326,7 @@ RichInterpretor
 								found=true;
 								break;
 							case Transition::Negative:
-								for(nint j=currentState.stateSaverCount-1;j>=0;j--)
+								for(vint j=currentState.stateSaverCount-1;j>=0;j--)
 								{
 									StateSaver& stateSaver=stateSavers[j];
 									if(stateSaver.storeType==StateSaver::Negative)
@@ -369,7 +371,7 @@ RichInterpretor
 						if(currentState.currentState->transitions[currentState.minTransition-1]->type==Transition::Negative)
 						{
 							//寻找NegativeFail
-							for(nint i=0;i<currentState.currentState->transitions.Count();i++)
+							for(vint i=0;i<currentState.currentState->transitions.Count();i++)
 							{
 								Transition* transition=currentState.currentState->transitions[i];
 								if(transition->type==Transition::NegativeFail)
@@ -395,7 +397,7 @@ RichInterpretor
 			{
 				result.start=input-start;
 				result.length=(currentState.reading-start)-result.start;
-				for(nint i=result.captures.Count()-1;i>=currentState.captureCount;i--)
+				for(vint i=result.captures.Count()-1;i>=currentState.captureCount;i--)
 				{
 					result.captures.RemoveAt(i);
 				}
@@ -422,8 +424,9 @@ RichInterpretor
 			return false;
 		}
 
-		const NList<WString>& RichInterpretor::CaptureNames()
+		const List<WString>& RichInterpretor::CaptureNames()
 		{
 			return dfa->captureNames;
 		}
 	}
+}

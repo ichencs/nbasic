@@ -48,9 +48,6 @@
     <ClCompile Include="Stream\memorywrapperstream.cpp">
       <Filter>stream</Filter>
     </ClCompile>
-    <ClCompile Include="Stream\NFileStream.cpp">
-      <Filter>stream</Filter>
-    </ClCompile>
     <ClCompile Include="Stream\RecorderStream.cpp">
       <Filter>stream</Filter>
     </ClCompile>
@@ -60,9 +57,12 @@
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="GlobalStorage.cpp" />
     <ClCompile Include="nchar.cpp" />
-    <ClCompile Include="NLocale.cpp" />
     <ClCompile Include="NVariant.cpp" />
     <ClCompile Include="Threading.cpp" />
+    <ClCompile Include="Locale.cpp" />
+    <ClCompile Include="Stream\FileStream.cpp">
+      <Filter>stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pointer.h" />
@@ -91,15 +91,6 @@
       <Filter>Regex</Filter>
     </ClInclude>
     <ClInclude Include="Collections\Interfaces.h">
-      <Filter>collection</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\NDictionary.h">
-      <Filter>collection</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\NList.h">
-      <Filter>collection</Filter>
-    </ClInclude>
-    <ClInclude Include="Collections\NPair.h">
       <Filter>collection</Filter>
     </ClInclude>
     <ClInclude Include="Collections\Operation.h">
@@ -144,9 +135,6 @@
     <ClInclude Include="Stream\memorywrapperstream.h">
       <Filter>stream</Filter>
     </ClInclude>
-    <ClInclude Include="Stream\NFileStream.h">
-      <Filter>stream</Filter>
-    </ClInclude>
     <ClInclude Include="Stream\RecorderStream.h">
       <Filter>stream</Filter>
     </ClInclude>
@@ -157,12 +145,21 @@
     <ClInclude Include="GlobalStorage.h" />
     <ClInclude Include="nbasicInc.h" />
     <ClInclude Include="nchar.h" />
-    <ClInclude Include="NLocale.h" />
     <ClInclude Include="NVariant.h" />
     <ClInclude Include="Threading.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="类图.cd" />
+    <ClInclude Include="Collections\Pair.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\List.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Dictionary.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Locale.h" />
+    <ClInclude Include="Stream\FileStream.h">
+      <Filter>stream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

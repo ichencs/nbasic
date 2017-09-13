@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-// #include <memory>
 #include <iostream>
 #include <vector>
 #include "UnitTest.h"
@@ -12,19 +11,19 @@ WString GetExePath()
 {
 	wchar_t buffer[65536];
 	GetModuleFileName(NULL, buffer, sizeof(buffer) / sizeof(*buffer));
-	nint pos = -1;
-	nint index = 0;
-
+	vint pos = -1;
+	vint index = 0;
+	
 	while (buffer[index])
 	{
 		if (buffer[index] == L'\\' || buffer[index] == L'/')
 		{
 			pos = index;
 		}
-
+		
 		index++;
 	}
-
+	
 	return WString(buffer, pos + 1);
 }
 
@@ -51,8 +50,9 @@ int main()
 {
 
 	{
-		NFolder folder(GetTestOutputPath());
-
+		using namespace filesystem;
+		Folder folder(GetTestOutputPath());
+		
 		if (!folder.Exists())
 		{
 			TEST_ASSERT(folder.Create(false) == true);

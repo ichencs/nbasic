@@ -10,13 +10,17 @@ Classes:
 #ifndef VCZH_COLLECTIONS_PAIR
 #define VCZH_COLLECTIONS_PAIR
 
-#include "..\Basic.h"
+#include "../Basic.h"
 
+namespace vl
+{
+	namespace collections
+	{
 		/// <summary>A type representing a pair of key and value.</summary>
 		/// <typeparam name="K">Type of the key.</typeparam>
 		/// <typeparam name="V">Type of the value.</typeparam>
 		template<typename K, typename V>
-		class NPair
+		class Pair
 		{
 		public:
 			/// <summary>The key.</summary>
@@ -24,23 +28,23 @@ Classes:
 			/// <summary>The value.</summary>
 			V				value;
 
-			NPair()
+			Pair()
 			{
 			}
 
-			NPair(const K& _key, const V& _value)
+			Pair(const K& _key, const V& _value)
 			{
 				key=_key;
 				value=_value;
 			}
 
-			NPair(const NPair<K, V>& pair)
+			Pair(const Pair<K, V>& pair)
 			{
 				key=pair.key;
 				value=pair.value;
 			}
 
-			int CompareTo(const NPair<K, V>& pair)const
+			vint CompareTo(const Pair<K, V>& pair)const
 			{
 				if(key<pair.key)
 				{
@@ -64,41 +68,43 @@ Classes:
 				}
 			}
 
-			bool operator==(const NPair<K, V>& pair)const
+			bool operator==(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)==0;
 			}
 
-			bool operator!=(const NPair<K, V>& pair)const
+			bool operator!=(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)!=0;
 			}
 
-			bool operator<(const NPair<K, V>& pair)const
+			bool operator<(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)<0;
 			}
 
-			bool operator<=(const NPair<K, V>& pair)const
+			bool operator<=(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)<=0;
 			}
 
-			bool operator>(const NPair<K, V>& pair)const
+			bool operator>(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)>0;
 			}
 
-			bool operator>=(const NPair<K, V>& pair)const
+			bool operator>=(const Pair<K, V>& pair)const
 			{
 				return CompareTo(pair)>=0;
 			}
 		};
+	}
 
 	template<typename K, typename V>
-	struct POD< NPair<K, V>>
+	struct POD<collections::Pair<K, V>>
 	{
-		static const bool Result = POD<K>::Result && POD<V>::Result;
+		static const bool Result=POD<K>::Result && POD<V>::Result;
 	};
+}
 
 #endif

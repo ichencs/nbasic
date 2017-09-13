@@ -13,42 +13,45 @@ Classes:
 
 #include "String.h"
 
-/// <summary>Base type of all exceptions.</summary>
-class Exception : public Object
+namespace vl
 {
+	/// <summary>Base type of all exceptions.</summary>
+	class Exception : public Object
+	{
 	protected:
 		WString						message;
-		
-	public:
-		Exception(const WString& _message = WString::Empty);
-		
-		const WString&				Message()const;
-};
 
-class ArgumentException : public Exception
-{
+	public:
+		Exception(const WString& _message=WString::Empty);
+
+		const WString&				Message()const;
+	};
+
+	class ArgumentException : public Exception
+	{
 	protected:
 		WString						function;
 		WString						name;
-		
+
 	public:
-		ArgumentException(const WString& _message = WString::Empty, const WString& _function = WString::Empty, const WString& _name = WString::Empty);
-		
+		ArgumentException(const WString& _message=WString::Empty, const WString& _function=WString::Empty, const WString& _name=WString::Empty);
+
 		const WString&				GetFunction()const;
 		const WString&				GetName()const;
-};
+	};
 
-class ParsingException : public Exception
-{
+	class ParsingException : public Exception
+	{
 	protected:
-		nint							position;
+		vint							position;
 		WString						expression;
-		
+
 	public:
-		ParsingException(const WString& _message, const WString& _expression, nint _position);
-		
+		ParsingException(const WString& _message, const WString& _expression, vint _position);
+
 		const WString&				GetExpression()const;
-		nint							GetPosition()const;
-};
+		vint							GetPosition()const;
+	};
+}
 
 #endif

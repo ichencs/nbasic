@@ -1,7 +1,8 @@
 #include "RegexExpression.h"
 #include "../Collections/OperationCopyFrom.h"
 
- 
+namespace vl
+{
 	namespace regex_internal
 	{
 
@@ -56,7 +57,7 @@
 			return IsChars(input, chars, c);
 		}
 
-		bool IsPositiveInteger(const wchar_t*& input, nint& number)
+		bool IsPositiveInteger(const wchar_t*& input, vint& number)
 		{
 			bool readed=false;
 			number=0;
@@ -85,7 +86,7 @@
 			}
 			else
 			{
-				name=WString(input, nint(read-input));
+				name=WString(input, vint(read-input));
 				input=read;
 				return true;
 			}
@@ -93,8 +94,8 @@
 
 		Ptr<LoopExpression> ParseLoop(const wchar_t*& input)
 		{
-			nint min=0;
-			nint max=0;
+			vint min=0;
+			vint max=0;
 			if(!*input)
 			{
 				return 0;
@@ -152,7 +153,7 @@
 				return expression;
 			}
 		THROW_EXCEPTION:
-			throw ArgumentException(L"Regular expression syntax error: Illegal loop expression.", L"regex_internal::ParseLoop", L"input");
+			throw ArgumentException(L"Regular expression syntax error: Illegal loop expression.", L"vl::regex_internal::ParseLoop", L"input");
 		}
 
 		Ptr<Expression> ParseCharSet(const wchar_t*& input)
@@ -221,7 +222,7 @@
 					expression->ranges.Add(CharRange(L'a', L'z'));
 					break;
 				default:
-					throw ArgumentException(L"Regular expression syntax error: Illegal character escaping.", L"regex_internal::ParseCharSet", L"input");
+					throw ArgumentException(L"Regular expression syntax error: Illegal character escaping.", L"vl::regex_internal::ParseCharSet", L"input");
 				}
 				input++;
 				return expression;
@@ -260,7 +261,7 @@
 							c=*input;
 							break;
 						default:
-							throw ArgumentException(L"Regular expression syntax error: Illegal character escaping, only \"rnt-[]\\/\" are legal escaped characters in [].", L"regex_internal::ParseCharSet", L"input");
+							throw ArgumentException(L"Regular expression syntax error: Illegal character escaping, only \"rnt-[]\\/\" are legal escaped characters in [].", L"vl::regex_internal::ParseCharSet", L"input");
 						}
 						input++;
 						midState?b=c:a=c;
@@ -379,7 +380,7 @@
 			else if(IsStr(input, L"(<$"))
 			{
 				WString name;
-				nint index=-1;
+				vint index=-1;
 				if(IsName(input, name))
 				{
 					if(IsChar(input, L';'))
@@ -453,13 +454,13 @@
 				return 0;
 			}
 		NEED_RIGHT_BRACKET:
-			throw ArgumentException(L"Regular expression syntax error: \")\" expected.", L"regex_internal::ParseFunction", L"input");
+			throw ArgumentException(L"Regular expression syntax error: \")\" expected.", L"vl::regex_internal::ParseFunction", L"input");
 		NEED_GREATER:
-			throw ArgumentException(L"Regular expression syntax error: \">\" expected.", L"regex_internal::ParseFunction", L"input");
+			throw ArgumentException(L"Regular expression syntax error: \">\" expected.", L"vl::regex_internal::ParseFunction", L"input");
 		NEED_NAME:
-			throw ArgumentException(L"Regular expression syntax error: Identifier expected.", L"regex_internal::ParseFunction", L"input");
+			throw ArgumentException(L"Regular expression syntax error: Identifier expected.", L"vl::regex_internal::ParseFunction", L"input");
 		NEED_NUMBER:
-			throw ArgumentException(L"Regular expression syntax error: Number expected.", L"regex_internal::ParseFunction", L"input");
+			throw ArgumentException(L"Regular expression syntax error: Number expected.", L"vl::regex_internal::ParseFunction", L"input");
 		}
 
 		Ptr<Expression> ParseUnit(const wchar_t*& input)
@@ -520,7 +521,7 @@
 					}
 					else
 					{
-						throw ArgumentException(L"Regular expression syntax error: Expression expected.", L"regex_internal::ParseAlt", L"input");
+						throw ArgumentException(L"Regular expression syntax error: Expression expected.", L"vl::regex_internal::ParseAlt", L"input");
 					}
 				}
 				else
@@ -548,20 +549,20 @@
 					WString name;
 					if(!IsName(input, name))
 					{
-						throw ArgumentException(L"Regular expression syntax error: Identifier expected.", L"regex_internal::ParseRegexExpression", L"code");
+						throw ArgumentException(L"Regular expression syntax error: Identifier expected.", L"vl::regex_internal::ParseRegexExpression", L"code");
 					}
 					if(!IsChar(input, L'>'))
 					{
-						throw ArgumentException(L"Regular expression syntax error: \">\" expected.", L"regex_internal::ParseFunction", L"input");
+						throw ArgumentException(L"Regular expression syntax error: \">\" expected.", L"vl::regex_internal::ParseFunction", L"input");
 					}
 					Ptr<Expression> sub=ParseExpression(input);
 					if(!IsChar(input, L')'))
 					{
-						throw ArgumentException(L"Regular expression syntax error: \")\" expected.", L"regex_internal::ParseFunction", L"input");
+						throw ArgumentException(L"Regular expression syntax error: \")\" expected.", L"vl::regex_internal::ParseFunction", L"input");
 					}
 					if(regex->definitions.Keys().Contains(name))
 					{
-						throw ArgumentException(L"Regular expression syntax error: Found duplicated sub expression name: \""+name+L"\". ", L"regex_internal::ParseFunction", L"input");
+						throw ArgumentException(L"Regular expression syntax error: Found duplicated sub expression name: \""+name+L"\". ", L"vl::regex_internal::ParseFunction", L"input");
 					}
 					else
 					{
@@ -571,11 +572,11 @@
 				regex->expression=ParseExpression(input);
 				if(!regex->expression)
 				{
-					throw ArgumentException(L"Regular expression syntax error: Expression expected.", L"regex_internal::ParseUnit", L"input");
+					throw ArgumentException(L"Regular expression syntax error: Expression expected.", L"vl::regex_internal::ParseUnit", L"input");
 				}
 				if(*input)
 				{
-					throw ArgumentException(L"Regular expression syntax error: Found unnecessary tokens.", L"regex_internal::ParseUnit", L"input");
+					throw ArgumentException(L"Regular expression syntax error: Found unnecessary tokens.", L"vl::regex_internal::ParseUnit", L"input");
 				}
 				return regex;
 			}
@@ -588,7 +589,7 @@
 		WString EscapeTextForRegex(const WString& literalString)
 		{
 			WString result;
-			for(nint i=0;i<literalString.Length();i++)
+			for(vint i=0;i<literalString.Length();i++)
 			{
 				wchar_t c=literalString[i];
 				switch(c)
@@ -617,7 +618,7 @@
 		WString UnescapeTextForRegex(const WString& escapedText)
 		{
 			WString result;
-			for(nint i=0;i<escapedText.Length();i++)
+			for(vint i=0;i<escapedText.Length();i++)
 			{
 				wchar_t c=escapedText[i];
 				if(c==L'\\' || c==L'/')
@@ -651,7 +652,7 @@
 		WString NormalizeEscapedTextForRegex(const WString& escapedText)
 		{
 			WString result;
-			for(nint i=0;i<escapedText.Length();i++)
+			for(vint i=0;i<escapedText.Length();i++)
 			{
 				wchar_t c=escapedText[i];
 				if(c==L'\\' || c==L'/')
@@ -671,7 +672,7 @@
 
 		bool IsRegexEscapedLiteralString(const WString& regex)
 		{
-			for(nint i=0;i<regex.Length();i++)
+			for(vint i=0;i<regex.Length();i++)
 			{
 				wchar_t c=regex[i];
 				if(c==L'\\' || c==L'/')
@@ -692,3 +693,4 @@
 			return true;
 		}
 	}
+}

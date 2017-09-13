@@ -1,6 +1,7 @@
 #include "RegexPure.h"
 
- 
+namespace vl
+{
 	namespace regex_internal
 	{
 
@@ -9,54 +10,54 @@ PureInterpretor
 ***********************************************************************/
 
 		PureInterpretor::PureInterpretor(Automaton::Ref dfa, CharRange::List& subsets)
-			:transition(NULL)
-			,finalState(NULL)
-			,relatedFinalState(NULL)
+			:transition(0)
+			,finalState(0)
+			,relatedFinalState(0)
 		{
-			stateCount = dfa->states.Count();
-			charSetCount = subsets.Count() + 1;
-			startState = dfa->states.IndexOf(dfa->startState);
+			stateCount=dfa->states.Count();
+			charSetCount=subsets.Count()+1;
+			startState=dfa->states.IndexOf(dfa->startState);
 
 			//Ìî³ä×Ö·ûÓ³Éä±í
-			for (nint i = 0; i < SupportedCharCount; i++)
+			for(vint i=0;i<SupportedCharCount;i++)
 			{
-				charMap[i] = charSetCount - 1;
+				charMap[i]=charSetCount-1;
 			}
-			for (nint i = 0; i < subsets.Count(); i++)
+			for(vint i=0;i<subsets.Count();i++)
 			{
-				CharRange range = subsets[i];
-				for (nint j = range.begin; j <= range.end; j++)
+				CharRange range=subsets[i];
+				for(vint j=range.begin;j<=range.end;j++)
 				{
-					charMap[j] = i;
+					charMap[j]=i;
 				}
 			}
-
+			
 			//¹¹Ôì×´Ì¬×ª»»±í
-			transition = new nint*[stateCount];
-			for (nint i = 0; i < stateCount; i++)
+			transition=new vint*[stateCount];
+			for(vint i=0;i<stateCount;i++)
 			{
-				transition[i] = new nint[charSetCount];
-				for (nint j = 0; j < charSetCount; j++)
+				transition[i]=new vint[charSetCount];
+				for(vint j=0;j<charSetCount;j++)
 				{
-					transition[i][j] = -1;
+					transition[i][j]=-1;
 				}
 
-				State* state = dfa->states[i].Obj();
-				for (nint j = 0; j < state->transitions.Count(); j++)
+				State* state=dfa->states[i].Obj();
+				for(vint j=0;j<state->transitions.Count();j++)
 				{
-					Transition* dfaTransition = state->transitions[j];
-					switch (dfaTransition->type)
+					Transition* dfaTransition=state->transitions[j];
+					switch(dfaTransition->type)
 					{
 					case Transition::Chars:
-					{
-						nint index = subsets.IndexOf(dfaTransition->range);
-						if (index == -1)
 						{
-							CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#Specified chars don't appear in the normalized char ranges.");
+							vint index=subsets.IndexOf(dfaTransition->range);
+							if(index==-1)
+							{
+								CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#Specified chars don't appear in the normalized char ranges.");
+							}
+							transition[i][index]=dfa->states.IndexOf(dfaTransition->target);
 						}
-						transition[i][index] = dfa->states.IndexOf(dfaTransition->target);
-					}
-					break;
+						break;
 					default:
 						CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#PureInterpretor only accepts Transition::Chars transitions.");
 					}
@@ -64,10 +65,10 @@ PureInterpretor
 			}
 
 			//Ìî³äÖÕ½á×´Ì¬±í
-			finalState = new bool[stateCount];
-			for (nint i = 0; i < stateCount; i++)
+			finalState=new bool[stateCount];
+			for(vint i=0;i<stateCount;i++)
 			{
-				finalState[i] = dfa->states[i]->finalState;
+				finalState[i]=dfa->states[i]->finalState;
 			}
 		}
 
@@ -75,7 +76,7 @@ PureInterpretor
 		{
 			if(relatedFinalState) delete[] relatedFinalState;
 			delete[] finalState;
-			for(nint i=0;i<stateCount;i++)
+			for(vint i=0;i<stateCount;i++)
 			{
 				delete[] transition[i];
 			}
@@ -89,9 +90,9 @@ PureInterpretor
 			result.finalState=-1;
 			result.terminateState=-1;
 
-			nint currentState=startState;
-			nint terminateState=-1;
-			nint terminateLength=-1;
+			vint currentState=startState;
+			vint terminateState=-1;
+			vint terminateLength=-1;
 			const wchar_t* read=input;
 			while(currentState!=-1)
 			{
@@ -103,10 +104,10 @@ PureInterpretor
 					result.finalState=currentState;
 				}
 				if(!*read)break;
-// #ifdef VCZH_GCC
-// 				if(*read>=SupportedCharCount)break;
-// #endif
-				nint charIndex=charMap[*read++];
+#ifdef VCZH_GCC
+				if(*read>=SupportedCharCount)break;
+#endif
+				vint charIndex=charMap[*read++];
 				currentState=transition[currentState][charIndex];
 			}
 
@@ -139,17 +140,17 @@ PureInterpretor
 			return false;
 		}
 
-		nint PureInterpretor::GetStartState()
+		vint PureInterpretor::GetStartState()
 		{
 			return startState;
 		}
 
-		nint PureInterpretor::Transit(wchar_t input, nint state)
+		vint PureInterpretor::Transit(wchar_t input, vint state)
 		{
 			if(0<=state && state<stateCount)
 			{
-				nint charIndex=charMap[input];
-				nint nextState=transition[state][charIndex];
+				vint charIndex=charMap[input];
+				vint nextState=transition[state][charIndex];
 				return nextState;
 			}
 			else
@@ -158,15 +159,15 @@ PureInterpretor
 			}
 		}
 
-		bool PureInterpretor::IsFinalState(nint state)
+		bool PureInterpretor::IsFinalState(vint state)
 		{
 			return 0<=state && state<stateCount && finalState[state];
 		}
 
-		bool PureInterpretor::IsDeadState(nint state)
+		bool PureInterpretor::IsDeadState(vint state)
 		{
 			if(state==-1) return true;
-			for(nint i=0;i<charSetCount;i++)
+			for(vint i=0;i<charSetCount;i++)
 			{
 				if(transition[state][i]!=-1)
 				{
@@ -180,22 +181,22 @@ PureInterpretor
 		{
 			if(!relatedFinalState)
 			{
-				relatedFinalState=new nint[stateCount];
-				for(nint i=0;i<stateCount;i++)
+				relatedFinalState=new vint[stateCount];
+				for(vint i=0;i<stateCount;i++)
 				{
 					relatedFinalState[i]=finalState[i]?i:-1;
 				}
 				while(true)
 				{
-					nint modifyCount=0;
-					for(nint i=0;i<stateCount;i++)
+					vint modifyCount=0;
+					for(vint i=0;i<stateCount;i++)
 					{
 						if(relatedFinalState[i]==-1)
 						{
-							nint state=-1;
-							for(nint j=0;j<charSetCount;j++)
+							vint state=-1;
+							for(vint j=0;j<charSetCount;j++)
 							{
-								nint nextState=transition[i][j];
+								vint nextState=transition[i][j];
 								if(nextState!=-1)
 								{
 									state=relatedFinalState[nextState];
@@ -220,8 +221,9 @@ PureInterpretor
 			}
 		}
 
-		nint PureInterpretor::GetRelatedFinalState(nint state)
+		vint PureInterpretor::GetRelatedFinalState(vint state)
 		{
 			return relatedFinalState?relatedFinalState[state]:-1;
 		}
 	}
+}

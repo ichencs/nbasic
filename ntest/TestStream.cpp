@@ -1,34 +1,20 @@
-﻿#include "stdafx.h"
-#include <string.h>
+﻿#include <string.h>
+#include "stdafx.h"
 #include "UnitTest.h"
-// #include "../../Source/UnitTest/UnitTest.h"
-// #include "../../Source/Console.h"
-// #include "../../Source/Stream/Interfaces.h"
-// #include "../../Source/Stream/MemoryWrapperStream.h"
-// #include "../../Source/Stream/MemoryStream.h"
-// #include "../../Source/Stream/FileStream.h"
-// #include "../../Source/Stream/RecorderStream.h"
-// #include "../../Source/Stream/BroadcastStream.h"
-// #include "../../Source/Stream/CacheStream.h"
-// #include "../../Source/Stream/Accessor.h"
-// #include "../../Source/Stream/CharFormat.h"
-// #include "../../Source/Stream/CompressionStream.h"
-// #include "../../Source/Pointer.h"
-// #include "../../Source/Locale.h"
 
-// using namespace vl;
-// using namespace vl::stream;
-// using namespace vl::collections;
+using namespace vl;
+using namespace vl::stream;
+using namespace vl::collections;
 
 extern WString GetTestResourcePath();
 extern WString GetTestOutputPath();
-const nint BUFFER_SIZE = 1024;
+const vint BUFFER_SIZE = 1024;
 
 /***********************************************************************
 通用测试方法
 ***********************************************************************/
 
-void TestClosedProperty(NIStream& stream)
+void TestClosedProperty(IStream& stream)
 {
 	TEST_ASSERT(stream.CanRead() == false);
 	TEST_ASSERT(stream.CanWrite() == false);
@@ -40,7 +26,7 @@ void TestClosedProperty(NIStream& stream)
 	TEST_ASSERT(stream.Size() == -1);
 }
 
-void TestLimitedProperty(NIStream& stream, pos_t position, pos_t size)
+void TestLimitedProperty(IStream& stream, pos_t position, pos_t size)
 {
 	TEST_ASSERT(stream.CanRead() == true);
 	TEST_ASSERT(stream.CanWrite() == true);
@@ -52,7 +38,7 @@ void TestLimitedProperty(NIStream& stream, pos_t position, pos_t size)
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestBidirectionalLimitedStreamWithSize15(NIStream& stream)
+void TestBidirectionalLimitedStreamWithSize15(IStream& stream)
 {
 	char buffer[BUFFER_SIZE];
 	
@@ -91,7 +77,7 @@ void TestBidirectionalLimitedStreamWithSize15(NIStream& stream)
 	TEST_ASSERT(strncmp(buffer, " is ", 4) == 0);
 }
 
-void TestUnlimitedProperty(NIStream& stream, pos_t position, pos_t size)
+void TestUnlimitedProperty(IStream& stream, pos_t position, pos_t size)
 {
 	TEST_ASSERT(stream.CanRead() == true);
 	TEST_ASSERT(stream.CanWrite() == true);
@@ -103,7 +89,7 @@ void TestUnlimitedProperty(NIStream& stream, pos_t position, pos_t size)
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestBidirectionalUnlimitedStream(NIStream& stream)
+void TestBidirectionalUnlimitedStream(IStream& stream)
 {
 	char buffer[BUFFER_SIZE];
 	
@@ -142,7 +128,7 @@ void TestBidirectionalUnlimitedStream(NIStream& stream)
 	TEST_ASSERT(strncmp(buffer, " is ", 4) == 0);
 }
 
-void TestReadonlySeekableProperty(NIStream& stream, pos_t position, pos_t size)
+void TestReadonlySeekableProperty(IStream& stream, pos_t position, pos_t size)
 {
 	TEST_ASSERT(stream.CanRead() == true);
 	TEST_ASSERT(stream.CanWrite() == false);
@@ -154,7 +140,7 @@ void TestReadonlySeekableProperty(NIStream& stream, pos_t position, pos_t size)
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestReadonlylSeekableStreamWithSize15(NIStream& stream)
+void TestReadonlylSeekableStreamWithSize15(IStream& stream)
 {
 	char buffer[BUFFER_SIZE];
 	
@@ -182,7 +168,7 @@ void TestReadonlylSeekableStreamWithSize15(NIStream& stream)
 	TEST_ASSERT(strncmp(buffer, " is ", 4) == 0);
 }
 
-void TestWriteonlySeekableProperty(NIStream& stream, pos_t position, pos_t size)
+void TestWriteonlySeekableProperty(IStream& stream, pos_t position, pos_t size)
 {
 	TEST_ASSERT(stream.CanRead() == false);
 	TEST_ASSERT(stream.CanWrite() == true);
@@ -194,7 +180,7 @@ void TestWriteonlySeekableProperty(NIStream& stream, pos_t position, pos_t size)
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestWriteonlySeekableStream(NIStream& stream)
+void TestWriteonlySeekableStream(IStream& stream)
 {
 	TestWriteonlySeekableProperty(stream, 0, 0);
 	TEST_ASSERT(stream.Write((void*)"genius!", 7) == 7);
@@ -214,7 +200,7 @@ void TestWriteonlySeekableStream(NIStream& stream)
 	TestWriteonlySeekableProperty(stream, 0, 15);
 }
 
-void TestReadonlyUnseekableProperty(NIStream& stream, pos_t position, pos_t size, bool limited)
+void TestReadonlyUnseekableProperty(IStream& stream, pos_t position, pos_t size, bool limited)
 {
 	TEST_ASSERT(stream.CanRead() == true);
 	TEST_ASSERT(stream.CanWrite() == false);
@@ -226,7 +212,7 @@ void TestReadonlyUnseekableProperty(NIStream& stream, pos_t position, pos_t size
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestReadonlyUnseekableStreamWithSize15(NIStream& stream, bool limited)
+void TestReadonlyUnseekableStreamWithSize15(IStream& stream, bool limited)
 {
 	char buffer[BUFFER_SIZE];
 	
@@ -239,7 +225,7 @@ void TestReadonlyUnseekableStreamWithSize15(NIStream& stream, bool limited)
 	TestReadonlyUnseekableProperty(stream, 15, 15, limited);
 }
 
-void TestWriteonlyUnseekableProperty(NIStream& stream, pos_t position, pos_t size, bool limited)
+void TestWriteonlyUnseekableProperty(IStream& stream, pos_t position, pos_t size, bool limited)
 {
 	TEST_ASSERT(stream.CanRead() == false);
 	TEST_ASSERT(stream.CanWrite() == true);
@@ -251,7 +237,7 @@ void TestWriteonlyUnseekableProperty(NIStream& stream, pos_t position, pos_t siz
 	TEST_ASSERT(stream.Size() == size);
 }
 
-void TestWriteonlyUnseekableStream(NIStream& stream, bool limited)
+void TestWriteonlyUnseekableStream(IStream& stream, bool limited)
 {
 	TestWriteonlyUnseekableProperty(stream, 0, 0, limited);
 	TEST_ASSERT(stream.Write((void*)"vczh is ", 8) == 8);
@@ -284,24 +270,27 @@ TEST_CASE(TestMemoryStream)
 
 TEST_CASE(TestFileStream)
 {
-	NFileStream destroyer(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
+	FileStream destroyer(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
 	TestWriteonlySeekableProperty(destroyer, 0, 0);
 	destroyer.Close();
 	TestClosedProperty(destroyer);
-	NFileStream tryRead(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
+	
+	FileStream tryRead(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
 	TestReadonlySeekableProperty(tryRead, 0, 0);
 	tryRead.Close();
 	TestClosedProperty(tryRead);
-	NFileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
+	
+	FileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
 	TestWriteonlySeekableStream(w);
 	w.Close();
 	TestClosedProperty(w);
-	NFileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
+	
+	FileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
 	TestReadonlylSeekableStreamWithSize15(r);
 	r.Close();
 	TestClosedProperty(r);
-	NFileStream rw(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadWrite);
 	
+	FileStream rw(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadWrite);
 	TestBidirectionalUnlimitedStream(rw);
 	rw.Close();
 	TestClosedProperty(rw);
@@ -369,14 +358,15 @@ TEST_CASE(TestCacheStreamWithWriteOnlyUnseekableStream)
 
 TEST_CASE(TestCacheStreamWithSeekableStream)
 {
-	NFileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::WriteOnly);
+	FileStream w(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::WriteOnly);
 	CacheStream cw(w, 4);
 	TestWriteonlySeekableStream(cw);
 	cw.Close();
 	TestClosedProperty(cw);
 	w.Close();
 	TestClosedProperty(w);
-	NFileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", NFileStream::ReadOnly);
+	
+	FileStream r(GetTestOutputPath() + L"TestFile.ReadWrite.txt", FileStream::ReadOnly);
 	CacheStream cr(r, 4);
 	TestReadonlylSeekableStreamWithSize15(cr);
 	cr.Close();
@@ -477,7 +467,7 @@ TEST_CASE(TestStringReaderWithCrLf)
 	const wchar_t text[] = L"1:Vczh is genius!\r\n2:Vczh is genius!!\r\n3:Vczh is genius!!!\r\n4:Vczh is genius!!!!\r\n";
 	const wchar_t* lines[] = {L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!", L""};
 	StringReader reader(text);
-	nint index = 0;
+	vint index = 0;
 	
 	while (index < sizeof(lines) / sizeof(*lines))
 	{
@@ -493,7 +483,7 @@ TEST_CASE(TestStringReaderWithoutCrLf)
 	const wchar_t text[] = L"1:Vczh is genius!\r\n2:Vczh is genius!!\r\n3:Vczh is genius!!!\r\n4:Vczh is genius!!!!";
 	const wchar_t* lines[] = {L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!"};
 	StringReader reader(text);
-	nint index = 0;
+	vint index = 0;
 	
 	while (index < sizeof(lines) / sizeof(*lines))
 	{
@@ -527,7 +517,7 @@ TEST_CASE(TestStreamReaderWithCrLf)
 	const wchar_t* lines[] = {L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!", L""};
 	MemoryWrapperStream stream(text, sizeof(text) - sizeof(*text));
 	StreamReader reader(stream);
-	nint index = 0;
+	vint index = 0;
 	
 	while (index < sizeof(lines) / sizeof(*lines))
 	{
@@ -544,7 +534,7 @@ TEST_CASE(TestStreamReaderWithoutCrLf)
 	const wchar_t* lines[] = {L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!"};
 	MemoryWrapperStream stream(text, sizeof(text) - sizeof(*text));
 	StreamReader reader(stream);
-	nint index = 0;
+	vint index = 0;
 	
 	while (index < sizeof(lines) / sizeof(*lines))
 	{
@@ -603,15 +593,15 @@ void TestEncodingInternal(IEncoder& encoder, IDecoder& decoder, BomEncoder::Enco
 		writer.WriteString(text);
 	}
 	memoryStream.SeekFromBegin(0);
-	NArray<nuint8_t> buffer;
-	buffer.Resize((nint)memoryStream.Size());
+	Array<vuint8_t> buffer;
+	buffer.Resize((vint)memoryStream.Size());
 	memoryStream.Read(&buffer[0], buffer.Count());
 	{
 		WString output;
 		
-		for (nint i = 0; i < buffer.Count(); i++)
+		for (vint i = 0; i < buffer.Count(); i++)
 		{
-			nuint8_t byte = buffer[i];
+			vuint8_t byte = buffer[i];
 			output += L"0123456789ABCDEF"[byte / 16];
 			output += L"0123456789ABCDEF"[byte % 16];
 			output += L' ';
@@ -638,7 +628,7 @@ void TestEncodingInternal(IEncoder& encoder, IDecoder& decoder, BomEncoder::Enco
 
 TEST_CASE(TestEncoding)
 {
-	if (NLocale::SystemDefault().GetName() == L"zh-CN")
+	if (Locale::SystemDefault().GetName() == L"zh-CN")
 	{
 		TEST_PRINT(L"<MBCS, NO-BOM>");
 		MbcsEncoder encoder;
@@ -667,7 +657,7 @@ TEST_CASE(TestEncoding)
 		TestEncodingInternal(encoder, decoder, BomEncoder::Utf16BE, false);
 	}
 	
-	if (NLocale::SystemDefault().GetName() == L"zh-CN")
+	if (Locale::SystemDefault().GetName() == L"zh-CN")
 	{
 		TEST_PRINT(L"<MBCS, BOM>");
 		BomEncoder encoder(BomEncoder::Mbcs);
@@ -704,17 +694,17 @@ TEST_CASE(TestEncoding)
 void TestLzwEncodingWithEncoderAndDecoder(const char* input, LzwEncoder& encoder, LzwDecoder& decoder)
 {
 	MemoryStream stream;
-	nint size = strlen(input);
+	vint size = strlen(input);
 	{
 		EncoderStream encoderStream(stream, encoder);
-		nint size = strlen(input);
+		vint size = strlen(input);
 		TEST_ASSERT(encoderStream.Write((void*)input, size) == size);
 	}
 	stream.SeekFromBegin(0);
 	UnitTest::PrintInfo(L"    [" + atow(input) + L"]");
 	UnitTest::PrintInfo(L"    " + itow(size) + L" -> " + i64tow(stream.Size()));
 	{
-		NArray<char> output(size + 1);
+		Array<char> output(size + 1);
 		DecoderStream decoderStream(stream, decoder);
 		TEST_ASSERT(decoderStream.Read(&output[0], size) == size);
 		TEST_ASSERT(decoderStream.Read(&output[0], size) == 0);
@@ -735,7 +725,7 @@ void TestLzwEncodingPrepared(const char* input)
 	bool existingBytes[256] = { 0 };
 	const char* current = input;
 	
-	while (nuint8_t c = (nuint8_t) * current++)
+	while (vuint8_t c = (vuint8_t) * current++)
 	{
 		existingBytes[c] = true;
 	}
@@ -754,49 +744,49 @@ TEST_CASE(TestLzwEncoding)
 		"Vczh is genius!Vczh is genius!Vczh is genius!",
 	};
 	
-	for (nint i = 0; i < sizeof(buffer) / sizeof(*buffer); i++)
+	for (vint i = 0; i < sizeof(buffer) / sizeof(*buffer); i++)
 	{
 		TestLzwEncodingDefault(buffer[i]);
 		TestLzwEncodingPrepared(buffer[i]);
 	}
 }
 
-#if defined NDEBUG
+#if defined VCZH_MSVC && defined NDEBUG
 
 namespace lzw_helper
 {
-void Copy(NIStream& dst, NIStream& src, NArray<nuint8_t>& buffer, nint totalSize)
-{
-	nint BufferSize = buffer.Count();
-	
-	while (true)
+	void Copy(IStream& dst, IStream& src, Array<vuint8_t>& buffer, vint totalSize)
 	{
-		nint size = src.Read(&buffer[0], BufferSize);
+		vint BufferSize = buffer.Count();
 		
-		if (size == 0)
+		while (true)
 		{
-			break;
+			vint size = src.Read(&buffer[0], BufferSize);
+			
+			if (size == 0)
+			{
+				break;
+			}
+			
+			dst.Write(&buffer[0], size);
 		}
-		
-		dst.Write(&buffer[0], size);
 	}
-}
 }
 using namespace lzw_helper;
 
 TEST_CASE(TestLzwSpeed)
 {
-	const nint BufferSize = 33554432;
-	NArray<nuint8_t> buffer(BufferSize);
+	const vint BufferSize = 33554432;
+	Array<vuint8_t> buffer(BufferSize);
 	MemoryStream compressedStream(BufferSize), decompressedStream(BufferSize);
 	UnitTest::PrintInfo(L"    Reading UnitTest.pdb ...");
 	{
-		NFileStream fileStream(GetTestOutputPath() + L"../UnitTest/Release/UnitTest.pdb", NFileStream::ReadOnly);
-		Copy(decompressedStream, fileStream, buffer, (nint)fileStream.Size());
+		FileStream fileStream(GetTestOutputPath() + L"../UnitTest/Release/UnitTest.pdb", FileStream::ReadOnly);
+		Copy(decompressedStream, fileStream, buffer, (vint)fileStream.Size());
 	}
 	
 	decompressedStream.SeekFromBegin(0);
-	nint totalSize = (nint)decompressedStream.Size();
+	vint totalSize = (vint)decompressedStream.Size();
 	
 	UnitTest::PrintInfo(L"    Compressing UnitTest.pdb ...");
 	{

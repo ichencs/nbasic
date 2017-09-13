@@ -1,24 +1,24 @@
 #pragma once
-
+using namespace vl;
 class UnitTest abstract
 {
 	public:
 		typedef void(*TestProc)();
-
+		
 		/// <summary>Print a green message.</summary>
 		/// <param name="string">The content.</param>
 		static void PrintMessage(const WString& string);
-
+		
 		/// <summary>Print a white information.</summary>
 		/// <param name="string">The content.</param>
 		static void PrintInfo(const WString& string);
-
+		
 		/// <summary>Print a red error.</summary>
 		/// <param name="string">The content.</param>
 		static void PrintError(const WString& string);
-
+		
 		static void PushTest(TestProc testProc);
-
+		
 		/// <summary>Run all test cases.</summary>
 		static void RunAndDisposeTests();
 };

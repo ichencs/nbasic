@@ -1,74 +1,77 @@
 #include "GlobalStorage.h"
-#include "Collections/NDictionary.h"
+#include "Collections/Dictionary.h"
 
-
-class GlobalStorageManager
+namespace vl
 {
+	using namespace collections;
+
+	class GlobalStorageManager
+	{
 	public:
-		Ptr<NDictionary<WString, GlobalStorage*>> storages;
-		
+		Ptr<Dictionary<WString, GlobalStorage*>> storages;
+
 		GlobalStorageManager()
 		{
 		}
-};
+	};
 
-GlobalStorageManager& GetGlobalStorageManager()
-{
-	static GlobalStorageManager globalStorageManager;
-	return globalStorageManager;
-}
+	GlobalStorageManager& GetGlobalStorageManager()
+	{
+		static GlobalStorageManager globalStorageManager;
+		return globalStorageManager;
+	}
 
 /***********************************************************************
 GlobalStorage
 ***********************************************************************/
 
-GlobalStorage::GlobalStorage(const wchar_t* key)
-	: cleared(false)
-{
-	InitializeGlobalStorage();
-	GetGlobalStorageManager().storages->Add(key, this);
-}
+	GlobalStorage::GlobalStorage(const wchar_t* key)
+		:cleared(false)
+	{
+		InitializeGlobalStorage();
+		GetGlobalStorageManager().storages->Add(key, this);
+	}
 
-GlobalStorage::~GlobalStorage()
-{
-}
+	GlobalStorage::~GlobalStorage()
+	{
+	}
 
-bool GlobalStorage::Cleared()
-{
-	return cleared;
-}
+	bool GlobalStorage::Cleared()
+	{
+		return cleared;
+	}
 
 /***********************************************************************
 ¸¨Öúº¯Êý
 ***********************************************************************/
 
-GlobalStorage* GetGlobalStorage(const wchar_t* key)
-{
-	return GetGlobalStorage(WString(key, false));
-}
-
-GlobalStorage* GetGlobalStorage(const WString& key)
-{
-	return GetGlobalStorageManager().storages->Get(key);
-}
-
-void InitializeGlobalStorage()
-{
-	if (!GetGlobalStorageManager().storages)
+	GlobalStorage* GetGlobalStorage(const wchar_t* key)
 	{
-		GetGlobalStorageManager().storages = new NDictionary<WString, GlobalStorage*>;
+		return GetGlobalStorage(WString(key, false));
 	}
-}
 
-void FinalizeGlobalStorage()
-{
-	if (GetGlobalStorageManager().storages)
+	GlobalStorage* GetGlobalStorage(const WString& key)
 	{
-		for (nint i = 0; i < GetGlobalStorageManager().storages->Count(); i++)
+		return GetGlobalStorageManager().storages->Get(key);
+	}
+
+	void InitializeGlobalStorage()
+	{
+		if(!GetGlobalStorageManager().storages)
 		{
-			GetGlobalStorageManager().storages->Values().Get(i)->ClearResource();
+			GetGlobalStorageManager().storages=new Dictionary<WString, GlobalStorage*>;
 		}
-		
-		GetGlobalStorageManager().storages = 0;
+	}
+
+	void FinalizeGlobalStorage()
+	{
+		if(GetGlobalStorageManager().storages)
+		{
+			for(vint i=0;i<GetGlobalStorageManager().storages->Count();i++)
+			{
+				GetGlobalStorageManager().storages->Values().Get(i)->ClearResource();
+			}
+			GetGlobalStorageManager().storages=0;
+		}
 	}
 }

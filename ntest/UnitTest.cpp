@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UnitTest.h"
-
+using namespace vl::console;
 
 
 void UnitTest::PrintMessage(const WString& string)
@@ -52,7 +52,7 @@ void UnitTest::RunAndDisposeTests()
 	UnitTestLink* current = testHead;
 	testHead = NULL;
 	testTail = NULL;
-
+	
 	while (current)
 	{
 		current->testProc();

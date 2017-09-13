@@ -1,12 +1,15 @@
-// #include "stdafx.h"
 #include <string.h>
 #include "MemoryStream.h"
 
+namespace vl
+{
+	namespace stream
+	{
 /***********************************************************************
 MemoryStream
 ***********************************************************************/
 
-		void MemoryStream::PrepareSpace(nint totalSpace)
+		void MemoryStream::PrepareSpace(vint totalSpace)
 		{
 			if(totalSpace>capacity)
 			{
@@ -22,7 +25,7 @@ MemoryStream
 			}
 		}
 
-		MemoryStream::MemoryStream(nint _block)
+		MemoryStream::MemoryStream(vint _block)
 			:block(_block)
 			,buffer(0)
 			,size(0)
@@ -101,7 +104,7 @@ MemoryStream
 		void MemoryStream::SeekFromBegin(pos_t _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::SeekFromBegin(pos_t)#Stream is closed, cannot perform this operation.");
-			nint expected=(nint)_size;
+			vint expected=(vint)_size;
 			if(expected<0)
 			{
 				position=0;
@@ -121,11 +124,11 @@ MemoryStream
 			SeekFromBegin(size-_size);
 		}
 
-		nint MemoryStream::Read(void* _buffer, nint _size)
+		vint MemoryStream::Read(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Read(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Read(void*, nint)#Argument size cannot be negative.");
-			nint max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryStream::Read(void*, vint)#Argument size cannot be negative.");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -135,10 +138,10 @@ MemoryStream
 			return _size;
 		}
 
-		nint MemoryStream::Write(void* _buffer, nint _size)
+		vint MemoryStream::Write(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Write(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Write(void*, nint)#Argument size cannot be negative.");
+			CHECK_ERROR(_size>=0, L"MemoryStream::Write(void*, vint)#Argument size cannot be negative.");
 			PrepareSpace(size+_size);
 			memmove(buffer+position, _buffer, _size);
 			position+=_size;
@@ -149,11 +152,11 @@ MemoryStream
 			return _size;
 		}
 
-		nint MemoryStream::Peek(void* _buffer, nint _size)
+		vint MemoryStream::Peek(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Peek(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Peek(void*, nint)#Argument size cannot be negative.");
-			nint max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryStream::Peek(void*, vint)#Argument size cannot be negative.");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -166,3 +169,5 @@ MemoryStream
 		{
 			return buffer;
 		}
+	}
+}
