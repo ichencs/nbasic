@@ -1,9 +1,12 @@
-#include "stdafx.h"
 #include <stdlib.h>
+#include "stdafx.h"
 #include "UnitTest.h"
 
-using namespace regex;
-using namespace regex_internal;
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::regex;
+using namespace vl::regex_internal;
+using namespace vl::stream;
 
 extern WString GetTestResourcePath();
 extern WString GetTestOutputPath();
@@ -180,14 +183,14 @@ epsilon-NFA-DFA
 
 void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 {
-	NFileStream file(GetTestOutputPath() + fileName, NFileStream::WriteOnly);
+	FileStream file(GetTestOutputPath() + fileName, FileStream::WriteOnly);
 	BomEncoder encoder(BomEncoder::Utf16);
 	EncoderStream output(file, encoder);
 	StreamWriter writer(output);
 	
 	wchar_t intbuf[100] = {0};
 	
-	for (nint i = 0; i < automaton->states.Count(); i++)
+	for (vint i = 0; i < automaton->states.Count(); i++)
 	{
 		State* state = automaton->states[i].Obj();
 		
@@ -206,7 +209,7 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 		writer.WriteString(intbuf);
 		writer.WriteLine(L">");
 		
-		for (nint j = 0; j < state->transitions.Count(); j++)
+		for (vint j = 0; j < state->transitions.Count(); j++)
 		{
 			Transition* transition = state->transitions[j];
 			ITOW_S(automaton->states.IndexOf(transition->target), intbuf, sizeof(intbuf) / sizeof(*intbuf), 10);
@@ -283,11 +286,12 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 
 void CompareToBaseline(WString fileName)
 {
-	WString generatedPath = GetTestOutputPath() + fileName;
-	WString baselinePath = GetTestResourcePath() + L"Baseline/" + fileName;
+	using namespace filesystem;
+	FilePath generatedPath = GetTestOutputPath() + fileName;
+	FilePath baselinePath = GetTestResourcePath() + L"Baseline/" + fileName;
 	
-	NFileStream generatedFile(generatedPath, NFileStream::ReadOnly);
-	NFileStream baselineFile(baselinePath, NFileStream::ReadOnly);
+	FileStream generatedFile(generatedPath.GetFullPath(), FileStream::ReadOnly);
+	FileStream baselineFile(baselinePath.GetFullPath(), FileStream::ReadOnly);
 	
 	BomDecoder generatedDecoder;
 	BomDecoder baselineDecoder;
@@ -308,8 +312,8 @@ void PrintRegex(WString name, WString code, bool compareToBaseline = true)
 	CharRange::List subsets;
 	expression->NormalizeCharSet(subsets);
 	
-	NDictionary<State*, State*> nfaStateMap;
-	NGroup<State*, State*> dfaStateMap;
+	Dictionary<State*, State*> nfaStateMap;
+	Group<State*, State*> dfaStateMap;
 	Automaton::Ref eNfa = expression->GenerateEpsilonNfa();
 	Automaton::Ref nfa = EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
 	Automaton::Ref dfa = NfaToDfa(nfa, dfaStateMap);
@@ -342,11 +346,11 @@ TEST_CASE(TestEpsilonNfa)
 ¥ø∆•≈‰
 ***********************************************************************/
 
-void RunPureInterpretor(const wchar_t* code, const wchar_t* input, nint start, nint length)
+void RunPureInterpretor(const wchar_t* code, const wchar_t* input, vint start, vint length)
 {
 	CharRange::List subsets;
-	NDictionary<State*, State*> nfaStateMap;
-	NGroup<State*, State*> dfaStateMap;
+	Dictionary<State*, State*> nfaStateMap;
+	Group<State*, State*> dfaStateMap;
 	PureResult matchResult;
 	
 	RegexExpression::Ref regex = ParseRegexExpression(code);
@@ -417,8 +421,8 @@ TEST_CASE(TestPureInterpretor)
 Ptr<RichInterpretor> BuildRichInterpretor(const wchar_t* code)
 {
 	CharRange::List subsets;
-	NDictionary<State*, State*> nfaStateMap;
-	NGroup<State*, State*> dfaStateMap;
+	Dictionary<State*, State*> nfaStateMap;
+	Group<State*, State*> dfaStateMap;
 	
 	RegexExpression::Ref regex = ParseRegexExpression(code);
 	Expression::Ref expression = regex->Merge();
@@ -430,7 +434,7 @@ Ptr<RichInterpretor> BuildRichInterpretor(const wchar_t* code)
 	return new RichInterpretor(dfa);
 }
 
-void RunRichInterpretor(const wchar_t* code, const wchar_t* input, nint start, nint length)
+void RunRichInterpretor(const wchar_t* code, const wchar_t* input, vint start, vint length)
 {
 	RichResult matchResult;
 	Ptr<RichInterpretor> interpretor = BuildRichInterpretor(code);
@@ -525,7 +529,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input = L"abcde123456abcde";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-		nint index = regex->CaptureNames().IndexOf(L"number");
+		vint index = regex->CaptureNames().IndexOf(L"number");
 		TEST_ASSERT(index == 0);
 		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
@@ -541,7 +545,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input = L"196.128.0.1";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-		nint index = regex->CaptureNames().IndexOf(L"sec");
+		vint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
 		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
@@ -566,7 +570,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input = L"98765123123123123123123";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-		nint index = regex->CaptureNames().IndexOf(L"sec");
+		vint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
 		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
@@ -582,7 +586,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input = L"98765123123123123123123";
 		RichResult result;
 		Ptr<RichInterpretor> regex = BuildRichInterpretor(code);
-		nint index = regex->CaptureNames().IndexOf(L"sec");
+		vint index = regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index == 0);
 		
 		TEST_ASSERT(regex->Match(input, input, result) == true);
@@ -914,11 +918,11 @@ TEST_CASE(TestRegexCapture)
 ¥ ∑®∑÷Œˆ
 ***********************************************************************/
 
-void TestRegexLexer1Validation(NList<RegexToken>& tokens)
+void TestRegexLexer1Validation(List<RegexToken>& tokens)
 {
 	TEST_ASSERT(tokens.Count() == 9);
 	
-	for (nint i = 0; i < tokens.Count(); i++)
+	for (vint i = 0; i < tokens.Count(); i++)
 	{
 		TEST_ASSERT(tokens[i].completeToken == true);
 	}
@@ -997,31 +1001,31 @@ void TestRegexLexer1Validation(NList<RegexToken>& tokens)
 	TEST_ASSERT(tokens[8].columnEnd == 23);
 }
 
-// TEST_CASE(TestRegexLexer1)
-// {
-// 	NList<WString> codes;
-// 	codes.Add(L"/d+");
-// 	codes.Add(L"/s+");
-// 	codes.Add(L"[a-zA-Z_]/w*");
-// 	RegexLexer lexer(codes);
-//
-// 	{
-// 		NList<RegexToken> tokens;
-// 		CopyFrom(tokens, lexer.Parse(L"vczh is$$a&&genius  1234"));
-// 		TestRegexLexer1Validation(tokens);
-// 	}
-// 	{
-// 		NList<RegexToken> tokens;
-// 		lexer.Parse(L"vczh is$$a&&genius  1234").ReadToEnd(tokens);
-// 		TestRegexLexer1Validation(tokens);
-// 	}
-// }
+TEST_CASE(TestRegexLexer1)
+{
+	List<WString> codes;
+	codes.Add(L"/d+");
+	codes.Add(L"/s+");
+	codes.Add(L"[a-zA-Z_]/w*");
+	RegexLexer lexer(codes);
+	
+	{
+		List<RegexToken> tokens;
+		CopyFrom(tokens, lexer.Parse(L"vczh is$$a&&genius  1234"));
+		TestRegexLexer1Validation(tokens);
+	}
+	{
+		List<RegexToken> tokens;
+		lexer.Parse(L"vczh is$$a&&genius  1234").ReadToEnd(tokens);
+		TestRegexLexer1Validation(tokens);
+	}
+}
 
-void TestRegexLexer2Validation(NList<RegexToken>& tokens)
+void TestRegexLexer2Validation(List<RegexToken>& tokens)
 {
 	TEST_ASSERT(tokens.Count() == 19);
 	
-	for (nint i = 0; i < tokens.Count(); i++)
+	for (vint i = 0; i < tokens.Count(); i++)
 	{
 		TEST_ASSERT(tokens[i].completeToken == true);
 	}
@@ -1180,167 +1184,167 @@ void TestRegexLexer2Validation(NList<RegexToken>& tokens)
 	TEST_ASSERT(tokens[18].columnEnd == 3);
 }
 
-// TEST_CASE(TestRegexLexer2)
-// {
-// 	NList<WString> codes;
-// 	codes.Add(L"/d+");
-// 	codes.Add(L"[a-zA-Z_]/w*");
-// 	codes.Add(L"\"[^\"]*\"");
-// 	RegexLexer lexer(codes);
-//
-// 	WString input =
-// 	  L"12345vczh is a genius!"		L"\r\n"
-// 	  L"67890\"vczh\"\"is\" \"a\"\"genius\"\"!\""		L"\r\n"
-// 	  L"hey!";
-// 	{
-// 		NList<RegexToken> tokens;
-// 		CopyFrom(tokens, lexer.Parse(input));
-// 		TestRegexLexer2Validation(tokens);
-// 	}
-// 	{
-// 		NList<RegexToken> tokens;
-// 		lexer.Parse(input).ReadToEnd(tokens);
-// 		TestRegexLexer2Validation(tokens);
-// 	}
-// }
+TEST_CASE(TestRegexLexer2)
+{
+	List<WString> codes;
+	codes.Add(L"/d+");
+	codes.Add(L"[a-zA-Z_]/w*");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes);
+	
+	WString input =
+	  L"12345vczh is a genius!"		L"\r\n"
+	  L"67890\"vczh\"\"is\" \"a\"\"genius\"\"!\""		L"\r\n"
+	  L"hey!";
+	{
+		List<RegexToken> tokens;
+		CopyFrom(tokens, lexer.Parse(input));
+		TestRegexLexer2Validation(tokens);
+	}
+	{
+		List<RegexToken> tokens;
+		lexer.Parse(input).ReadToEnd(tokens);
+		TestRegexLexer2Validation(tokens);
+	}
+}
 
-// TEST_CASE(TestRegexLexer3)
-// {
-// 	{
-// 		NList<WString> codes;
-// 		codes.Add(L"unit");
-// 		codes.Add(L"/w+");
-// 		RegexLexer lexer(codes);
-// 		{
-// 			WString input = L"unit";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 4);
-// 			TEST_ASSERT(tokens[0].token == 0);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 3);
-// 		}
-// 		{
-// 			WString input = L"vczh";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 4);
-// 			TEST_ASSERT(tokens[0].token == 1);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 3);
-// 		}
-// 	}
-// 	{
-// 		NList<WString> codes;
-// 		codes.Add(L"/w+");
-// 		codes.Add(L"unit");
-// 		RegexLexer lexer(codes);
-// 		{
-// 			WString input = L"unit";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 4);
-// 			TEST_ASSERT(tokens[0].token == 0);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 3);
-// 		}
-// 		{
-// 			WString input = L"vczh";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 4);
-// 			TEST_ASSERT(tokens[0].token == 0);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 3);
-// 		}
-// 	}
-// }
+TEST_CASE(TestRegexLexer3)
+{
+	{
+		List<WString> codes;
+		codes.Add(L"unit");
+		codes.Add(L"/w+");
+		RegexLexer lexer(codes);
+		{
+			WString input = L"unit";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 4);
+			TEST_ASSERT(tokens[0].token == 0);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 3);
+		}
+		{
+			WString input = L"vczh";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 4);
+			TEST_ASSERT(tokens[0].token == 1);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 3);
+		}
+	}
+	{
+		List<WString> codes;
+		codes.Add(L"/w+");
+		codes.Add(L"unit");
+		RegexLexer lexer(codes);
+		{
+			WString input = L"unit";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 4);
+			TEST_ASSERT(tokens[0].token == 0);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 3);
+		}
+		{
+			WString input = L"vczh";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 4);
+			TEST_ASSERT(tokens[0].token == 0);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 3);
+		}
+	}
+}
 
-// TEST_CASE(TestRegexLexer4)
-// {
-// 	{
-// 		NList<WString> codes;
-// 		codes.Add(L"=");
-// 		codes.Add(L"==");
-// 		RegexLexer lexer(codes);
-// 		{
-// 			WString input = L"=";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 1);
-// 			TEST_ASSERT(tokens[0].token == 0);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 0);
-// 		}
-// 		{
-// 			WString input = L"==";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 2);
-// 			TEST_ASSERT(tokens[0].token == 1);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 1);
-// 		}
-// 	}
-// 	{
-// 		NList<WString> codes;
-// 		codes.Add(L"==");
-// 		codes.Add(L"=");
-// 		RegexLexer lexer(codes);
-// 		{
-// 			WString input = L"=";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 1);
-// 			TEST_ASSERT(tokens[0].token == 1);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 0);
-// 		}
-// 		{
-// 			WString input = L"==";
-// 			NList<RegexToken> tokens;
-// 			CopyFrom(tokens, lexer.Parse(input));
-// 			TEST_ASSERT(tokens.Count() == 1);
-// 			TEST_ASSERT(tokens[0].start == 0);
-// 			TEST_ASSERT(tokens[0].length == 2);
-// 			TEST_ASSERT(tokens[0].token == 0);
-// 			TEST_ASSERT(tokens[0].rowStart == 0);
-// 			TEST_ASSERT(tokens[0].columnStart == 0);
-// 			TEST_ASSERT(tokens[0].rowEnd == 0);
-// 			TEST_ASSERT(tokens[0].columnEnd == 1);
-// 		}
-// 	}
-// }
+TEST_CASE(TestRegexLexer4)
+{
+	{
+		List<WString> codes;
+		codes.Add(L"=");
+		codes.Add(L"==");
+		RegexLexer lexer(codes);
+		{
+			WString input = L"=";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 1);
+			TEST_ASSERT(tokens[0].token == 0);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 0);
+		}
+		{
+			WString input = L"==";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 2);
+			TEST_ASSERT(tokens[0].token == 1);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 1);
+		}
+	}
+	{
+		List<WString> codes;
+		codes.Add(L"==");
+		codes.Add(L"=");
+		RegexLexer lexer(codes);
+		{
+			WString input = L"=";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 1);
+			TEST_ASSERT(tokens[0].token == 1);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 0);
+		}
+		{
+			WString input = L"==";
+			List<RegexToken> tokens;
+			CopyFrom(tokens, lexer.Parse(input));
+			TEST_ASSERT(tokens.Count() == 1);
+			TEST_ASSERT(tokens[0].start == 0);
+			TEST_ASSERT(tokens[0].length == 2);
+			TEST_ASSERT(tokens[0].token == 0);
+			TEST_ASSERT(tokens[0].rowStart == 0);
+			TEST_ASSERT(tokens[0].columnStart == 0);
+			TEST_ASSERT(tokens[0].rowEnd == 0);
+			TEST_ASSERT(tokens[0].columnEnd == 1);
+		}
+	}
+}
 
-void TestRegexLexer5Validation(NList<RegexToken>& tokens)
+void TestRegexLexer5Validation(List<RegexToken>& tokens)
 {
 	TEST_ASSERT(tokens.Count() == 2);
 	//[123]
@@ -1365,19 +1369,19 @@ void TestRegexLexer5Validation(NList<RegexToken>& tokens)
 
 TEST_CASE(TestRegexLexer5)
 {
-	NList<WString> codes;
+	List<WString> codes;
 	codes.Add(L"/d+");
 	codes.Add(L"\"[^\"]*\"");
 	RegexLexer lexer(codes);
 	
 	WString input = L"123\"456";
 	{
-		NList<RegexToken> tokens;
+		List<RegexToken> tokens;
 		CopyFrom(tokens, lexer.Parse(input));
 		TestRegexLexer5Validation(tokens);
 	}
 	{
-		NList<RegexToken> tokens;
+		List<RegexToken> tokens;
 		lexer.Parse(input).ReadToEnd(tokens);
 		TestRegexLexer5Validation(tokens);
 	}
@@ -1390,7 +1394,7 @@ TEST_CASE(TestRegexLexer5)
 #define WALK(INPUT, TOKEN, RESULT, STOP)\
 	do\
 	{\
-		nint token=-1;\
+		vint token=-1;\
 		bool finalState=false;\
 		bool previousTokenStop=false;\
 		walker.Walk((INPUT), state, token, finalState, previousTokenStop);\
@@ -1401,14 +1405,14 @@ TEST_CASE(TestRegexLexer5)
 
 TEST_CASE(TestRegexLexerWalker)
 {
-	NList<WString> codes;
+	List<WString> codes;
 	codes.Add(L"/d+(./d+)?");
 	codes.Add(L"[a-zA-Z_]/w*");
 	codes.Add(L"\"[^\"]*\"");
 	RegexLexer lexer(codes);
 	RegexLexerWalker walker = lexer.Walk();
 	
-	nint state = -1;
+	vint state = -1;
 	
 	WALK(L' ', -1,	true,	true);
 	WALK(L'g', 1,	true,	true);
@@ -1449,11 +1453,11 @@ TEST_CASE(TestRegexLexerWalker)
 	WALK(L'\"', 2,	true,	false);
 }
 
-void ColorizerProc(void* argument, nint start, nint length, nint token)
+void ColorizerProc(void* argument, vint start, vint length, vint token)
 {
-	nint* colors = (nint*)argument;
+	vint* colors = (vint*)argument;
 	
-	for (nint i = 0; i < length; i++)
+	for (vint i = 0; i < length; i++)
 	{
 		colors[start + i] = token;
 	}
@@ -1461,7 +1465,7 @@ void ColorizerProc(void* argument, nint start, nint length, nint token)
 
 TEST_CASE(TestRegexLexerColorizer)
 {
-	NList<WString> codes;
+	List<WString> codes;
 	codes.Add(L"/d+(./d+)?");
 	codes.Add(L"[a-zA-Z_]/w*");
 	codes.Add(L"\"[^\"]*\"");
@@ -1469,19 +1473,19 @@ TEST_CASE(TestRegexLexerColorizer)
 	RegexLexerColorizer colorizer = lexer.Colorize();
 	
 	const wchar_t line1[] = L" genius 10..10.10   \"a";
-	nint color1[] = { -1, 1, 1, 1, 1, 1, 1, -1, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, 2, 2 };
-	nint length1 = sizeof(color1) / sizeof(*color1);
+	vint color1[] = {-1, 1, 1, 1, 1, 1, 1, -1, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, 2, 2};
+	vint length1 = sizeof(color1) / sizeof(*color1);
 	
 	const wchar_t line2[] = L"b\"\"genius\"";
-	nint color2[] = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-	nint length2 = sizeof(color2) / sizeof(*color2);
+	vint color2[] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+	vint length2 = sizeof(color2) / sizeof(*color2);
 	
 	TEST_ASSERT(wcslen(line1) == length1);
 	TEST_ASSERT(wcslen(line2) == length2);
 	
-	nint colors[100];
+	vint colors[100];
 	{
-		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
+		for (vint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
 		{
 			colors[i] = -2;
 		}
@@ -1489,7 +1493,7 @@ TEST_CASE(TestRegexLexerColorizer)
 		colorizer.Reset(colorizer.GetStartState());
 		colorizer.Colorize(line1, length1, &ColorizerProc, colors);
 		
-		for (nint i = 0; i < length1; i++)
+		for (vint i = 0; i < length1; i++)
 		{
 			TEST_ASSERT(color1[i] == colors[i]);
 		}
@@ -1497,7 +1501,7 @@ TEST_CASE(TestRegexLexerColorizer)
 	colorizer.Pass(L'\r');
 	colorizer.Pass(L'\n');
 	{
-		for (nint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
+		for (vint i = 0; i < sizeof(colors) / sizeof(*colors); i++)
 		{
 			colors[i] = -2;
 		}
@@ -1505,7 +1509,7 @@ TEST_CASE(TestRegexLexerColorizer)
 		colorizer.Reset(colorizer.GetCurrentState());
 		colorizer.Colorize(line2, length2, &ColorizerProc, colors);
 		
-		for (nint i = 0; i < length2; i++)
+		for (vint i = 0; i < length2; i++)
 		{
 			TEST_ASSERT(color2[i] == colors[i]);
 		}
@@ -1520,24 +1524,24 @@ TEST_CASE(TestRegexLexerColorizer)
 
 namespace TestRegexSpeedHelper
 {
-void FindRows(WString* lines, int count, const WString& pattern)
-{
-	Regex regex(pattern);
-	DateTime dt1 = DateTime::LocalTime();
-	
-	for (int i = 0; i < 10000000; i++)
+	void FindRows(WString* lines, int count, const WString& pattern)
 	{
-		for (int j = 0; j < count; j++)
+		Regex regex(pattern);
+		DateTime dt1 = DateTime::LocalTime();
+		
+		for (int i = 0; i < 10000000; i++)
 		{
-			bool result = regex.TestHead(lines[j]);
-			TEST_ASSERT(result);
+			for (int j = 0; j < count; j++)
+			{
+				bool result = regex.TestHead(lines[j]);
+				TEST_ASSERT(result);
+			}
 		}
+		
+		DateTime dt2 = DateTime::LocalTime();
+		vuint64_t ms = dt2.totalMilliseconds - dt1.totalMilliseconds;
+		UnitTest::PrintInfo(L"Running 10000000 times of Regex::TestHead uses: " + i64tow(ms) + L" milliseconds.");
 	}
-	
-	DateTime dt2 = DateTime::LocalTime();
-	nuint64_t ms = dt2.totalMilliseconds - dt1.totalMilliseconds;
-	UnitTest::PrintInfo(L"Running 10000000 times of Regex::TestHead uses: " + i64tow(ms) + L" milliseconds.");
-}
 }
 using namespace TestRegexSpeedHelper;
 
@@ -1561,4 +1565,3 @@ TEST_CASE(TestRegexSpeed1)
 	FindRows(lines, sizeof(lines) / sizeof(*lines), pattern);
 #endif
 }
-

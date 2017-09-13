@@ -1,11 +1,15 @@
 #include <string.h>
 #include "MemoryWrapperStream.h"
 
+namespace vl
+{
+	namespace stream
+	{
 /***********************************************************************
 MemoryWrapperStream
 ***********************************************************************/
 
-		MemoryWrapperStream::MemoryWrapperStream(void* _buffer, nint _size)
+		MemoryWrapperStream::MemoryWrapperStream(void* _buffer, vint _size)
 			:buffer((char*)_buffer)
 			,size(_size)
 			,position(0)
@@ -76,7 +80,7 @@ MemoryWrapperStream
 		void MemoryWrapperStream::SeekFromBegin(pos_t _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::SeekFromBegin(pos_t)#Stream is closed, cannot perform this operation.");
-			nint expected=(nint)_size;
+			vint expected=(vint)_size;
 			if(expected<0)
 			{
 				position=0;
@@ -96,11 +100,11 @@ MemoryWrapperStream
 			SeekFromBegin(size-_size);
 		}
 
-		nint MemoryWrapperStream::Read(void* _buffer, nint _size)
+		vint MemoryWrapperStream::Read(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Read(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Read(void*, nint)#Argument size cannot be negative.");
-			nint max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Read(void*, vint)#Argument size cannot be negative.");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -110,11 +114,11 @@ MemoryWrapperStream
 			return _size;
 		}
 
-		nint MemoryWrapperStream::Write(void* _buffer, nint _size)
+		vint MemoryWrapperStream::Write(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Write(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Write(void*, nint)#Argument size cannot be negative.");
-			nint max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Write(void*, vint)#Argument size cannot be negative.");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -124,11 +128,11 @@ MemoryWrapperStream
 			return _size;
 		}
 
-		nint MemoryWrapperStream::Peek(void* _buffer, nint _size)
+		vint MemoryWrapperStream::Peek(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Peek(pos_t)#Stream is closed, cannot perform this operation.");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Peek(void*, nint)#Argument size cannot be negative.");
-			nint max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Peek(void*, vint)#Argument size cannot be negative.");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -136,3 +140,5 @@ MemoryWrapperStream
 			memmove(_buffer, buffer+position, _size);
 			return _size;
 		}
+	}
+}

@@ -1,10 +1,10 @@
-// #include "..\stdafx.h"
 #include <string.h>
 #include "CacheStream.h"
 
- 
-// 	namespace stream
-// 	{
+namespace vl
+{
+	namespace stream
+	{
 /***********************************************************************
 CacheStream
 ***********************************************************************/
@@ -37,13 +37,13 @@ CacheStream
 			}
 		}
 
-		nint CacheStream::InternalRead(void* _buffer, nint _size)
+		vint CacheStream::InternalRead(void* _buffer, vint _size)
 		{
-			nint readed=0;
+			vint readed=0;
 			if(position>=start && position<start+availableLength)
 			{
-				nint bufferMax=(nint)(start+availableLength-position);
-				nint min=bufferMax<_size?bufferMax:_size;
+				vint bufferMax=(vint)(start+availableLength-position);
+				vint min=bufferMax<_size?bufferMax:_size;
 				memcpy(_buffer, buffer+(position-start), min);
 				readed+=min;
 				_buffer=(char*)_buffer+min;
@@ -58,7 +58,7 @@ CacheStream
 					{
 						target->SeekFromBegin(position+readed);
 					}
-					nint additional=target->Read(_buffer, _size-readed);
+					vint additional=target->Read(_buffer, _size-readed);
 					if(additional!=-1)
 					{
 						readed+=additional;
@@ -67,8 +67,8 @@ CacheStream
 				else
 				{
 					Load(position+readed);
-					nint remain=_size-readed;
-					nint min=availableLength<remain?availableLength:remain;
+					vint remain=_size-readed;
+					vint min=availableLength<remain?availableLength:remain;
 					memcpy(_buffer, buffer, min);
 					readed+=min;
 				}
@@ -76,14 +76,14 @@ CacheStream
 			return readed;
 		}
 
-		nint CacheStream::InternalWrite(void* _buffer, nint _size)
+		vint CacheStream::InternalWrite(void* _buffer, vint _size)
 		{
-			nint written=0;
+			vint written=0;
 			if(position>=start && position<start+block)
 			{
-				nint bufferMax=(nint)(start+block-position);
-				nint writeLength=bufferMax<_size?bufferMax:_size;
-				nint writeStart=(nint)(position-start);
+				vint bufferMax=(vint)(start+block-position);
+				vint writeLength=bufferMax<_size?bufferMax:_size;
+				vint writeStart=(vint)(position-start);
 
 				memcpy(buffer+writeStart, _buffer, writeLength);
 				written+=writeLength;
@@ -99,7 +99,7 @@ CacheStream
 					dirtyLength=writeStart+writeLength-dirtyStart;
 				}
 
-				nint availableOffset=writeStart+writeLength-availableLength;
+				vint availableOffset=writeStart+writeLength-availableLength;
 				if(availableOffset>0)
 				{
 					availableLength+=availableOffset;
@@ -115,7 +115,7 @@ CacheStream
 					{
 						target->SeekFromBegin(position+written);
 					}
-					nint additional=target->Write(_buffer, _size-written);
+					vint additional=target->Write(_buffer, _size-written);
 					if(additional!=-1)
 					{
 						written+=additional;
@@ -132,7 +132,7 @@ CacheStream
 			return written;
 		}
 
-		CacheStream::CacheStream(NIStream& _target, nint _block)
+		CacheStream::CacheStream(IStream& _target, vint _block)
 			:target(&_target)
 			,block(_block)
 			,start(0)
@@ -156,40 +156,40 @@ CacheStream
 
 		bool CacheStream::CanRead()const
 		{
-			return target!= NULL && target->CanRead();
+			return target!=0 && target->CanRead();
 		}
 
 		bool CacheStream::CanWrite()const
 		{
-			return target!= NULL && target->CanWrite();
+			return target!=0 && target->CanWrite();
 		}
 
 		bool CacheStream::CanSeek()const
 		{
-			return target!= NULL && target->CanSeek();
+			return target!=0 && target->CanSeek();
 		}
 
 		bool CacheStream::CanPeek()const
 		{
-			return target!= NULL && target->CanPeek();
+			return target!=0 && target->CanPeek();
 		}
 
 		bool CacheStream::IsLimited()const
 		{
-			return target!= NULL && target->IsLimited();
+			return target!=0 && target->IsLimited();
 		}
 
 		bool CacheStream::IsAvailable()const
 		{
-			return target!= NULL && target->IsAvailable();
+			return target!=0 && target->IsAvailable();
 		}
 
 		void CacheStream::Close()
 		{
 			Flush();
-			target= NULL;
+			target=0;
 			delete[] buffer;
-			buffer= NULL;
+			buffer=0;
 			position=-1;
 			dirtyStart=0;
 			dirtyLength=0;
@@ -250,10 +250,10 @@ CacheStream
 			SeekFromBegin(Size()-_size);
 		}
 
-		nint CacheStream::Read(void* _buffer, nint _size)
+		vint CacheStream::Read(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(CanRead(), L"CacheStream::Read(void*, nint)#Stream is closed or operation not supported.");
-			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, nint)#Argument size cannot be negative.");
+			CHECK_ERROR(CanRead(), L"CacheStream::Read(void*, vint)#Stream is closed or operation not supported.");
+			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, vint)#Argument size cannot be negative.");
 
 			_size=InternalRead(_buffer, _size);
 			position+=_size;
@@ -264,17 +264,17 @@ CacheStream
 			return _size;
 		}
 
-		nint CacheStream::Write(void* _buffer, nint _size)
+		vint CacheStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(CanWrite(), L"CacheStream::Write(void*, nint)#Stream is closed or operation not supported.");
-			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, nint)#Argument size cannot be negative.");
+			CHECK_ERROR(CanWrite(), L"CacheStream::Write(void*, vint)#Stream is closed or operation not supported.");
+			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, vint)#Argument size cannot be negative.");
 
 			if(IsLimited())
 			{
 				pos_t size=Size();
 				if(size!=-1)
 				{
-					nint remain=(nint)(size-(position+_size));
+					vint remain=(vint)(size-(position+_size));
 					if(remain<0)
 					{
 						_size-=remain;
@@ -291,11 +291,12 @@ CacheStream
 			return _size;
 		}
 
-		nint CacheStream::Peek(void* _buffer, nint _size)
+		vint CacheStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(CanPeek(), L"CacheStream::Peek(void*, nint)#Stream is closed or operation not supported.");
-			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, nint)#Argument size cannot be negative.");
+			CHECK_ERROR(CanPeek(), L"CacheStream::Peek(void*, vint)#Stream is closed or operation not supported.");
+			CHECK_ERROR(_size>=0, L"CacheStream::Read(void*, vint)#Argument size cannot be negative.");
 
 			return InternalRead(_buffer, _size);
 		}
-// 	}
+	}
+}

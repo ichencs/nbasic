@@ -1,10 +1,10 @@
-// #include "..\stdafx.h"
 #include <string.h>
 #include "BroadcastStream.h"
 
- 
-// 	namespace stream
-// 	{
+namespace vl
+{
+	namespace stream
+	{
 /***********************************************************************
 BroadcastStream
 ***********************************************************************/
@@ -85,14 +85,14 @@ BroadcastStream
 			CHECK_FAIL(L"BroadcastStream::SeekFromEnd(pos_t)#Operation not supported.");
 		}
 
-		nint BroadcastStream::Read(void* _buffer, nint _size)
+		vint BroadcastStream::Read(void* _buffer, vint _size)
 		{
-			CHECK_FAIL(L"BroadcastStream::Read(void*, nint)#Operation not supported.");
+			CHECK_FAIL(L"BroadcastStream::Read(void*, vint)#Operation not supported.");
 		}
 
-		nint BroadcastStream::Write(void* _buffer, nint _size)
+		vint BroadcastStream::Write(void* _buffer, vint _size)
 		{
-			for(nint i=0;i<streams.Count();i++)
+			for(vint i=0;i<streams.Count();i++)
 			{
 				streams[i]->Write(_buffer, _size);
 			}
@@ -100,8 +100,9 @@ BroadcastStream
 			return _size;
 		}
 
-		nint BroadcastStream::Peek(void* _buffer, nint _size)
+		vint BroadcastStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_FAIL(L"BroadcastStream::Peek(void*, nint)#Operation not supported.");
+			CHECK_FAIL(L"BroadcastStream::Peek(void*, vint)#Operation not supported.");
 		}
-// 	}
+	}
+}

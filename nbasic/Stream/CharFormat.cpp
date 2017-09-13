@@ -1,8 +1,15 @@
-// #include "..\stdafx.h"
 #include "CharFormat.h"
+#if defined VCZH_MSVC
 #include <windows.h>
+#elif defined VCZH_GCC
+#include "../String.h"
+#include <string.h>
+#endif
 
-
+namespace vl
+{
+	namespace stream
+	{
 
 /***********************************************************************
 CharEncoder
@@ -14,7 +21,7 @@ CharEncoder
 		{
 		}
 
-		void CharEncoder::Setup(NIStream* _stream)
+		void CharEncoder::Setup(IStream* _stream)
 		{
 			stream=_stream;
 		}
@@ -23,14 +30,14 @@ CharEncoder
 		{
 		}
 
-		nint CharEncoder::Write(void* _buffer, nint _size)
+		vint CharEncoder::Write(void* _buffer, vint _size)
 		{
-			const nint all=cacheSize+_size;
-			const nint chars=all/sizeof(wchar_t);
-			const nint bytes=chars*sizeof(wchar_t);
-			wchar_t* unicode= NULL;
+			const vint all=cacheSize+_size;
+			const vint chars=all/sizeof(wchar_t);
+			const vint bytes=chars*sizeof(wchar_t);
+			wchar_t* unicode=0;
 			bool needToFree=false;
-			nint result=0;
+			vint result=0;
 
 			if(chars)
 			{
@@ -38,7 +45,7 @@ CharEncoder
 				{
 					unicode=new wchar_t[chars];
 					memcpy(unicode, cacheBuffer, cacheSize);
-					memcpy(((nuint8_t*)unicode)+cacheSize, _buffer, bytes-cacheSize);
+					memcpy(((vuint8_t*)unicode)+cacheSize, _buffer, bytes-cacheSize);
 					needToFree=true;
 				}
 				else
@@ -56,7 +63,7 @@ CharEncoder
 			if(all-bytes>0)
 			{
 				cacheSize=all-bytes;
-				memcpy(cacheBuffer, (nuint8_t*)_buffer+_size-cacheSize, cacheSize);
+				memcpy(cacheBuffer, (vuint8_t*)_buffer+_size-cacheSize, cacheSize);
 				result+=cacheSize;
 			}
 			return result;
@@ -72,7 +79,7 @@ CharDecoder
 		{
 		}
 
-		void CharDecoder::Setup(NIStream* _stream)
+		void CharDecoder::Setup(IStream* _stream)
 		{
 			stream=_stream;
 		}
@@ -81,12 +88,12 @@ CharDecoder
 		{
 		}
 
-		nint CharDecoder::Read(void* _buffer, nint _size)
+		vint CharDecoder::Read(void* _buffer, vint _size)
 		{
-			nuint8_t* unicode=(nuint8_t*)_buffer;
-			nint result=0;
+			vuint8_t* unicode=(vuint8_t*)_buffer;
+			vint result=0;
 			{
-				nint index=0;
+				vint index=0;
 				while(cacheSize>0 && _size>0)
 				{
 					*unicode++=cacheBuffer[index]++;
@@ -96,8 +103,8 @@ CharDecoder
 				}
 			}
 
-			const nint chars=_size/sizeof(wchar_t);
-			nint bytes=ReadString((wchar_t*)unicode, chars)*sizeof(wchar_t);
+			const vint chars=_size/sizeof(wchar_t);
+			vint bytes=ReadString((wchar_t*)unicode, chars)*sizeof(wchar_t);
 			result+=bytes;
 			_size-=bytes;
 			unicode+=bytes;
@@ -109,7 +116,7 @@ CharDecoder
 				{
 					cacheSize=sizeof(wchar_t)-_size;
 					memcpy(unicode, &c, _size);
-					memcpy(cacheBuffer, (nuint8_t*)&c+_size, cacheSize);
+					memcpy(cacheBuffer, (vuint8_t*)&c+_size, cacheSize);
 					result+=_size;
 				}
 			}
@@ -120,13 +127,20 @@ CharDecoder
 Mbcs
 ***********************************************************************/
 
-		nint MbcsEncoder::WriteString(wchar_t* _buffer, nint chars)
+		vint MbcsEncoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			nint length=WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
+#if defined VCZH_MSVC
+			vint length=WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
 			char* mbcs=new char[length];
 			WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, (int)chars, mbcs, (int)length, NULL, NULL);
-			nint result=stream->Write(mbcs, length);
+			vint result=stream->Write(mbcs, length);
 			delete[] mbcs;
+#elif defined VCZH_GCC
+			WString w(_buffer, chars);
+			AString a=wtoa(w);
+			vint length=a.Length();
+			vint result=stream->Write((void*)a.Buffer(), length);
+#endif
 			if(result==length)
 			{
 				return chars;
@@ -138,18 +152,22 @@ Mbcs
 			}
 		}
 
-		nint MbcsDecoder::ReadString(wchar_t* _buffer, nint chars)
+		vint MbcsDecoder::ReadString(wchar_t* _buffer, vint chars)
 		{
 			char* source=new char[chars*2];
 			char* reading=source;
-			nint readed=0;
+			vint readed=0;
 			while(readed<chars)
 			{
 				if(stream->Read(reading, 1)!=1)
 				{
 					break;
 				}
+#if defined VCZH_MSVC
 				if(IsDBCSLeadByte(*reading))
+#elif defined VCZH_GCC
+				if((vint8_t)*reading<0)
+#endif
 				{
 					if(stream->Read(reading+1, 1)!=1)
 					{
@@ -163,7 +181,13 @@ Mbcs
 				}
 				readed++;
 			}
+#if defined VCZH_MSVC
 			MultiByteToWideChar(CP_THREAD_ACP, 0, source, (int)(reading-source), _buffer, (int)chars);
+#elif defined VCZH_GCC
+			AString a(source, (vint)(reading-source));
+			WString w=atow(a);
+			memcpy(_buffer, w.Buffer(), readed*sizeof(wchar_t));
+#endif
 			delete[] source;
 			return readed;
 		}
@@ -172,23 +196,94 @@ Mbcs
 Utf-16
 ***********************************************************************/
 
-		nint Utf16Encoder::WriteString(wchar_t* _buffer, nint chars)
+		vint Utf16Encoder::WriteString(wchar_t* _buffer, vint chars)
 		{
+#if defined VCZH_MSVC
 			return stream->Write(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
+#elif defined VCZH_GCC
+			vint writed = 0;
+			vuint16_t utf16 = 0;
+			vuint8_t* utf16buf = (vuint8_t*)&utf16;
+			while (writed < chars)
+			{
+				wchar_t w = *_buffer++;
+				if (w < 0x10000)
+				{
+					utf16 = (vuint16_t)w;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+				}
+				else if (w < 0x110000)
+				{
+					wchar_t inc = w - 0x10000;
+
+					utf16 = (vuint16_t)(inc / 0x400) + 0xD800;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+
+					utf16 = (vuint16_t)(inc % 0x400) + 0xDC00;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+				}
+				else
+				{
+					break;
+				}
+				writed++;
+			}
+			if(writed!=chars)
+			{
+				Close();
+			}
+			return writed;
+#endif
 		}
 
-		nint Utf16Decoder::ReadString(wchar_t* _buffer, nint chars)
+		vint Utf16Decoder::ReadString(wchar_t* _buffer, vint chars)
 		{
+#if defined VCZH_MSVC
 			return stream->Read(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
+#elif defined VCZH_GCC
+			wchar_t* writing = _buffer;
+			while (writing - _buffer < chars)
+			{
+				vuint16_t utf16_1 = 0;
+				vuint16_t utf16_2 = 0;
+
+				if (stream->Read(&utf16_1, 2) != 2) break;
+				if (utf16_1 < 0xD800 || utf16_1 > 0xDFFF)
+				{
+					*writing++ = (wchar_t)utf16_1;
+				}
+				else if (utf16_1 < 0xDC00)
+				{
+					if (stream->Read(&utf16_2, 2) != 2) break;
+					if (0xDC00 <= utf16_2 && utf16_2 <= 0xDFFF)
+					{
+						*writing++ = (wchar_t)(utf16_1 - 0xD800) * 0x400 + (wchar_t)(utf16_2 - 0xDC00) + 0x10000;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			return writing - _buffer;
+#endif
 		}
 
 /***********************************************************************
 Utf-16-be
 ***********************************************************************/
 
-		nint Utf16BEEncoder::WriteString(wchar_t* _buffer, nint chars)
+		vint Utf16BEEncoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			nint writed=0;
+#if defined VCZH_MSVC
+			vint writed=0;
 			while(writed<chars)
 			{
 				if(stream->Write(((unsigned char*)_buffer)+1, 1)!=1)
@@ -207,13 +302,51 @@ Utf-16-be
 				Close();
 			}
 			return writed;
+#elif defined VCZH_GCC
+			vint writed = 0;
+			vuint16_t utf16 = 0;
+			vuint8_t* utf16buf = (vuint8_t*)&utf16;
+			while (writed < chars)
+			{
+				wchar_t w = *_buffer++;
+				if (w < 0x10000)
+				{
+					utf16 = (vuint16_t)w;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+				}
+				else if (w < 0x110000)
+				{
+					wchar_t inc = w - 0x10000;
+
+					utf16 = (vuint16_t)(inc / 0x400) + 0xD800;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+
+					utf16 = (vuint16_t)(inc % 0x400) + 0xDC00;
+					if (stream->Write(&utf16buf[1], 1) != 1) break;
+					if (stream->Write(&utf16buf[0], 1) != 1) break;
+				}
+				else
+				{
+					break;
+				}
+				writed++;
+			}
+			if(writed!=chars)
+			{
+				Close();
+			}
+			return writed;
+#endif
 		}
 
-		nint Utf16BEDecoder::ReadString(wchar_t* _buffer, nint chars)
+		vint Utf16BEDecoder::ReadString(wchar_t* _buffer, vint chars)
 		{
+#if defined VCZH_MSVC
 			chars=stream->Read(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
 			unsigned char* unicode=(unsigned char*)_buffer;
-			for(nint i=0;i<chars;i++)
+			for(vint i=0;i<chars;i++)
 			{
 				unsigned char t=unicode[0];
 				unicode[0]=unicode[1];
@@ -221,18 +354,64 @@ Utf-16-be
 				unicode++;
 			}
 			return chars;
+#elif defined VCZH_GCC
+			wchar_t* writing = _buffer;
+			while (writing - _buffer < chars)
+			{
+				vuint16_t utf16_1 = 0;
+				vuint16_t utf16_2 = 0;
+				vuint8_t* utf16buf = 0;
+				vuint8_t utf16buf_temp = 0;
+
+				if (stream->Read(&utf16_1, 2) != 2) break;
+
+				utf16buf = (vuint8_t*)&utf16_1;
+				utf16buf_temp = utf16buf[0];
+				utf16buf[0] = utf16buf[1];
+				utf16buf[1] = utf16buf_temp;
+
+				if (utf16_1 < 0xD800 || utf16_1 > 0xDFFF)
+				{
+					*writing++ = (wchar_t)utf16_1;
+				}
+				else if (utf16_1 < 0xDC00)
+				{
+					if (stream->Read(&utf16_2, 2) != 2) break;
+
+					utf16buf = (vuint8_t*)&utf16_2;
+					utf16buf_temp = utf16buf[0];
+					utf16buf[0] = utf16buf[1];
+					utf16buf[1] = utf16buf_temp;
+
+					if (0xDC00 <= utf16_2 && utf16_2 <= 0xDFFF)
+					{
+						*writing++ = (wchar_t)(utf16_1 - 0xD800) * 0x400 + (wchar_t)(utf16_2 - 0xDC00) + 0x10000;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			return writing - _buffer;
+#endif
 		}
 
 /***********************************************************************
 Utf8
 ***********************************************************************/
 
-		nint Utf8Encoder::WriteString(wchar_t* _buffer, nint chars)
+		vint Utf8Encoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			nint length=WideCharToMultiByte(CP_UTF8, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
+#if defined VCZH_MSVC
+			vint length=WideCharToMultiByte(CP_UTF8, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
 			char* mbcs=new char[length];
 			WideCharToMultiByte(CP_UTF8, 0, _buffer, (int)chars, mbcs, (int)length, NULL, NULL);
-			nint result=stream->Write(mbcs, length);
+			vint result=stream->Write(mbcs, length);
 			delete[] mbcs;
 			if(result==length)
 			{
@@ -243,24 +422,73 @@ Utf8
 				Close();
 				return 0;
 			}
+#elif defined VCZH_GCC
+			vint writed = 0;
+			while (writed < chars)
+			{
+				wchar_t w = *_buffer++;
+				vuint8_t utf8[4];
+				if (w < 0x80)
+				{
+					utf8[0] = (vuint8_t)w;
+					if (stream->Write(utf8, 1) != 1) break;
+				}
+				else if (w < 0x800)
+				{
+					utf8[0] = 0xC0 + ((w & 0x7C0) >> 6);
+					utf8[1] = 0x80 + (w & 0x3F);
+					if (stream->Write(utf8, 2) != 2) break;
+				}
+				else if (w < 0x10000)
+				{
+					utf8[0] = 0xE0 + ((w & 0xF000) >> 12);
+					utf8[1] = 0x80 + ((w & 0xFC0) >> 6);
+					utf8[2] = 0x80 + (w & 0x3F);
+					if (stream->Write(utf8, 3) != 3) break;
+				}
+				else if (w < 0x110000) // only accept UTF-16 range
+				{
+					utf8[0] = 0xF0 + ((w & 0x1C0000) >> 18);
+					utf8[1] = 0x80 + ((w & 0x3F000) >> 12);
+					utf8[2] = 0x80 + ((w & 0xFC0) >> 6);
+					utf8[3] = 0x80 + (w & 0x3F);
+					if (stream->Write(utf8, 4) != 4) break;
+				}
+				else
+				{
+					break;
+				}
+				writed++;
+			}
+			if(writed!=chars)
+			{
+				Close();
+			}
+			return writed;
+#endif
 		}
 
 		Utf8Decoder::Utf8Decoder()
+#if defined VCZH_MSVC
 			:cache(0)
 			,cacheAvailable(false)
+#endif
 		{
 		}
 
-		nint Utf8Decoder::ReadString(wchar_t* _buffer, nint chars)
+		vint Utf8Decoder::ReadString(wchar_t* _buffer, vint chars)
 		{
-			nuint8_t source[4];
+			vuint8_t source[4];
+#if defined VCZH_MSVC
 			wchar_t target[2];
+#endif
 			wchar_t* writing=_buffer;
-			nint readed=0;
-			nint sourceCount=0;
+			vint readed=0;
+			vint sourceCount=0;
 
 			while(readed<chars)
 			{
+#if defined VCZH_MSVC
 				if(cacheAvailable)
 				{
 					*writing++=cache;
@@ -269,6 +497,7 @@ Utf8
 				}
 				else
 				{
+#endif
 					if(stream->Read(source, 1)!=1)
 					{
 						break;
@@ -301,6 +530,7 @@ Utf8
 					{
 						sourceCount=1;
 					}
+#if defined VCZH_MSVC	
 					int targetCount=MultiByteToWideChar(CP_UTF8, 0, (char*)source, (int)sourceCount, target, 2);
 					if(targetCount==1)
 					{
@@ -317,6 +547,28 @@ Utf8
 						break;
 					}
 				}
+#elif defined VCZH_GCC
+					if (sourceCount == 1)
+					{
+						*writing++ = (wchar_t)source[0];
+					}
+					else if (sourceCount == 2)
+					{
+						*writing++ = (((wchar_t)source[0] & 0x1F) << 6) + ((wchar_t)source[1] & 0x3F);
+					}
+					else if (sourceCount == 3)
+					{
+						*writing++ = (((wchar_t)source[0] & 0xF) << 12) + (((wchar_t)source[1] & 0x3F) << 6) + ((wchar_t)source[2] & 0x3F);
+					}
+					else if (sourceCount == 4)
+					{
+						*writing++ = (((wchar_t)source[0] & 0x7) << 18) + (((wchar_t)source[1] & 0x3F) << 12) + (((wchar_t)source[2] & 0x3F) << 6) + ((wchar_t)source[3] & 0x3F);
+					}
+					else
+					{
+						break;
+					}
+#endif
 				readed++;
 			}
 			return readed;
@@ -328,7 +580,7 @@ BomEncoder
 
 		BomEncoder::BomEncoder(Encoding _encoding)
 			:encoding(_encoding)
-			,encoder(NULL)
+			,encoder(0)
 		{
 			switch(encoding)
 			{
@@ -352,7 +604,7 @@ BomEncoder
 			Close();
 		}
 
-		void BomEncoder::Setup(NIStream* _stream)
+		void BomEncoder::Setup(IStream* _stream)
 		{
 			switch(encoding)
 			{
@@ -377,11 +629,11 @@ BomEncoder
 			{
 				encoder->Close();
 				delete encoder;
-				encoder= NULL;
+				encoder=0;
 			}
 		}
 
-		nint BomEncoder::Write(void* _buffer, nint _size)
+		vint BomEncoder::Write(void* _buffer, vint _size)
 		{
 			return encoder->Write(_buffer, _size);
 		}
@@ -390,7 +642,7 @@ BomEncoder
 BomDecoder
 ***********************************************************************/
 
-		BomDecoder::BomStream::BomStream(NIStream* _stream, char* _bom, nint _bomLength)
+		BomDecoder::BomStream::BomStream(IStream* _stream, char* _bom, vint _bomLength)
 			:stream(_stream)
 			,bomPosition(0)
 			,bomLength(_bomLength)
@@ -420,17 +672,17 @@ BomDecoder
 
 		bool BomDecoder::BomStream::IsLimited()const
 		{
-			return stream!= NULL && stream->IsLimited();
+			return stream!=0 && stream->IsLimited();
 		}
 
 		bool BomDecoder::BomStream::IsAvailable()const
 		{
-			return stream!= NULL && stream->IsAvailable();
+			return stream!=0 && stream->IsAvailable();
 		}
 
 		void BomDecoder::BomStream::Close()
 		{
-			stream= NULL;
+			stream=0;
 		}
 
 		pos_t BomDecoder::BomStream::Position()const
@@ -458,13 +710,13 @@ BomDecoder
 			CHECK_FAIL(L"BomDecoder::BomStream::SeekFromEnd(pos_t)#Operation not supported.");
 		}
 
-		nint BomDecoder::BomStream::Read(void* _buffer, nint _size)
+		vint BomDecoder::BomStream::Read(void* _buffer, vint _size)
 		{
-			nint result=0;
+			vint result=0;
 			unsigned char* buffer=(unsigned char*)_buffer;
 			if(bomPosition<bomLength)
 			{
-				nint remain=bomLength-bomPosition;
+				vint remain=bomLength-bomPosition;
 				result=remain<_size?remain:_size;
 				memcpy(buffer, bom+bomPosition, result);
 				buffer+=result;
@@ -478,18 +730,18 @@ BomDecoder
 			return result;
 		}
 
-		nint BomDecoder::BomStream::Write(void* _buffer, nint _size)
+		vint BomDecoder::BomStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_FAIL(L"BomDecoder::BomStream::Write(void*, nint)#Operation not supported.");
+			CHECK_FAIL(L"BomDecoder::BomStream::Write(void*, vint)#Operation not supported.");
 		}
 
-		nint BomDecoder::BomStream::Peek(void* _buffer, nint _size)
+		vint BomDecoder::BomStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_FAIL(L"BomDecoder::BomStream::Peek(void*, nint)#Operation not supported.");
+			CHECK_FAIL(L"BomDecoder::BomStream::Peek(void*, vint)#Operation not supported.");
 		}
 
 		BomDecoder::BomDecoder()
-			:decoder(NULL)
+			:decoder(0)
 		{
 		}
 
@@ -498,10 +750,10 @@ BomDecoder
 			Close();
 		}
 
-		void BomDecoder::Setup(NIStream* _stream)
+		void BomDecoder::Setup(IStream* _stream)
 		{
 			char bom[3]={0};
-			nint length=_stream->Read(bom, sizeof(bom));
+			vint length=_stream->Read(bom, sizeof(bom));
 			if(strncmp(bom, "\xEF\xBB\xBF", 3)==0)
 			{
 				decoder=new Utf8Decoder;
@@ -531,14 +783,14 @@ BomDecoder
 			{
 				decoder->Close();
 				delete decoder;
-				decoder= NULL;
+				decoder=0;
 				stream->Close();
 				delete stream;
-				stream= NULL;
+				stream=0;
 			}
 		}
 
-		nint BomDecoder::Read(void* _buffer, nint _size)
+		vint BomDecoder::Read(void* _buffer, vint _size)
 		{
 			return decoder->Read(_buffer, _size);
 		}
@@ -547,18 +799,18 @@ BomDecoder
 CharEncoder
 ***********************************************************************/
 
-		bool CanBeMbcs(unsigned char* buffer, nint size)
+		bool CanBeMbcs(unsigned char* buffer, vint size)
 		{
-			for(nint i=0;i<size;i++)
+			for(vint i=0;i<size;i++)
 			{
 				if(buffer[i]==0) return false;
 			}
 			return true;
 		}
 
-		bool CanBeUtf8(unsigned char* buffer, nint size)
+		bool CanBeUtf8(unsigned char* buffer, vint size)
 		{
-			for(nint i=0;i<size;i++)
+			for(vint i=0;i<size;i++)
 			{
 				unsigned char c=(unsigned char)buffer[i];
 				if(c==0)
@@ -567,7 +819,7 @@ CharEncoder
 				}
 				else
 				{
-					nint count10xxxxxx=0;
+					vint count10xxxxxx=0;
 					if((c&0x80)==0x00) /* 0x0xxxxxxx */ count10xxxxxx=0;
 					else if((c&0xE0)==0xC0) /* 0x110xxxxx */ count10xxxxxx=1;
 					else if((c&0xF0)==0xE0) /* 0x1110xxxx */ count10xxxxxx=2;
@@ -581,7 +833,7 @@ CharEncoder
 					}
 					else
 					{
-						for(nint j=0;j<count10xxxxxx;j++)
+						for(vint j=0;j<count10xxxxxx;j++)
 						{
 							c=(unsigned char)buffer[i+j+1];
 							if((c&0xC0)!=0x80) /* 0x10xxxxxx */ return false;
@@ -593,16 +845,16 @@ CharEncoder
 			return true;
 		}
 
-		bool CanBeUtf16(unsigned char* buffer, nint size, bool& hitSurrogatePairs)
+		bool CanBeUtf16(unsigned char* buffer, vint size, bool& hitSurrogatePairs)
 		{
 			hitSurrogatePairs = false;
 			if (size % 2 != 0) return false;
 			bool needTrail = false;
-			for (nint i = 0; i < size; i += 2)
+			for (vint i = 0; i < size; i += 2)
 			{
-				nuint16_t c = buffer[i] + (buffer[i + 1] << 8);
+				vuint16_t c = buffer[i] + (buffer[i + 1] << 8);
 				if (c == 0) return false;
-				nint type = 0;
+				vint type = 0;
 				if (0xD800 <= c && c <= 0xDBFF) type = 1;
 				else if (0xDC00 <= c && c <= 0xDFFF) type = 2;
 				if (needTrail)
@@ -632,16 +884,16 @@ CharEncoder
 			return !needTrail;
 		}
 
-		bool CanBeUtf16BE(unsigned char* buffer, nint size, bool& hitSurrogatePairs)
+		bool CanBeUtf16BE(unsigned char* buffer, vint size, bool& hitSurrogatePairs)
 		{
 			hitSurrogatePairs = false;
 			if (size % 2 != 0) return false;
 			bool needTrail = false;
-			for (nint i = 0; i < size; i += 2)
+			for (vint i = 0; i < size; i += 2)
 			{
-				nuint16_t c = buffer[i + 1] + (buffer[i] << 8);
+				vuint16_t c = buffer[i + 1] + (buffer[i] << 8);
 				if (c == 0) return false;
-				nint type = 0;
+				vint type = 0;
 				if (0xD800 <= c && c <= 0xDBFF) type = 1;
 				else if (0xDC00 <= c && c <= 0xDFFF) type = 2;
 				if (needTrail)
@@ -671,10 +923,11 @@ CharEncoder
 			return !needTrail;
 		}
 
-		template<nint Count>
+#if defined VCZH_MSVC
+		template<vint Count>
 		bool GetEncodingResult(int(&tests)[Count], bool(&results)[Count], int test)
 		{
-			for (nint i = 0; i < Count; i++)
+			for (vint i = 0; i < Count; i++)
 			{
 				if (tests[i] & test)
 				{
@@ -683,8 +936,9 @@ CharEncoder
 			}
 			return false;
 		}
+#endif
 
-		void TestEncoding(unsigned char* buffer, nint size, BomEncoder::Encoding& encoding, bool& containsBom)
+		void TestEncoding(unsigned char* buffer, vint size, BomEncoder::Encoding& encoding, bool& containsBom)
 		{
 			if (size >= 3 && strncmp((char*)buffer, "\xEF\xBB\xBF", 3) == 0)
 			{
@@ -713,7 +967,7 @@ CharEncoder
 				bool roughUtf16 = CanBeUtf16(buffer, size, utf16HitSurrogatePairs);
 				bool roughUtf16BE = CanBeUtf16BE(buffer, size, utf16BEHitSurrogatePairs);
 
-				nint roughCount = (roughMbcs ? 1 : 0) + (roughUtf8 ? 1 : 0) + (roughUtf16 ? 1 : 0) + (roughUtf16BE ? 1 : 0);
+				vint roughCount = (roughMbcs ? 1 : 0) + (roughUtf8 ? 1 : 0) + (roughUtf16 ? 1 : 0) + (roughUtf16BE ? 1 : 0);
 				if (roughCount == 1)
 				{
 					if (roughUtf8) encoding = BomEncoder::Utf8;
@@ -722,6 +976,7 @@ CharEncoder
 				}
 				else if (roughCount > 1)
 				{
+#if defined VCZH_MSVC
 					int tests[] =
 					{
 						IS_TEXT_UNICODE_REVERSE_ASCII16,
@@ -737,9 +992,9 @@ CharEncoder
 						IS_TEXT_UNICODE_NULL_BYTES,
 					};
 
-					const nint TestCount = sizeof(tests) / sizeof(*tests);
+					const vint TestCount = sizeof(tests) / sizeof(*tests);
 					bool results[TestCount];
-					for (nint i = 0; i < TestCount; i++)
+					for (vint i = 0; i < TestCount; i++)
 					{
 						int test = tests[i];
 						results[i] = IsTextUnicode(buffer, (int)size, &test) != 0;
@@ -751,19 +1006,19 @@ CharEncoder
 						&& !GetEncodingResult(tests, results, IS_TEXT_UNICODE_REVERSE_CONTROLS)
 						)
 					{
-						for (nint i = 0; i < size; i += 2)
+						for (vint i = 0; i < size; i += 2)
 						{
 							unsigned char c = buffer[i];
 							buffer[i] = buffer[i + 1];
 							buffer[i + 1] = c;
 						}
 						// 3 = (count of reverse group) = (count of unicode group)
-						for (nint i = 0; i < 3; i++)
+						for (vint i = 0; i < 3; i++)
 						{
 							int test = tests[i + 3];
 							results[i] = IsTextUnicode(buffer, (int)size, &test) != 0;
 						}
-						for (nint i = 0; i < size; i += 2)
+						for (vint i = 0; i < size; i += 2)
 						{
 							unsigned char c = buffer[i];
 							buffer[i] = buffer[i + 1];
@@ -820,7 +1075,25 @@ CharEncoder
 							encoding = BomEncoder::Utf8;
 						}
 					}
-
+#elif defined VCZH_GCC
+					if (roughUtf16 && roughUtf16BE && !roughUtf8)
+					{
+						if (utf16BEHitSurrogatePairs && !utf16HitSurrogatePairs)
+						{
+							encoding = BomEncoder::Utf16BE;
+						}
+						else
+						{
+							encoding = BomEncoder::Utf16;
+						}
+					}
+					else
+					{
+						encoding = BomEncoder::Utf8;
+					}
+#endif
 				}
 			}
 		}
+	}
+}

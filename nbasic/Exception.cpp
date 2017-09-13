@@ -1,5 +1,7 @@
 #include "Exception.h"
 
+namespace vl
+{
 
 /***********************************************************************
 Exception
@@ -39,7 +41,7 @@ ArgumentException
 ParsingException
 ***********************************************************************/
 
-	ParsingException::ParsingException(const WString& _message, const WString& _expression, nint _position)
+	ParsingException::ParsingException(const WString& _message, const WString& _expression, vint _position)
 		:Exception(_message)
 		,expression(_expression)
 		,position(_position)
@@ -51,7 +53,8 @@ ParsingException
 		return expression;
 	}
 
-	nint ParsingException::GetPosition()const
+	vint ParsingException::GetPosition()const
 	{
 		return position;
 	}
+}

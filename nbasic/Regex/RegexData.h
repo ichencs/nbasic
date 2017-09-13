@@ -12,48 +12,50 @@ Classes:
 #include "../String.h"
 #include "../Pointer.h"
 #include "../Exception.h"
-#include "../Collections/NList.h"
-#include "../Collections/NDictionary.h"
+#include "../Collections/List.h"
+#include "../Collections/Dictionary.h"
 
-
-namespace regex_internal
+namespace vl
 {
+	namespace regex_internal
+	{
 
 /***********************************************************************
 基础数据结构
 ***********************************************************************/
 
-class CharRange
-{
-	public:
-		typedef NSortedList<CharRange>		List;
-		
-		wchar_t					begin;
-		wchar_t					end;
-		
-		CharRange();
-		CharRange(wchar_t _begin, wchar_t _end);
-		
-		bool					operator<(CharRange item)const;
-		bool					operator<=(CharRange item)const;
-		bool					operator>(CharRange item)const;
-		bool					operator>=(CharRange item)const;
-		bool					operator==(CharRange item)const;
-		bool					operator!=(CharRange item)const;
-		
-		bool					operator<(wchar_t item)const;
-		bool					operator<=(wchar_t item)const;
-		bool					operator>(wchar_t item)const;
-		bool					operator>=(wchar_t item)const;
-		bool					operator==(wchar_t item)const;
-		bool					operator!=(wchar_t item)const;
-};
-}
+		class CharRange
+		{
+		public:
+			typedef collections::SortedList<CharRange>		List;
 
-template<>
-struct POD<regex_internal::CharRange>
-{
-	static const bool Result = true;
-};
+			wchar_t					begin;
+			wchar_t					end;
+
+			CharRange();
+			CharRange(wchar_t _begin, wchar_t _end);
+
+			bool					operator<(CharRange item)const;
+			bool					operator<=(CharRange item)const;
+			bool					operator>(CharRange item)const;
+			bool					operator>=(CharRange item)const;
+			bool					operator==(CharRange item)const;
+			bool					operator!=(CharRange item)const;
+
+			bool					operator<(wchar_t item)const;
+			bool					operator<=(wchar_t item)const;
+			bool					operator>(wchar_t item)const;
+			bool					operator>=(wchar_t item)const;
+			bool					operator==(wchar_t item)const;
+			bool					operator!=(wchar_t item)const;
+		};
+	}
+
+	template<>
+	struct POD<regex_internal::CharRange>
+	{
+		static const bool Result=true;
+	};
+}
 
 #endif

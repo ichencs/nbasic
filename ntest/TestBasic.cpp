@@ -1,37 +1,39 @@
 #include "stdafx.h"
 #include "UnitTest.h"
+// #include "../../Source/Lazy.h"
 
+using namespace vl;
 
 namespace ObjectsForTestAutoPointer
 {
-class Base : public Object
-{
-	public:
-		int number;
-		
-		Base(int _number)
-		{
-			number = _number;
-		}
-};
-
-class Derived1 : public Base
-{
-	public:
-		Derived1(int _number)
-			: Base(_number)
-		{
-		}
-};
-
-class Derived2 : public Base
-{
-	public:
-		Derived2(int _number)
-			: Base(_number)
-		{
-		}
-};
+	class Base : public Object
+	{
+		public:
+			vint number;
+			
+			Base(vint _number)
+			{
+				number = _number;
+			}
+	};
+	
+	class Derived1 : public Base
+	{
+		public:
+			Derived1(vint _number)
+				: Base(_number)
+			{
+			}
+	};
+	
+	class Derived2 : public Base
+	{
+		public:
+			Derived2(vint _number)
+				: Base(_number)
+			{
+			}
+	};
 }
 
 using namespace ObjectsForTestAutoPointer;
@@ -45,20 +47,16 @@ TEST_CASE(TestAutoPointer)
 	Base* bs[] = {b, d1, d2};
 	Ptr<Base> ps[] = {b, d1, d2};
 	
-	int num1 = sizeof(ps);
-	int num2 = sizeof(*ps);
-	int num = num1 / num2;
-	
-	for (int i = 0; i < num; i++)
+	for (vint i = 0; i < sizeof(ps) / sizeof(*ps); i++)
 	{
 		TEST_ASSERT(ps[i].Obj() == bs[i]);
 		TEST_ASSERT(ps[i].operator->() == bs[i]);
 		TEST_ASSERT((bool)ps[i] == true);
 	}
 	
-	for (int i = 0; i < sizeof(ps) / sizeof(*ps); i++)
+	for (vint i = 0; i < sizeof(ps) / sizeof(*ps); i++)
 	{
-		for (int j = 0; j < sizeof(ps) / sizeof(*ps); j++)
+		for (vint j = 0; j < sizeof(ps) / sizeof(*ps); j++)
 		{
 			TEST_ASSERT((ps[i] == ps[j]) == (bs[i] == bs[j]));
 			TEST_ASSERT((ps[i] != ps[j]) == (bs[i] != bs[j]));
@@ -96,20 +94,21 @@ TEST_CASE(TestAutoPointer)
 	TEST_ASSERT(p2->number == 5);
 }
 
-// int GetLazyValue1()
-// {
-// 	return 100;
-// }
-//
-// int GetLazyValue2()
-// {
-// 	return 200;
-// }
+vint GetLazyValue1()
+{
+	return 100;
+}
+
+vint GetLazyValue2()
+{
+	return 200;
+}
 
 // TEST_CASE(TestLazy)
 // {
-// 	Lazy<int> a(&GetLazyValue1);
-// 	Lazy<int> b=a;
+// 	vint vn = 100;
+// 	Lazy<vint> a(&vn);
+// 	Lazy<vint> b=a;
 // 	TEST_ASSERT(a.IsEvaluated()==false);
 // 	TEST_ASSERT(b.IsEvaluated()==false);
 // 	TEST_ASSERT(a.Value()==100);
@@ -129,19 +128,18 @@ TEST_CASE(TestAutoPointer)
 // 	TEST_ASSERT(b.Value()==200);
 //
 // 	a=300;
-// 	b=Lazy<int>(400);
+// 	b=Lazy<vint>(400);
 // 	TEST_ASSERT(a.Value()==300);
 // 	TEST_ASSERT(a.IsEvaluated()==true);
 // 	TEST_ASSERT(b.IsEvaluated()==true);
 // 	TEST_ASSERT(b.Value()==400);
 //
 // 	TEST_ASSERT(a.IsAvailable()==true);
-// 	a=Lazy<int>();
+// 	a=Lazy<vint>();
 // 	TEST_ASSERT(a.IsAvailable()==false);
 // }
 
-// TEST_CASE(TestDateTime)
-void TestDateTime()
+TEST_CASE(TestDateTime)
 {
 	// 2000/1/1 is saturday
 	DateTime dt = DateTime::FromDateTime(2000, 1, 1);

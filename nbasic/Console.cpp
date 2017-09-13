@@ -1,14 +1,24 @@
-#include "stdafx.h"
 #include "Console.h"
+#if defined VCZH_MSVC
 #include <Windows.h>
+#elif defined VCZH_GCC
+#include <iostream>
+#include <string>
+using namespace std;
+#endif
 
+namespace vl
+{
+	namespace console
+	{
 		
 /***********************************************************************
 Console
 ***********************************************************************/
 
-		void Console::Write(const wchar_t* string, nint length)
+		void Console::Write(const wchar_t* string, vint length)
 		{
+#if defined VCZH_MSVC
 			HANDLE outHandle=GetStdHandle(STD_OUTPUT_HANDLE);
 			DWORD fileMode=0;
 			DWORD written=0;
@@ -25,6 +35,10 @@ Console
 				WriteFile(outHandle, codePageBuffer, charCount-1, &written, 0);
 				delete[] codePageBuffer;
 			}
+#elif defined VCZH_GCC
+			wstring s(string, string+length);
+			wcout<<s<<ends;
+#endif
 		}
 
 		void Console::Write(const wchar_t* string)
@@ -45,6 +59,7 @@ Console
 
 		WString Console::Read()
 		{
+#if defined VCZH_MSVC
 			WString result;
 			DWORD count;
 			for(;;)
@@ -66,10 +81,16 @@ Console
 				}
 			}
 			return result;
+#elif defined VCZH_GCC
+			wstring s;
+			getline(wcin, s, L'\n');
+			return s.c_str();
+#endif
 		}
 
 		void Console::SetColor(bool red, bool green, bool blue, bool light)
 		{
+#if defined VCZH_MSVC
 			WORD attribute=0;
 			if(red)attribute		|=FOREGROUND_RED;
 			if(green)attribute		|=FOREGROUND_GREEN;
@@ -77,9 +98,20 @@ Console
 			if(light)attribute		|=FOREGROUND_INTENSITY;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),attribute);
 			SetConsoleTextAttribute(GetStdHandle(STD_INPUT_HANDLE),attribute);
+#elif defined VCZH_GCC
+			int color = (blue?1:0)*4 + (green?1:0)*2 + (red?1:0);
+			if(light)
+				wprintf(L"\x1B[00;3%dm", color);
+			else
+				wprintf(L"\x1B[01;3%dm", color);
+#endif
 		}
 
 		void Console::SetTitle(const WString& string)
 		{
+#if defined VCZH_MSVC
 			SetConsoleTitle(string.Buffer());
+#endif
 		}
+	}
+}
